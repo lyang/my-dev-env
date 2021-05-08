@@ -1,0 +1,5 @@
+default_context:
+  author: "Lin Yang"
+  github_username: "lyang"
+abbreviations:
+  rb: https://github.com/lyang/ruby-template.git
