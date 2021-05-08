@@ -97,3 +97,9 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 " vim-airline {
     let g:airline_powerline_fonts = 1
 " }
+
+" custom filetypes {
+    autocmd BufRead,BufNewFile cookiecutterrc set filetype=yaml
+    autocmd BufRead,BufNewFile gitconfig set filetype=gitconfig
+    autocmd BufRead,BufNewFile *bundler/config set filetype=yaml
+" }
