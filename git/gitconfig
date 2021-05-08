@@ -1,0 +1,26 @@
+[alias]
+  br = branch
+  ci = commit
+  co = checkout
+  dc = diff --cached
+  ds = diff --staged
+  pile = stash --include-untracked
+  st = status
+[core]
+  pager = delta
+[color]
+  ui = auto
+[delta]
+  dark = true
+  line-numbers = true
+[diff]
+  colorMoved = default
+[init]
+  defaultBranch = main
+[log]
+  showSignature = true
+[push]
+  default = current
+[user]
+  email = github@linyang.me
+  name = Lin Yang
