@@ -99,6 +99,15 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     let g:airline_theme='solarized'
 " }
 
+" vim-fugitive {
+    map <silent> <LocalLeader>gw :Ggrep! <cword><CR><CR>
+" }
+
+" auto open quickfix {
+    autocmd QuickFixCmdPost [^l]* nested cwindow
+    autocmd QuickFixCmdPost    l* nested lwindow
+" }
+
 " custom filetypes {
     autocmd BufRead,BufNewFile cookiecutterrc set filetype=yaml
     autocmd BufRead,BufNewFile gitconfig set filetype=gitconfig
