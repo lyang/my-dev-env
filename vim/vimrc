@@ -18,6 +18,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 " vim-plug {
     call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
+    Plug 'altercation/vim-colors-solarized'
     Plug 'chr4/nginx.vim'
     Plug 'dense-analysis/ale'
     Plug 'elixir-lang/vim-elixir'
@@ -32,15 +33,15 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     Plug 'tpope/vim-rake'
     Plug 'tpope/vim-surround'
     Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
     Plug 'vim-ruby/vim-ruby'
     Plug 'vim-test/vim-test'
     Plug 'wincent/command-t', { 'dir': '~/.vim/plugged/command-t', 'do': 'rake make' }
-    call plug#end()         " required
+    call plug#end()
 " }
 
 " General {
     filetype plugin indent on " load filetype plugins/indent settings
-    set autochdir " always switch to the current file directory
     set directory=~/.vim/tmp " directory to place swap files in
     set fileformats=unix,mac,dos " support all three, in this order
     set undodir=~/.vim/undo
@@ -48,8 +49,8 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 " Vim UI {
     set background=dark
+    colorschem solarized
     highlight ExtraWhitespace ctermbg=darkred ctermfg=white guibg=darkred guifg=white
-    highlight LineNr ctermbg=darkgray
     autocmd BufWinEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+$/ | endif
     autocmd InsertEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+\%#\@<!$/ | endif
     autocmd InsertLeave * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+$/ | endif
@@ -69,7 +70,6 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 "}
 
 " Text Formatting/Layout {
-    set completeopt= " don't use a pop up menu for completions
     set ignorecase " case insensitive by default
     set infercase " case inferred by default
     set nowrap " do not wrap line
@@ -96,6 +96,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 " vim-airline {
     let g:airline_powerline_fonts = 1
+    let g:airline_theme='solarized'
 " }
 
 " custom filetypes {
