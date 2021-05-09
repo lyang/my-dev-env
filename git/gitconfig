@@ -13,10 +13,14 @@
 [delta]
   dark = true
   line-numbers = true
+  navigate = true
+  syntax-theme = Solarized (dark)
 [diff]
   colorMoved = default
 [init]
   defaultBranch = main
+[interactive]
+  diffFilter = delta --color-only
 [log]
   showSignature = true
 [push]
