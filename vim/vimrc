@@ -22,6 +22,8 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     Plug 'dense-analysis/ale'
     Plug 'elixir-lang/vim-elixir'
     Plug 'joshdick/onedark.vim'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
     Plug 'scrooloose/nerdtree'
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -36,7 +38,6 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     Plug 'vim-airline/vim-airline-themes'
     Plug 'vim-ruby/vim-ruby'
     Plug 'vim-test/vim-test'
-    Plug 'wincent/command-t', { 'dir': '~/.vim/plugged/command-t', 'do': 'rake make' }
     call plug#end()
 " }
 
@@ -93,6 +94,13 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     map <silent> <LocalLeader>nf :NERDTreeFind<CR>
     map <silent> <LocalLeader>nr :NERDTree<CR>
     map <silent> <LocalLeader>nt :NERDTreeToggle<CR>
+" }
+
+" fzf {
+    map <silent> <LocalLeader>ff :Files<CR>
+    map <silent> <LocalLeader>fg :GFiles<CR>
+    map <silent> <LocalLeader>fb :Buffers<CR>
+    map <silent> <LocalLeader>ft :Tags<CR>
 " }
 
 " vim-airline {
