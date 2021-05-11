@@ -80,8 +80,6 @@ HIST_STAMPS="mm/dd/yyyy"
 plugins=(
   fzf
   git
-  pyenv
-  rbenv
   tmux
 )
 
