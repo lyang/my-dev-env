@@ -18,10 +18,10 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 " vim-plug {
     call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
+    Plug 'altercation/vim-colors-solarized'
     Plug 'chr4/nginx.vim'
     Plug 'dense-analysis/ale'
     Plug 'elixir-lang/vim-elixir'
-    Plug 'joshdick/onedark.vim'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'scrooloose/nerdtree'
@@ -50,7 +50,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 " Vim UI {
     set background=dark
-    colorschem onedark
+    colorschem solarized
     highlight ExtraWhitespace ctermbg=darkred ctermfg=white guibg=darkred guifg=white
     autocmd BufWinEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+$/ | endif
     autocmd InsertEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+\%#\@<!$/ | endif
@@ -105,7 +105,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 " vim-airline {
     let g:airline_powerline_fonts = 1
-    let g:airline_theme='onedark'
+    let g:airline_theme='powerlineish'
 " }
 
 " vim-fugitive {
