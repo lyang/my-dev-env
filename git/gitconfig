@@ -23,6 +23,8 @@
   diffFilter = delta --color-only
 [log]
   showSignature = true
+[pull]
+  rebase = true
 [push]
   default = current
 [user]
