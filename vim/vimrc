@@ -48,6 +48,9 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     set directory=~/.vim/tmp " directory to place swap files in
     set fileformats=unix,mac,dos " support all three, in this order
     set undodir=~/.vim/undo
+    set undofile
+    set undolevels=1000
+    set undoreload=10000
 "}
 
 " Vim UI {
