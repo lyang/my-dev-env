@@ -1,5 +1,7 @@
 default_context:
-  author: "Lin Yang"
-  github_username: "lyang"
+  author_name: "Lin Yang"
+  author_email: "github@linyang.me"
+  vcs: "github.com"
+  vcs_user: "lyang"
 abbreviations:
   rb: https://github.com/lyang/ruby-template.git
