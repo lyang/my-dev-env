@@ -19,12 +19,12 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
     call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
     Plug 'altercation/vim-colors-solarized'
-    Plug 'chr4/nginx.vim'
+    Plug 'chr4/nginx.vim', { 'for': 'nginx' }
     Plug 'dense-analysis/ale'
-    Plug 'elixir-lang/vim-elixir'
+    Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-    Plug 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tmux-plugins/vim-tmux-focus-events'
     Plug 'tpope/vim-commentary'
