@@ -124,5 +124,8 @@ export MANPATH="/usr/local/man:$MANPATH"
 # make less more friendly for non-text input files
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# rust
+source "$HOME/.cargo/env"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
