@@ -81,6 +81,7 @@ plugins=(
   fzf
   git
   nvm
+  pyenv
   tmux
 )
 
