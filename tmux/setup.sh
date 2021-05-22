@@ -19,6 +19,12 @@ else
 fi
 
 POWERLINE_CONF="/usr/share/powerline/bindings/tmux/powerline.conf"
+
 if [ -f "$POWERLINE_CONF" ]; then
-  echo "source-file $POWERLINE_CONF" >> $HOME/.tmux.conf
+  grep "source-file $POWERLINE_CONF" $HOME/.tmux.conf &> /dev/null
+  if [ $? == 0 ]; then
+    echo "Already included $POWERLINE_CONF in $HOME/.tmux.conf"
+  else
+    echo "source-file $POWERLINE_CONF" >> $HOME/.tmux.conf
+  fi
 fi

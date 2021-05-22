@@ -1,12 +1,8 @@
 #!/bin/bash
 
-set -o errexit
 set -o nounset
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
 
 FONTS=('Regular' 'Bold' 'Italic' 'Bold Italic')
 for font in "${FONTS[@]}"
@@ -16,14 +12,27 @@ done
 fc-cache -fv
 
 if [ -f "$HOME/.zshrc" ]; then
-  echo "Backing up previous $HOME/.zshrc to $HOME/.zshrc.backup"
-  mv $HOME/.zshrc $HOME/.zshrc.backup
+  grep "source $ROOT_DIR/zshrc" $HOME/.zshrc &> /dev/null
+  if [ $? == 0 ]; then
+    echo "Already included $ROOT_DIR/zshrc in $HOME/.zshrc"
+  else
+    echo "Including $ROOT_DIR/zshrc in $HOME/.zshrc"
+    echo "source $ROOT_DIR/zshrc" >> $HOME/.zshrc
+  fi
+else
+  echo "Creating $HOME/.zshrc and including $ROOT_DIR/zshrc in it"
+  touch $HOME/.zshrc
+  echo "source $ROOT_DIR/zshrc" >> $HOME/.zshrc
 fi
 
-if [ -f "$HOME/.p10k.zsh" ]; then
-  echo "Backing up previous $HOME/.p10k.zsh to $HOME/.p10k.zsh.backup"
-  mv $HOME/.p10k.zsh $HOME/.p10k.zsh.backup
+if [ -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
+  echo "Already installed powerlevel10k"
+else
+  git clone https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
+  echo "source $ROOT_DIR/p10k.zsh" > $HOME/.p10k.zsh
 fi
 
-echo "source $ROOT_DIR/zshrc" > $HOME/.zshrc
-echo "source $ROOT_DIR/p10k.zsh" > $HOME/.p10k.zsh
+sed -i 's/^ZSH_THEME.*$/ZSH_THEME="powerlevel10k\/powerlevel10k"/g' $HOME/.zshrc
+sed -i 's/^# HYPHEN_INSENSITIVE.*$/HYPHEN_INSENSITIVE="true"/g' $HOME/.zshrc
+sed -i 's/^# ENABLE_CORRECTION.*$/ENABLE_CORRECTION="true"/g' $HOME/.zshrc
+sed -i 's/^# HIST_STAMPS.*$/HIST_STAMPS="mm\/dd\/yyyy"/g' $HOME/.zshrc

@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/zsh
 
 set -o errexit
 set -o nounset
 
-ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+ROOT_DIR=$(cd "$(dirname "${(%):-%N}")" && pwd)
 
 find $ROOT_DIR/*/ -type f -iname setup.sh -exec '{}' \;
 
