@@ -10,6 +10,7 @@ highlight ExtraWhitespace ctermbg=darkred ctermfg=white guibg=darkred guifg=whit
 set autoread
 set directory=~/.vim/tmp
 set expandtab
+set hidden
 set hlsearch
 set ignorecase
 set incsearch
@@ -17,8 +18,11 @@ set infercase
 set linespace=0
 set list
 set listchars=tab:◆◆,
+set nobackup
 set nowrap
+set nowritebackup
 set shiftwidth=2
+set shortmess+=c
 set smartcase
 set softtabstop=2
 set undodir=~/.vim/undo
@@ -31,6 +35,8 @@ set updatetime=200
 " UI {{{
 set background=dark
 colorschem solarized
+set cmdheight=2
+set completeopt=menuone,preview
 set laststatus=2
 set number
 set numberwidth=4
@@ -38,7 +44,6 @@ set ruler
 set scrolloff=10
 set showcmd
 set showmatch
-set completeopt=menuone,preview
 " }}}
 
 " Plugin Config {{{
@@ -87,6 +92,7 @@ augroup MyAutoCmd
   autocmd BufWinEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+$/ | endif
   autocmd BufWinLeave * call clearmatches()
   autocmd BufWritePost vimrc source %
+  autocmd CursorHold * silent call CocActionAsync('highlight')
   autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
   autocmd InsertEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+\%#\@<!$/ | endif
   autocmd InsertLeave * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+$/ | endif
@@ -104,4 +110,30 @@ nnoremap <silent> <LocalLeader>gw :Ggrep! <cword><CR><CR>
 nnoremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
 nnoremap <silent> <LocalLeader>nr :NERDTree<CR>
 nnoremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
+inoremap <silent> <expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+inoremap <silent> <expr><S-TAB>pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent> <expr><cr>   pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
+nnoremap <silent> K :call<SID>show_documentation()<CR>
+nnoremap <silent> <LocalLeader>rn <Plug>(coc-rename)
+" }}}
+
+" Functions {{{
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 " }}}
