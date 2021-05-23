@@ -22,10 +22,5 @@ fi
 trust-key noreply@github.com 6
 trust-key github@linyang.me 6
 
-git clone https://github.com/lyang/Dockerfiles.git
-git clone https://github.com/lyang/my-dot-files.git
-
-./my-dot-files/setup.sh
-
 tmux new-session -d -s dev
 tmux attach -t dev

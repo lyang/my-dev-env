@@ -3,4 +3,5 @@
 set -o errexit
 set -o nounset
 
-cargo install bat git-delta
+nvm install --lts
+npm install -g neovim
