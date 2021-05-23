@@ -32,25 +32,15 @@ set undoreload=10000
 set updatetime=200
 " }}}
 
-" UI {{{
-set background=dark
-colorschem solarized
-set cmdheight=2
-set completeopt=menuone,preview
-set laststatus=2
-set number
-set numberwidth=4
-set ruler
-set scrolloff=10
-set showcmd
-set showmatch
-" }}}
-
 " Plugin Config {{{
+let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'powerlineish'
 let g:ale_disable_lsp = 1
+let g:ale_list_window_size = 5
+let g:ale_open_list = 1
 let g:ale_sign_column_always = 1
+let g:coc_global_extensions = ['coc-git', 'coc-highlight', 'coc-json', 'coc-solargraph']
 " }}}
 
 " Vim-Plug {{{
@@ -102,6 +92,13 @@ augroup END
 " }}}
 
 " Mappings {{{
+inoremap <silent> <expr><S-TAB>pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent> <expr><TAB>pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
+inoremap <silent> <expr><cr>pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gy <Plug>(coc-type-definition)
 nnoremap <silent> <LocalLeader>fb :Buffers<CR>
 nnoremap <silent> <LocalLeader>ff :Files<CR>
 nnoremap <silent> <LocalLeader>fg :GFiles<CR>
@@ -110,15 +107,8 @@ nnoremap <silent> <LocalLeader>gw :Ggrep! <cword><CR><CR>
 nnoremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
 nnoremap <silent> <LocalLeader>nr :NERDTree<CR>
 nnoremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
-inoremap <silent> <expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
-inoremap <silent> <expr><S-TAB>pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent> <expr><cr>   pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
-nnoremap <silent> K :call<SID>show_documentation()<CR>
 nnoremap <silent> <LocalLeader>rn <Plug>(coc-rename)
+nnoremap <silent> K :call<SID>show_documentation()<CR>
 " }}}
 
 " Functions {{{
@@ -136,4 +126,17 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+" }}}
+
+" UI {{{
+set background=dark
+colorschem solarized
+set completeopt=menuone,preview
+set laststatus=2
+set number
+set numberwidth=4
+set ruler
+set scrolloff=10
+set showcmd
+set showmatch
 " }}}

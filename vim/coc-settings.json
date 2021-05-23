@@ -1,0 +1,5 @@
+{
+  "diagnostic.displayByAle": true,
+  "solargraph.diagnostics": true,
+  "solargraph.useBundler": true
+}
