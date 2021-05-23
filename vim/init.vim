@@ -5,6 +5,49 @@ set fileformats=unix,mac,dos
 set nocompatible
 " }}}
 
+" Advanced {{{
+highlight ExtraWhitespace ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+set autoread
+set directory=~/.vim/tmp
+set expandtab
+set hlsearch
+set ignorecase
+set incsearch
+set infercase
+set linespace=0
+set list
+set listchars=tab:◆◆,
+set nowrap
+set shiftwidth=2
+set smartcase
+set softtabstop=2
+set undodir=~/.vim/undo
+set undofile
+set undolevels=1000
+set undoreload=10000
+set updatetime=200
+" }}}
+
+" UI {{{
+set background=dark
+colorschem solarized
+set laststatus=2
+set number
+set numberwidth=4
+set ruler
+set scrolloff=10
+set showcmd
+set showmatch
+set completeopt=menuone,preview
+" }}}
+
+" Plugin Config {{{
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'powerlineish'
+let g:ale_disable_lsp = 1
+let g:ale_sign_column_always = 1
+" }}}
+
 " Vim-Plug {{{
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
@@ -32,44 +75,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-ruby/vim-ruby'
 Plug 'vim-test/vim-test'
 call plug#end()
-" }}}
-
-" Advanced {{{
-highlight ExtraWhitespace ctermbg=darkred ctermfg=white guibg=darkred guifg=white
-set autoread
-set directory=~/.vim/tmp
-set expandtab
-set hlsearch
-set ignorecase
-set incsearch
-set infercase
-set linespace=0
-set list
-set listchars=tab:◆◆,
-set nowrap
-set shiftwidth=2
-set smartcase
-set softtabstop=2
-set undodir=~/.vim/undo
-set undofile
-set undolevels=1000
-set undoreload=10000
-set updatetime=200
-" }}}
-
-" UI {{{
-set background=dark
-let g:airline_powerline_fonts = 1
-let g:airline_theme='powerlineish'
-colorschem solarized
-set laststatus=2
-set number
-set numberwidth=4
-set ruler
-set scrolloff=10
-set showcmd
-set showmatch
-set completeopt=menuone,preview
 " }}}
 
 " Auto Command {{{
