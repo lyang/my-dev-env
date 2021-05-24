@@ -41,7 +41,7 @@ if [ -f "$HOME/.config/nvim/init.vim" ]; then
 else
   echo "Creating $HOME/.config/nvim/init.vim and including $ROOT_DIR/init.vim in it"
   mkdir -p $HOME/.config/nvim
-  echo "source $ROOT_DIR/init.vim" >> $HOME/.vimrc
+  echo "source $ROOT_DIR/init.vim" >> $HOME/.config/nvim/init.vim
 fi
 
 if [ -f "$HOME/.config/nvim/coc-settings.json" ]; then
