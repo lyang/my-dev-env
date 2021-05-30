@@ -1,4 +1,12 @@
 FROM linyang1218/dev-env:latest
+ARG IDEA_BUILD=2021.1.1
+RUN \
+  curl -fSL https://download.jetbrains.com/idea/ideaIC-$IDEA_BUILD.tar.gz --create-dir -o /usr/local/idea/installer.tgz && \
+  tar --strip-components=1 -xzf /usr/local/idea/installer.tgz -C /usr/local/idea && \
+  chmod -R a+rX /usr/local/idea && \
+  ln -fs /usr/local/idea/bin/idea.sh /usr/local/bin/idea && \
+  rm /usr/local/idea/installer.tgz
+
 USER dev
 
 ADD https://api.github.com/repos/lyang/Dockerfiles/git/refs/heads/main /tmp/dockerfiles.json
