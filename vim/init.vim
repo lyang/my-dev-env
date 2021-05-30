@@ -81,7 +81,7 @@ augroup MyAutoCmd
   autocmd BufRead,BufNewFile gitconfig set filetype=gitconfig
   autocmd BufWinEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+$/ | endif
   autocmd BufWinLeave * call clearmatches()
-  autocmd BufWritePost vimrc source %
+  autocmd BufWritePost init.vim source %
   autocmd CursorHold * silent call CocActionAsync('highlight')
   autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
   autocmd InsertEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+\%#\@<!$/ | endif
