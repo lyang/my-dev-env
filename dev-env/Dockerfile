@@ -1,4 +1,19 @@
 FROM linyang1218/dev-env:latest
+RUN \
+  apt-get update && \
+  apt-get install -y --no-install-recommends \
+  libcanberra-gtk-module \
+  libcanberra-gtk0 \
+  libfontconfig1 \
+  libfreetype6-dev \
+  libgtk2.0-0 \
+  libxext-dev \
+  libxrender-dev \
+  libxslt1.1 \
+  libxtst-dev \
+  libxxf86vm1 && \
+  rm -rf /var/lib/apt/lists/*
+
 ARG IDEA_BUILD=2021.1.1
 RUN \
   curl -fSL https://download.jetbrains.com/idea/ideaIC-$IDEA_BUILD.tar.gz --create-dir -o /usr/local/idea/installer.tgz && \
