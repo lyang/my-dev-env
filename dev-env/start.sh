@@ -2,18 +2,15 @@
 
 set -o errexit
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-TZ=$(cat /etc/timezone)
-TIMESTAMP=$(date +%Y%m%d%H%M%S)
-
-docker build --pull -t linyang1218/dev-env:lyang $ROOT_DIR
-ARGS="-it --env DEV_ENV=true --env TERM=$TERM --env TZ=$TZ --name dev-env-$TIMESTAMP"
+export TZ=$(cat /etc/timezone)
+export TIMESTAMP=$(date +%Y%m%d%H%M%S)
+ARGS="-f $ROOT_DIR/docker-compose.yml"
 
 if [ -z "$DEV_ENV" ]; then
-  XAUTHORITY=$(xauth info | grep 'Authority file' | rev | cut -d ' ' -f 1 | rev)
-  DOCKER_SOCK="--volume /var/run/docker.sock:/var/run/docker.sock"
-  GPG_SOCK="--volume $(gpgconf --list-dir agent-extra-socket):/home/gnupg/S.gpg-agent"
-  SSH_SOCK="--volume $SSH_AUTH_SOCK:$SSH_AUTH_SOCK --env SSH_AUTH_SOCK"
-  X11_SOCK="--volume /tmp/.X11-unix:/tmp/.X11-unix --volume $XAUTHORITY:$XAUTHORITY --env DISPLAY"
-  ARGS="$ARGS $DOCKER_SOCK $GPG_SOCK $SSH_SOCK $X11_SOCK"
+  export DOCKER_SOCK="/var/run/docker.sock"
+  export GPG_AGENT_SOCK="$(gpgconf --list-dir agent-socket)"
+  export X11_SOCK="/tmp/.X11-unix"
+  ARGS="$ARGS -f $ROOT_DIR/docker-compose.empowered.yml"
 fi
-docker run $ARGS linyang1218/dev-env:lyang $@
+
+docker-compose $ARGS run dev-env
