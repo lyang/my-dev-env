@@ -14,7 +14,7 @@ RUN \
   libxxf86vm1 && \
   rm -rf /var/lib/apt/lists/*
 
-ARG IDEA_BUILD=2021.1.1
+ENV IDEA_BUILD=2021.1.1
 RUN \
   curl -fSL https://download.jetbrains.com/idea/ideaIC-$IDEA_BUILD.tar.gz --create-dir -o /usr/local/idea/installer.tgz && \
   tar --strip-components=1 -xzf /usr/local/idea/installer.tgz -C /usr/local/idea && \
