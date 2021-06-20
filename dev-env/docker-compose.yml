@@ -8,3 +8,6 @@ services:
       - DEV_ENV=true
       - TERM
       - TZ
+    ports:
+      - "8080:8080"
+    network_mode: 'host'
