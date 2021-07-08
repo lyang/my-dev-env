@@ -46,13 +46,8 @@ let g:ale_sign_column_always = 1
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
-Plug 'chr4/nginx.vim', { 'for': 'nginx' }
 Plug 'dense-analysis/ale'
-Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'ntpeters/vim-better-whitespace'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -72,8 +67,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-ruby/vim-ruby'
-Plug 'vim-test/vim-test'
 Plug 'xuyuanp/nerdtree-git-plugin'
 
 Plug 'ryanoasis/vim-devicons'
