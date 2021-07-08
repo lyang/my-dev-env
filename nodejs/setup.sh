@@ -4,4 +4,4 @@ set -o errexit
 set -o nounset
 
 nvm install --lts
-npm install -g neovim
+npm install -g neovim bash-language-server

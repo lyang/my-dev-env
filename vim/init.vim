@@ -164,11 +164,12 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 end
 
+nvim_lsp.bashls.setup {
+  on_attach = on_attach,
+}
+
 nvim_lsp.solargraph.setup {
   on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-  },
   settings = {
     solargraph = {
       autoformat = true,
