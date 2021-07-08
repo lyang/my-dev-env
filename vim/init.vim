@@ -40,7 +40,6 @@ let g:ale_disable_lsp = 1
 let g:ale_list_window_size = 5
 let g:ale_open_list = 1
 let g:ale_sign_column_always = 1
-let g:coc_global_extensions = ['coc-git', 'coc-highlight', 'coc-json', 'coc-solargraph']
 " }}}
 
 " Vim-Plug {{{
@@ -52,7 +51,7 @@ Plug 'dense-analysis/ale'
 Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
@@ -90,7 +89,6 @@ augroup MyAutoCmd
   autocmd BufWinEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+$/ | endif
   autocmd BufWinLeave * call clearmatches()
   autocmd BufWritePost init.vim source %
-  autocmd CursorHold * silent call CocActionAsync('highlight')
   autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
   autocmd InsertEnter * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+\%#\@<!$/ | endif
   autocmd InsertLeave * if &filetype != 'help' | match ExtraWhitespace /\t\+\|\s\+$/ | endif
@@ -100,12 +98,6 @@ augroup END
 " }}}
 
 " Mappings {{{
-inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : coc#refresh()
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gy <Plug>(coc-type-definition)
 nnoremap <leader>fa <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -116,25 +108,6 @@ nnoremap <silent> <LocalLeader>gw :Ggrep! <cword><CR><CR>
 nnoremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
 nnoremap <silent> <LocalLeader>nr :NERDTree<CR>
 nnoremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
-nnoremap <silent> <LocalLeader>rn <Plug>(coc-rename)
-nnoremap <silent> K :call<SID>show_documentation()<CR>
-" }}}
-
-" Functions {{{
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
 " }}}
 
 " UI {{{
@@ -162,6 +135,48 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
-set foldexpr=nvim_treesitter#foldexpr()
-set foldmethod=expr
+" }}}
+
+" nvim-lspconfig Config {{{
+lua <<EOF
+local nvim_lsp = require('lspconfig')
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+end
+
+nvim_lsp.solargraph.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  settings = {
+    solargraph = {
+      autoformat = true,
+      diagnostics = true,
+      formatting = true,
+      useBundler = true,
+    }
+  },
+}
+EOF
 " }}}
