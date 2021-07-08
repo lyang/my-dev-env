@@ -8,17 +8,6 @@ trust-key() {
 
 curl --silent https://github.com/lyang.gpg | gpg --import
 
-SIGNING_KEY_ID=$(gpg --keyid-format LONG -K github@linyang.me | grep sec | sed 's/^.*\/\([^ ]*\) .*/\1/')
-if [ -n "$SIGNING_KEY_ID" ]; then
-  git config --global user.signingkey $SIGNING_KEY_ID
-  git config --global commit.gpgsign true
-  echo "Code Signing Key Found: $SIGNING_KEY_ID"
-else
-  git config --global --unset user.signingkey
-  git config --global --unset commit.gpgsign
-  echo "Code Signing Key Not Found"
-fi
-
 trust-key noreply@github.com 6
 trust-key github@linyang.me 6
 
