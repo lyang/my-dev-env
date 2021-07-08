@@ -57,6 +57,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tmux-plugins/vim-tmux'
@@ -147,4 +148,20 @@ set ruler
 set scrolloff=10
 set showcmd
 set showmatch
+" }}}
+
+" nvim-treesitter Config {{{
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained",
+  highlight = {
+    enable = true
+  },
+  indent = {
+    true
+  },
+}
+EOF
+set foldexpr=nvim_treesitter#foldexpr()
+set foldmethod=expr
 " }}}
