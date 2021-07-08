@@ -54,6 +54,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tmux-plugins/vim-tmux'
@@ -102,10 +105,12 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> <LocalLeader>fb :Buffers<CR>
-nnoremap <silent> <LocalLeader>ff :Files<CR>
-nnoremap <silent> <LocalLeader>fg :GFiles<CR>
-nnoremap <silent> <LocalLeader>ft :Tags<CR>
+nnoremap <leader>fa <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope git_files<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>ft <cmd>Telescope tags<cr>
 nnoremap <silent> <LocalLeader>gw :Ggrep! <cword><CR><CR>
 nnoremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
 nnoremap <silent> <LocalLeader>nr :NERDTree<CR>
