@@ -47,6 +47,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'dense-analysis/ale'
+Plug 'hrsh7th/nvim-compe'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
@@ -106,7 +107,7 @@ nnoremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
 " UI {{{
 set background=dark
 colorschem solarized
-set completeopt=menuone,preview
+set completeopt=menuone,noselect
 set laststatus=2
 set number
 set numberwidth=4
@@ -114,6 +115,43 @@ set ruler
 set scrolloff=10
 set showcmd
 set showmatch
+" }}}
+
+" nvim-compe Config {{{
+lua <<EOF
+require'compe'.setup {
+  autocomplete = true;
+  debug = false;
+  documentation = {
+    border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+    max_width = 120,
+    min_width = 60,
+    max_height = math.floor(vim.o.lines * 0.3),
+    min_height = 1,
+  };
+  enabled = true;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  min_length = 1;
+  preselect = 'enable';
+  resolve_timeout = 800;
+  source_timeout = 200;
+  source = {
+    buffer = true;
+    calc = true;
+    luasnip = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    path = true;
+    ultisnips = true;
+    vsnip = true;
+  };
+  throttle_time = 80;
+}
+EOF
 " }}}
 
 " nvim-treesitter Config {{{
