@@ -210,5 +210,9 @@ nvim_lsp.solargraph.setup {
     }
   },
 }
+
+nvim_lsp.vimls.setup {
+  on_attach = on_attach,
+}
 EOF
 " }}}
