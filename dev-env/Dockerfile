@@ -73,7 +73,8 @@ RUN set -eux && \
     echo 'export PYENV_VIRTUALENV_DISABLE_PROMPT=1' >> $HOME/.zshenv
 
 # Setup rust environment
-RUN curl --silent --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | zsh -s -- -y
+RUN curl --silent --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | zsh -s -- -y && \
+    echo 'source $HOME/.cargo/env' >> $HOME/.zshenv
 
 # Setup nodejs environment
 RUN set -eux && \
