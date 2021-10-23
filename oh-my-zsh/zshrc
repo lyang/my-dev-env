@@ -1,0 +1,13 @@
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+export EDITOR='nvim'
+export GPG_TTY=$(tty)
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export MANPATH="/usr/local/man:$MANPATH"
+export ZSH_TMUX_AUTOSTART=true
+
+source $HOME/.oh-my-zsh.zshrc
+source $HOME/.p10k.zsh

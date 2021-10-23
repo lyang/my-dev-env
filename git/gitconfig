@@ -25,6 +25,3 @@
   rebase = true
 [push]
   default = current
-[user]
-  email = github@linyang.me
-  name = Lin Yang

@@ -1,10 +1,15 @@
 #!/bin/zsh
-
 set -o errexit
-set -o nounset
 
-ROOT_DIR=$(cd "$(dirname "${(%):-%N}")" && pwd)
+CURRENT_DIR=${0:A:h}
 
-find $ROOT_DIR/*/ -type f -iname setup.sh -exec '{}' \;
+for install in $(find $CURRENT_DIR/* -type f -iname install.sh); do
+  $install
+done
 
-find $HOME/*/.git -type f -iname config -exec sed -i 's/https:\/\/github.com\/lyang\//git@github.com:lyang\//' {} \;
+export PATH=$PATH:$HOME/bin
+source $HOME/.zshrc
+
+for config in $(find $CURRENT_DIR/* -type f -iname config.sh); do
+  $config
+done
