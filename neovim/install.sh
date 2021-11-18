@@ -11,7 +11,7 @@ if [ "$(command -v nvim)" = "" ]; then
     chmod u+x $NVIM_DIR/nvim.appimage &&
     cd $NVIM_DIR && $NVIM_DIR/nvim.appimage --appimage-extract &&
     chmod -R a+rX $NVIM_DIR &&
-    ln -s $NVIM_DIR/squashfs-root/AppRun /usr/local/bin/nvim
+    ln -fs $NVIM_DIR/squashfs-root/AppRun /usr/local/bin/nvim
     "
   fi
   mkdir -p $HOME/.config/nvim/tmp $HOME/.config/nvim/undo

@@ -1,4 +1,4 @@
 #!/bin/zsh
 set -o errexit
 
-cargo install bat git-delta
+cargo install bat fd-find git-delta

@@ -48,7 +48,13 @@ Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'dense-analysis/ale'
-Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/vim-vsnip'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
@@ -113,7 +119,7 @@ nnoremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
 " UI {{{
 set background=dark
 colorschem solarized
-set completeopt=menuone,noselect
+set completeopt=menu,menuone,noselect
 set laststatus=2
 set number
 set numberwidth=4
@@ -123,40 +129,41 @@ set showcmd
 set showmatch
 " }}}
 
-" nvim-compe Config {{{
+" nvim-cmp Config {{{
 lua <<EOF
-require'compe'.setup {
-  autocomplete = true;
-  debug = false;
-  documentation = {
-    border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
-    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-    max_width = 120,
-    min_width = 60,
-    max_height = math.floor(vim.o.lines * 0.3),
-    min_height = 1,
-  };
-  enabled = true;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  min_length = 1;
-  preselect = 'enable';
-  resolve_timeout = 800;
-  source_timeout = 200;
-  source = {
-    buffer = true;
-    calc = true;
-    luasnip = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    path = true;
-    ultisnips = true;
-    vsnip = true;
-  };
-  throttle_time = 80;
-}
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+    mapping = {
+      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-y>'] = cmp.config.disable,
+      ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' },
+      { name = 'buffer' },
+    })
+  })
+
+  cmp.setup.cmdline('/', {
+    sources = { { name = 'buffer' } }
+  })
+
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } })
+  })
 EOF
 " }}}
 
@@ -200,16 +207,20 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 end
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 nvim_lsp.bashls.setup {
+  capabilities = capabilities,
   on_attach = on_attach,
 }
 
 nvim_lsp.pyright.setup {
+  capabilities = capabilities,
   on_attach = on_attach,
 }
 
 nvim_lsp.solargraph.setup {
+  capabilities = capabilities,
   on_attach = on_attach,
   settings = {
     solargraph = {
@@ -222,6 +233,7 @@ nvim_lsp.solargraph.setup {
 }
 
 nvim_lsp.vimls.setup {
+  capabilities = capabilities,
   on_attach = on_attach,
 }
 EOF
