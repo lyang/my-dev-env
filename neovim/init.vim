@@ -55,13 +55,13 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'preservim/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-commentary'
@@ -75,9 +75,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'xuyuanp/nerdtree-git-plugin'
-
-Plug 'ryanoasis/vim-devicons'
 call plug#end()
 " }}}
 
@@ -110,10 +107,10 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope git_files<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>ft <cmd>Telescope tags<cr>
-nnoremap <silent> <LocalLeader>gw :Ggrep! <cword><CR><CR>
-nnoremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
-nnoremap <silent> <LocalLeader>nr :NERDTree<CR>
-nnoremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
+nnoremap <silent> <LocalLeader>gw :Ggrep! <cword><cr><cr>
+nnoremap <silent> <LocalLeader>nf :NvimTreeFindFile<cr>
+nnoremap <silent> <LocalLeader>nr :NvimTreeRefresh<cr>
+nnoremap <silent> <LocalLeader>nt :NvimTreeToggle<cr>
 " }}}
 
 " UI {{{
@@ -127,6 +124,12 @@ set ruler
 set scrolloff=10
 set showcmd
 set showmatch
+" }}}
+"
+" nvim-tree.lua Config {{{
+lua <<EOF
+require'nvim-tree'.setup()
+EOF
 " }}}
 
 " nvim-cmp Config {{{
