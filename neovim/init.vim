@@ -8,7 +8,6 @@ set nocompatible
 " Advanced {{{
 highlight ExtraWhitespace ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 set autoread
-set directory=~/.config/nvim/tmp
 set expandtab
 set hidden
 set hlsearch
@@ -25,7 +24,7 @@ set shiftwidth=2
 set shortmess+=c
 set smartcase
 set softtabstop=2
-set undodir=~/.config/nvim/undo
+set termguicolors
 set undofile
 set undolevels=1000
 set undoreload=10000
@@ -45,7 +44,7 @@ let g:ale_sign_column_always = 1
 " Vim-Plug {{{
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
-Plug 'altercation/vim-colors-solarized'
+Plug 'arcticicestudio/nord-vim'
 Plug 'dense-analysis/ale'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
@@ -114,7 +113,7 @@ nnoremap <silent> <LocalLeader>nt :NvimTreeToggle<cr>
 
 " UI {{{
 set background=dark
-colorschem solarized
+colorschem nord
 set completeopt=menu,menuone,noselect
 set laststatus=2
 set number
