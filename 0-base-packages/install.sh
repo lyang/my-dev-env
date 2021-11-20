@@ -7,6 +7,8 @@ setup-Darwin() {
   if [[ $(command -v brew) == "" ]]; then
     echo "Installing Homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo 'export PATH="/usr/local/sbin:$PATH"' >> $HOME/.zprofile
+    echo "alias brew='env PATH=\"\${PATH//\$(pyenv root)\/shims:/}\" brew'" >> $HOME/.zshrc
   else
     echo "Updating Homebrew"
     brew update
