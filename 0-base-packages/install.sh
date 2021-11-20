@@ -21,6 +21,7 @@ setup-Darwin() {
     openssl
     gnupg
     pinentry-mac
+    podman
     ripgrep
     task
     wget
@@ -59,6 +60,7 @@ setup-debian() {
     libevent-dev
     locales
     man
+    podman
     ripgrep
     taskwarrior
     tk-dev
