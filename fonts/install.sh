@@ -8,4 +8,4 @@ else
   git -C $HOME/.nerd-fonts sparse-checkout add patched-fonts/Meslo
 fi
 
-$HOME/.nerd-fonts/install.sh
+$HOME/.nerd-fonts/install.sh --clean --quiet

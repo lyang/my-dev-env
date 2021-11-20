@@ -18,3 +18,7 @@ else
 fi
 
 $HOME/.tmux/plugins/tpm/bin/install_plugins
+
+if [ -z "$ZSH_TMUX_AUTOSTART" ]; then
+  echo "export ZSH_TMUX_AUTOSTART=true" >> $HOME/.zprofile
+fi
