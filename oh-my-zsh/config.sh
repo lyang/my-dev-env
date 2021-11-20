@@ -24,6 +24,6 @@ sed -i $BACKUP_EXT 's/^# ENABLE_CORRECTION.*$/ENABLE_CORRECTION="true"/g' $HOME/
 sed -i $BACKUP_EXT 's/^# HIST_STAMPS.*$/HIST_STAMPS="mm\/dd\/yyyy"/g' $HOME/.oh-my-zsh.zshrc
 sed -i $BACKUP_EXT 's/^# HYPHEN_INSENSITIVE.*$/HYPHEN_INSENSITIVE="true"/g' $HOME/.oh-my-zsh.zshrc
 sed -i $BACKUP_EXT 's/^ZSH_THEME.*$/ZSH_THEME="powerlevel10k\/powerlevel10k"/g' $HOME/.oh-my-zsh.zshrc
-sed -i $BACKUP_EXT 's/^plugins=.*$/plugins=(git nvm pyenv rbenv tmux)/g' $HOME/.oh-my-zsh.zshrc
+sed -i $BACKUP_EXT 's/^plugins=.*$/plugins=(colored-man-pages command-not-found git gpg-agent nvm sdk terraform tmux)/g' $HOME/.oh-my-zsh.zshrc
 
 ln -fs $CURRENT_DIR/p10k.zsh $HOME/.p10k.zsh
