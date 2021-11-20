@@ -22,6 +22,7 @@ setup-Darwin() {
     gnupg
     pinentry-mac
     ripgrep
+    task
     wget
     zsh
   )
@@ -59,6 +60,7 @@ setup-debian() {
     locales
     man
     ripgrep
+    taskwarrior
     tk-dev
     tree
     uuid-dev
