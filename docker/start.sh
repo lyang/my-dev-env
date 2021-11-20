@@ -15,7 +15,7 @@ echo "FROM docker.io/buildpack-deps:bullseye" > $CURRENT_DIR/Dockerfile.generate
 echo "RUN apt-get update && apt-get install -y --no-install-recommends locales sudo zsh" >> $CURRENT_DIR/Dockerfile.generated
 echo "RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen" >> $CURRENT_DIR/Dockerfile.generated
 echo "ENV LANG=en_US.UTF-8" >> $CURRENT_DIR/Dockerfile.generated
-echo "RUN useradd -D -s /usr/bin/zsh" >> $CURRENT_DIR/Dockerfile.generated
+echo "RUN sed -i 's/^SHELL=\/bin\/sh/SHELL=\/usr\/bin\/zsh/g' /etc/default/useradd" >> $CURRENT_DIR/Dockerfile.generated
 echo "RUN useradd -u $USER_ID -U -m $USER_NAME" >> $CURRENT_DIR/Dockerfile.generated
 echo "RUN echo '$USER_NAME ALL=(root) NOPASSWD:ALL' >> /etc/sudoers.d/$USER_NAME" >> $CURRENT_DIR/Dockerfile.generated
 echo "RUN chmod 0440 /etc/sudoers.d/$USER_NAME" >> $CURRENT_DIR/Dockerfile.generated
@@ -23,6 +23,7 @@ echo "WORKDIR /home/$USER_NAME" >> $CURRENT_DIR/Dockerfile.generated
 echo "USER $USER_NAME" >> $CURRENT_DIR/Dockerfile.generated
 echo "RUN mkdir -p $REPO_NAME" >> $CURRENT_DIR/Dockerfile.generated
 echo "ENV GIT_USER_NAME='$GIT_USER_NAME' GIT_USER_EMAIL='$GIT_USER_EMAIL'" >> $CURRENT_DIR/Dockerfile.generated
+echo 'SHELL ["/usr/bin/zsh", "-lc"]' >> $CURRENT_DIR/Dockerfile.generated
 
 for FILE_PATH in $(find $CURRENT_DIR/../* -type f -iname install.sh); do
   FILE_NAME=$(basename $FILE_PATH)
@@ -38,6 +39,7 @@ for FILE_PATH in $(find $CURRENT_DIR/../* -type f -iname config.sh); do
   echo "RUN $REPO_NAME/$DIR_NAME/$FILE_NAME" >> $CURRENT_DIR/Dockerfile.generated
 done
 
-echo 'CMD ["/bin/zsh", "-l"]' >> $CURRENT_DIR/Dockerfile.generated
+echo "RUN echo 'source /home/$USER_NAME/.zshrc' >> /home/$USER_NAME/.zprofile" >> $CURRENT_DIR/Dockerfile.generated
+echo 'CMD ["/usr/bin/zsh", "-l"]' >> $CURRENT_DIR/Dockerfile.generated
 
 docker build -f $CURRENT_DIR/Dockerfile.generated $CURRENT_DIR/.. -t dev-env && docker run -it dev-env

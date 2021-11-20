@@ -7,9 +7,9 @@ for install in $(find $CURRENT_DIR/* -type f -iname install.sh); do
   $install
 done
 
-export PATH=$PATH:$HOME/bin
-source $HOME/.zshrc
+source $HOME/.zprofile
 
 for config in $(find $CURRENT_DIR/* -type f -iname config.sh); do
   $config
 done
+echo 'Setup finished. Please restart your terminal'

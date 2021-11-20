@@ -8,10 +8,10 @@ else
   git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
   git clone https://github.com/pyenv/pyenv-virtualenv.git $HOME/.pyenv/plugins/pyenv-virtualenv
   cd $HOME/.pyenv && src/configure && make -C src
-  echo 'export PYENV_ROOT=$HOME/.pyenv' >> $HOME/.zshenv
-  echo 'export PATH=$PYENV_ROOT/bin:$PATH' >> $HOME/.zshenv
-  echo 'export PYENV_VIRTUALENV_DISABLE_PROMPT=1' >> $HOME/.zshenv
-  echo 'eval "$(pyenv init --path)"' >> $HOME/.zshenv
-  echo 'eval "$(pyenv init -)"' >> $HOME/.zshrc
-  echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.zshrc
+  echo 'export PYENV_ROOT=$HOME/.pyenv' >> $HOME/.zprofile
+  echo 'export PATH=$PYENV_ROOT/bin:$PATH' >> $HOME/.zprofile
+  echo 'export PYENV_VIRTUALENV_DISABLE_PROMPT=1' >> $HOME/.zprofile
+  echo 'eval "$(pyenv init --path)"' >> $HOME/.zprofile
+  echo 'eval "$(pyenv init -)"' >> $HOME/.zprofile
+  echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.zprofile
 fi
