@@ -34,7 +34,7 @@ set updatetime=200
 " Plugin Config {{{
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'nord'
 let g:ale_disable_lsp = 1
 let g:ale_list_window_size = 5
 let g:ale_open_list = 1
