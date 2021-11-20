@@ -14,7 +14,7 @@
   dark = true
   line-numbers = true
   navigate = true
-  syntax-theme = Solarized (dark)
+  syntax-theme = Nord
 [diff]
   colorMoved = default
 [init]
