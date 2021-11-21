@@ -26,6 +26,7 @@ setup-Darwin() {
     podman
     ripgrep
     task
+    tmux
     wget
     zsh
   )
@@ -66,6 +67,7 @@ setup-debian() {
     ripgrep
     taskwarrior
     tk-dev
+    tmux
     tree
     uuid-dev
     watch
