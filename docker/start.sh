@@ -23,7 +23,6 @@ echo "WORKDIR /home/$USER_NAME" >> $CURRENT_DIR/Dockerfile.generated
 echo "USER $USER_NAME" >> $CURRENT_DIR/Dockerfile.generated
 echo "RUN mkdir -p $REPO_NAME" >> $CURRENT_DIR/Dockerfile.generated
 echo "ENV GIT_USER_NAME='$GIT_USER_NAME' GIT_USER_EMAIL='$GIT_USER_EMAIL'" >> $CURRENT_DIR/Dockerfile.generated
-echo 'SHELL ["/usr/bin/zsh", "-lc"]' >> $CURRENT_DIR/Dockerfile.generated
 
 for FILE_PATH in $(find $CURRENT_DIR/../* -type f -iname install.sh); do
   FILE_NAME=$(basename $FILE_PATH)
@@ -36,7 +35,7 @@ for FILE_PATH in $(find $CURRENT_DIR/../* -type f -iname config.sh); do
   FILE_NAME=$(basename $FILE_PATH)
   DIR_NAME=$(basename $(dirname $FILE_PATH))
   echo "COPY --chown=$USER_NAME:$USER_NAME $DIR_NAME $REPO_NAME/$DIR_NAME" >> $CURRENT_DIR/Dockerfile.generated
-  echo "RUN $REPO_NAME/$DIR_NAME/$FILE_NAME" >> $CURRENT_DIR/Dockerfile.generated
+  echo "RUN /usr/bin/zsh -lc $REPO_NAME/$DIR_NAME/$FILE_NAME" >> $CURRENT_DIR/Dockerfile.generated
 done
 
 echo "RUN echo 'source /home/$USER_NAME/.zshrc' >> /home/$USER_NAME/.zprofile" >> $CURRENT_DIR/Dockerfile.generated
