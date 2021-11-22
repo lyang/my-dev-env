@@ -41,4 +41,4 @@ done
 echo "RUN echo 'source /home/$USER_NAME/.zshrc' >> /home/$USER_NAME/.zprofile" >> $CURRENT_DIR/Dockerfile.generated
 echo 'CMD ["/usr/bin/zsh", "-l"]' >> $CURRENT_DIR/Dockerfile.generated
 
-docker build -f $CURRENT_DIR/Dockerfile.generated $CURRENT_DIR/.. -t dev-env && docker run -it dev-env
+podman build -f $CURRENT_DIR/Dockerfile.generated $CURRENT_DIR/.. -t localhost/dev-env:latest && podman run -it localhost/dev-env:latest
