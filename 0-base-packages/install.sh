@@ -58,6 +58,7 @@ setup-debian() {
     bison
     build-essential
     curl
+    fuse-overlayfs
     gnupg
     hunspell
     less
@@ -77,6 +78,7 @@ setup-debian() {
     man
     podman
     ripgrep
+    slirp4netns
     taskwarrior
     tk-dev
     tmux
