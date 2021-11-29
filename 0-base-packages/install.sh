@@ -57,6 +57,7 @@ setup-debian() {
     autotools-dev
     bison
     build-essential
+    ca-certificates
     curl
     fuse-overlayfs
     gnupg
@@ -75,6 +76,7 @@ setup-debian() {
     libxmlsec1-dev
     llvm
     locales
+    lsb-release
     man
     podman
     ripgrep
