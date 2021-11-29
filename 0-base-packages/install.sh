@@ -56,11 +56,23 @@ setup-debian() {
     automake
     autotools-dev
     bison
+    build-essential
+    curl
     gnupg
     hunspell
     less
     libbluetooth-dev
+    libbz2-dev
     libevent-dev
+    libffi-dev
+    liblzma-dev
+    libncursesw5-dev
+    libreadline-dev
+    libsqlite3-dev
+    libssl-dev
+    libxml2-dev
+    libxmlsec1-dev
+    llvm
     locales
     man
     podman
@@ -69,9 +81,13 @@ setup-debian() {
     tk-dev
     tmux
     tree
+    uidmap
     uuid-dev
     watch
+    wget
+    xz-utils
     zip
+    zlib1g-dev
     zsh
   )
   sudo apt-get update
