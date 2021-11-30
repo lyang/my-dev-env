@@ -43,4 +43,11 @@ done
 echo "RUN echo 'source /home/$USER_NAME/.zshrc' >> /home/$USER_NAME/.zprofile" >> $DOCKERFILE
 echo 'CMD ["/usr/bin/zsh", "-l"]' >> $DOCKERFILE
 
-docker build -f $DOCKERFILE $CURRENT_DIR -t localhost/dev-env:latest && docker run -it localhost/dev-env:latest
+docker build -f $DOCKERFILE $CURRENT_DIR -t localhost/dev-env:latest
+
+docker run -it \
+  --env SSH_AUTH_SOCK \
+  --env TZ=$(cat /etc/timezone) \
+  --volume $SSH_AUTH_SOCK:$SSH_AUTH_SOCK \
+  --volume dev-env:/home/$USER_NAME/Code \
+  localhost/dev-env:latest

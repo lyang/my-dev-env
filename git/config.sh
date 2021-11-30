@@ -24,8 +24,6 @@ if [ -f "$HOME/.gitconfig" ]; then
   fi
 else
   echo "Creating $HOME/.gitconfig and including $CURRENT_DIR/gitconfig in it"
-  echo "$GIT_USER_NAME"
-  echo "$GIT_USER_EMAIL"
   touch $HOME/.gitconfig
   git config --global --type=path --add include.path $CURRENT_DIR/gitconfig
   git config --global user.name $GIT_USER_NAME
