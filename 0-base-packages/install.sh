@@ -17,6 +17,7 @@ setup-Darwin() {
   FORMULAE=(
     buf
     curl
+    fswatch
     htop
     jq
     mas
@@ -59,6 +60,7 @@ setup-debian() {
     build-essential
     ca-certificates
     curl
+    fswatch
     fuse-overlayfs
     gnupg
     hunspell
