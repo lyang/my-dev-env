@@ -40,7 +40,6 @@ for FILE_PATH in $(find $CURRENT_DIR/* -type f -iname config.sh); do
   echo "RUN /usr/bin/zsh -lc $REPO_NAME/$DIR_NAME/$FILE_NAME" >> $DOCKERFILE
 done
 
-echo "RUN echo 'source /home/$USER_NAME/.zshrc' >> /home/$USER_NAME/.zprofile" >> $DOCKERFILE
 echo 'CMD ["/usr/bin/zsh", "-l"]' >> $DOCKERFILE
 
 docker build -f $DOCKERFILE $CURRENT_DIR -t localhost/dev-env:latest
