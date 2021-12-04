@@ -17,3 +17,13 @@ else
   git config --global user.name $GIT_USER_NAME
   git config --global user.email $GIT_USER_EMAIL
 fi
+
+if [ -n "$GIT_USER_SIGNINGKEY" ]; then
+  echo "Setting user.signingkey: $GIT_USER_SIGNINGKEY"
+  git config --global user.signingkey $GIT_USER_SIGNINGKEY
+  git config --global commit.gpgsign true
+else
+  echo "Code Signing Key Not Found"
+fi
+
+curl -fsSL https://github.com/web-flow.gpg | gpg --quiet --import
