@@ -18,6 +18,7 @@ else
   git config --global user.email $GIT_USER_EMAIL
 fi
 
+GIT_USER_SIGNINGKEY=${GIT_USER_SIGNINGKEY:-$(git config --global user.signingkey)}
 if [ -n "$GIT_USER_SIGNINGKEY" ]; then
   echo "Setting user.signingkey: $GIT_USER_SIGNINGKEY"
   git config --global user.signingkey $GIT_USER_SIGNINGKEY

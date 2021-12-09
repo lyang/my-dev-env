@@ -18,9 +18,9 @@ else
 fi
 
 if [ $(uname) = "Darwin" ]; then
-  IDEA_DIR="$HOME/Library/Application Support/JetBrains/IdeaIC${IDEA_VERSION}/plugins"
+  IDEA_DIR="$HOME/Library/Application Support/JetBrains/IdeaIC$IDEA_VERSION/plugins"
 else
-  IDEA_DIR="$HOME/.local/share/JetBrains/IdeaIC${IDEA_VERSION}/plugins"
+  IDEA_DIR="$HOME/.local/share/JetBrains/IdeaIC$IDEA_VERSION/plugins"
 fi
 
 declare -A plugins
