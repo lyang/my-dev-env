@@ -15,5 +15,13 @@ else
   echo "source $CURRENT_DIR/init.vim" >> $HOME/.config/nvim/init.vim
 fi
 
+if [ -d $HOME/.vim-plug ]; then
+  git -C $HOME/.vim-plug pull
+else
+  git clone https://github.com/junegunn/vim-plug $HOME/.vim-plug
+fi
+
+mkdir -p $HOME/.local/share/nvim/site/autoload && ln -fs $HOME/.vim-plug/plug.vim $HOME/.local/share/nvim/site/autoload/plug.vim
+
 nvim -es -u $CURRENT_DIR/init.vim -i NONE -c "PlugInstall" -c "qa"
 nvim -es -u $CURRENT_DIR/init.vim -i NONE -c "TSUpdate" -c "qa"

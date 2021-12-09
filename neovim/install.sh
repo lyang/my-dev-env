@@ -1,19 +1,21 @@
 #!/bin/zsh
-set -o errexit
 
-if [ "$(command -v nvim)" = "" ]; then
-  if [ "$(uname)" = "Darwin" ]; then
-    brew install neovim
-  else
-    NVIM_DIR="/usr/local/nvim"
-    sudo sh -c " 
-    curl -sfLo $NVIM_DIR/nvim.appimage --create-dir https://github.com/neovim/neovim/releases/latest/download/nvim.appimage &&
-    chmod u+x $NVIM_DIR/nvim.appimage &&
-    cd $NVIM_DIR && $NVIM_DIR/nvim.appimage --appimage-extract &&
-    chmod -R a+rX $NVIM_DIR &&
-    ln -fs $NVIM_DIR/squashfs-root/AppRun /usr/local/bin/nvim
+if [ "$(uname)" = "Darwin" ]; then
+  brew install neovim
+else
+  NVIM_BUILD="v0.6.0"
+  NVIM_DIR="/opt/nvim/$NVIM_BUILD"
+  if [ ! -d "$NVIM_DIR" ]; then
+    sudo sh -c "
+      mkdir -p /opt/nvim/bin $NVIM_DIR && chmod -R a+rX /opt/nvim
+      curl -sfLo $NVIM_DIR/nvim.appimage https://github.com/neovim/neovim/releases/download/$NVIM_BUILD/nvim.appimage
+      chmod u+x $NVIM_DIR/nvim.appimage && cd $NVIM_DIR && $NVIM_DIR/nvim.appimage --appimage-extract
+      ln -fs $NVIM_DIR/squashfs-root/AppRun /opt/nvim/bin/nvim
     "
   fi
-  mkdir -p $HOME/.config/nvim/tmp $HOME/.config/nvim/undo
-  curl -sfLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  grep '^export PATH=/opt/nvim/bin:' /etc/zsh/zprofile &> /dev/null
+  if [ $? != 0 ]; then
+    sudo sh -c "echo 'export PATH=/opt/nvim/bin:\$PATH' >> /etc/zsh/zprofile"
+  fi
 fi

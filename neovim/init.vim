@@ -42,7 +42,7 @@ let g:ale_sign_column_always = 1
 " }}}
 
 " Vim-Plug {{{
-call plug#begin('~/.vim/plugged')
+call plug#begin('$HOME/.local/share/nvim/vim-plug')
 Plug 'airblade/vim-gitgutter'
 Plug 'arcticicestudio/nord-vim'
 Plug 'dense-analysis/ale'
