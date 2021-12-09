@@ -18,10 +18,9 @@ else
 fi
 
 if [ $(uname) = "Darwin" ]; then
-  IDEA_BUILD=$(brew info --cask intellij-idea-ce | head -n1 | grep -oE '202[0-9.]+')
-  IDEA_DIR="$HOME/Library/Application Support/JetBrains/IdeaIC${IDEA_BUILD:r}/plugins"
+  IDEA_DIR="$HOME/Library/Application Support/JetBrains/IdeaIC${IDEA_VERSION}/plugins"
 else
-  IDEA_DIR="$HOME/.local/share/JetBrains/IdeaIC2021.2/plugins"
+  IDEA_DIR="$HOME/.local/share/JetBrains/IdeaIC${IDEA_VERSION}/plugins"
 fi
 
 declare -A plugins
