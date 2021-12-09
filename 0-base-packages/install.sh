@@ -64,6 +64,7 @@ setup-debian() {
     fuse-overlayfs
     gnupg
     hunspell
+    jq
     less
     libbluetooth-dev
     libbz2-dev
