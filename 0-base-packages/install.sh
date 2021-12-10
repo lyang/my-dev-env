@@ -77,6 +77,7 @@ setup-debian() {
     libssl-dev
     libxml2-dev
     libxmlsec1-dev
+    libxtst6
     llvm
     locales
     lsb-release

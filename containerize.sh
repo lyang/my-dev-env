@@ -58,14 +58,18 @@ fi
 
 echo 'CMD ["/usr/bin/zsh", "-l"]' >> $DOCKERFILE
 
-docker build -f $DOCKERFILE $CURRENT_DIR -t localhost/dev-env:latest
+docker build -f $DOCKERFILE $CURRENT_DIR -t localhost/my-dot-file-container:latest
 
 GPG_AGENT_SOCK="$(gpgconf --list-dir agent-extra-socket)"
 
 docker run -it \
+  --env DISPLAY \
   --env SSH_AUTH_SOCK \
   --env TZ=$(cat /etc/timezone) \
+  --hostname my-dot-file-container \
   --volume $GPG_AGENT_SOCK:/home/$USER_NAME/.gnupg/S.gpg-agent \
   --volume $SSH_AUTH_SOCK:$SSH_AUTH_SOCK \
+  --volume $XAUTHORITY:$XAUTHORITY \
+  --volume /tmp/.X11-unix:/tmp/.X11-unix \
   --volume dev-env:/home/$USER_NAME/Code \
-  localhost/dev-env:latest
+  localhost/my-dot-file-container:latest
