@@ -18,17 +18,17 @@ else
 fi
 
 if [ $(uname) = "Darwin" ]; then
-  IDEA_DIR="$HOME/Library/Application Support/JetBrains/IdeaIC$IDEA_VERSION/plugins"
+  IDEA_DIR="$HOME/Library/Application Support/JetBrains/IdeaIC$IDEA_VERSION"
 else
-  IDEA_DIR="$HOME/.local/share/JetBrains/IdeaIC$IDEA_VERSION/plugins"
+  IDEA_DIR="$HOME/.local/share/JetBrains/IdeaIC$IDEA_VERSION"
 fi
 
 declare -A plugins
-plugins[AceJump]=119931
-plugins[Docker]=136123
-plugins[IdeaVIM]=137477
-plugins[Key-Promoter-X]=130615
-plugins[google-java-format]=115960
+plugins[AceJump]=145674
+plugins[Docker]=147217
+plugins[IdeaVIM]=144916
+plugins[Key-Promoter-X]=143746
+plugins[google-java-format]=146903
 
 mkdir -p $IDEA_DIR
 
