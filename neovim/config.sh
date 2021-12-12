@@ -2,6 +2,8 @@
 
 CURRENT_DIR=${0:A:h}
 
+mkdir -p "$HOME/.config/nvim"
+
 if [ -f "$HOME/.config/nvim/init.vim" ]; then
   grep "source $CURRENT_DIR/init.vim" $HOME/.config/nvim/init.vim &> /dev/null
   if [ $? = 0 ]; then
