@@ -3,9 +3,8 @@
 VERSIONS=(3.10.1 3.9.9 3.8.12 3.7.12)
 
 for version in $VERSIONS; do
-  pyenv install --skip-existing $version && pyenv local $version
-  pip install --upgrade pip
-  pip install podman-compose pre-commit pynvim pyright tox tox-pyenv
+  pyenv install --skip-existing $version
+  PYENV_VERSION=$version pip install --upgrade pip podman-compose pre-commit pynvim pyright tox tox-pyenv
 done
 
 pyenv global ${VERSIONS[1]}
