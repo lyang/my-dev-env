@@ -18,11 +18,12 @@ setup-Darwin() {
     buf
     curl
     fswatch
+    gnupg
+    graphviz
     htop
     jq
     mas
     openssl
-    gnupg
     pinentry-mac
     podman
     ripgrep
@@ -63,6 +64,7 @@ setup-debian() {
     fswatch
     fuse-overlayfs
     gnupg
+    graphviz
     hunspell
     jq
     less

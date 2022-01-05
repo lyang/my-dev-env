@@ -28,6 +28,7 @@ plugins[AceJump]=145674
 plugins[Docker]=147217
 plugins[IdeaVIM]=144916
 plugins[Key-Promoter-X]=143746
+plugins[PlantUML]=151310
 plugins[google-java-format]=146903
 
 mkdir -p $IDEA_DIR
