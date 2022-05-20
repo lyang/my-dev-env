@@ -3,7 +3,7 @@
 if [ "$(uname)" = "Darwin" ]; then
   brew install neovim
 else
-  NVIM_BUILD="v0.6.0"
+  NVIM_BUILD="v0.7.0"
   NVIM_DIR="/opt/nvim/$NVIM_BUILD"
   if [ ! -d "$NVIM_DIR" ]; then
     sudo sh -c "
