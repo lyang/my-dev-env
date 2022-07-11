@@ -171,7 +171,18 @@ EOF
 " nvim-treesitter Config {{{
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
+  ensure_installed = {
+    "bash",
+    "dockerfile",
+    "java",
+    "lua",
+    "python",
+    "ruby",
+    "rust",
+    "toml",
+    "vim",
+    "yaml",
+  },
   highlight = {
     enable = true
   },
