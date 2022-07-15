@@ -1,0 +1,22 @@
+---
+- name: "Create {{TMUX_PLUGIN_DIR}}"
+  ansible.builtin.file:
+    path: "{{TMUX_PLUGIN_DIR}}"
+    state: directory
+
+- name: "Git Clone tmux-plugins/tpm"
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm.git
+    dest: "{{TMUX_PLUGIN_DIR}}/tpm"
+  register: TFENV_REPO
+
+- name: "Git Clone tmux-plugins/tpm"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.tmux.conf"
+    line: source-file "{{role_path}}/files/tmux.conf"
+    create: yes
+
+- ansible.builtin.shell:
+    cmd: "{{ansible_env.HOME}}/.tmux/plugins/tpm/bin/install_plugins"
+  changed_when: false
+
