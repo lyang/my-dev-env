@@ -1,0 +1,13 @@
+---
+PYTHON_VERSIONS:
+  - 3.7.12
+  - 3.8.12
+  - 3.9.9
+  - 3.10.1
+PIP_PACKAGES:
+  - podman-compose
+  - pre-commit
+  - pynvim
+  - pyright
+  - tox
+  - tox-pyenv

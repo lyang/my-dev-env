@@ -1,0 +1,55 @@
+---
+- name: "Git Clone pyenv/pyenv"
+  ansible.builtin.git:
+    repo: https://github.com/pyenv/pyenv.git
+    dest: "{{ansible_env.HOME}}/.pyenv"
+  register: PYENV_REPO
+
+- name: "Git Clone pyenv/pyenv-virtualenv"
+  ansible.builtin.git:
+    repo: https://github.com/pyenv/pyenv-virtualenv.git
+    dest: "{{ansible_env.HOME}}/.pyenv/plugins/pyenv-virtualenv"
+  register: PYENV_VIRTUALENV_REPO
+
+- name: "Config And Make"
+  ansible.builtin.shell:
+    cmd: "src/configure && make -C src"
+    chdir: "{{ansible_env.HOME}}/.pyenv"
+  when: PYENV_REPO.changed or PYENV_VIRTUALENV_REPO.changed
+
+- name: "Config zsh Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.zshrc"
+    line: source {{role_path}}/files/pyenv.sh
+    create: yes
+
+- name: "Config bash Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.bashrc"
+    line: source {{role_path}}/files/pyenv.sh
+    create: yes
+
+- name: "List Installed Versions"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: |
+      source {{role_path}}/files/pyenv.sh
+      pyenv versions --bare
+  register: PYTHON_INSTALLED_VERSIONS
+  changed_when: false
+
+- name: "Install Python Versions"
+  ansible.builtin.include_tasks: "install.yaml"
+  loop: "{{PYTHON_VERSIONS}}"
+  loop_control:
+    loop_var: python_version
+  when: python_version not in PYTHON_INSTALLED_VERSIONS.stdout_lines
+
+- name: "Set Global Python Version"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: |
+      source {{role_path}}/files/pyenv.sh
+      pyenv global {{PYTHON_VERSIONS[-1]}}
+  when: PYTHON_VERSIONS|last != PYTHON_INSTALLED_VERSIONS.stdout_lines|last|default('N/A')
+
