@@ -1,0 +1,9 @@
+---
+RUBY_VERSIONS:
+  - 3.0.4
+  - 3.1.2
+GEM_PACKAGES:
+  - bundler
+  - neovim
+  - solargraph
+
