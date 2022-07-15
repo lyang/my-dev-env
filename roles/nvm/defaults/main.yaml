@@ -1,0 +1,7 @@
+---
+NVM_VERSION: v0.39.1
+NPM_PACKAGES:
+  - bash-language-server
+  - vim-language-server
+  - neovim
+  - tree-sitter-cli
