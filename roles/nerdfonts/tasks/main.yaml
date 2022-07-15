@@ -1,0 +1,14 @@
+---
+- name: "Git Clone ryanoasis/nerd-fonts"
+  ansible.builtin.git:
+    repo: https://github.com/ryanoasis/nerd-fonts.git
+    dest: "{{ansible_env.HOME}}/.nerd-fonts"
+
+- name: ".nerd-fonts/install.sh --clean --quiet"
+  ansible.builtin.shell:
+    cmd: git pull && ./install.sh --clean --quiet
+    chdir: "{{ansible_env.HOME}}/.nerd-fonts"
+  changed_when: false
+
+- name: "Set Font For {{TERMINAL}}"
+  ansible.builtin.include_tasks: "{{TERMINAL}}.yaml"

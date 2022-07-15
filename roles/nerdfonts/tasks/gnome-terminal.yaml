@@ -1,0 +1,12 @@
+---
+- name: "Find Default Profile"
+  ansible.builtin.shell:
+    cmd: "gsettings get {{GSETTINGS_PROFILELIST_PATH}} default | tr -d \\'"
+  register: GNOME_DEFAULT_PROFILE
+  changed_when: false
+
+- name: "Use '{{FONT}}' Font For Default Profile"
+  ansible.builtin.shell:
+    cmd: "dconf write {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/font \"'{{FONT}}'\""
+  changed_when: false
+
