@@ -1,0 +1,72 @@
+---
+- name: "Create {{IDEA_BIN_DIR}}"
+  ansible.builtin.file:
+    path: "{{IDEA_BIN_DIR}}"
+    state: directory
+    mode: "0755"
+  become: yes
+
+- name: "Create {{IDEA_CURRENT_DIR}}"
+  ansible.builtin.file:
+    path: "{{IDEA_CURRENT_DIR}}"
+    state: directory
+    mode: "0755"
+  become: yes
+  register: IDEA_CURRENT
+
+- name: "Create {{IDEA_TEMP_DIR}}"
+  ansible.builtin.file:
+    path: "{{IDEA_TEMP_DIR}}"
+    state: directory
+
+- name: "Download ideaIC-{{IDEA_BUILD}}.tar.gz"
+  ansible.builtin.get_url:
+    url: "https://download.jetbrains.com/idea/ideaIC-{{IDEA_BUILD}}.tar.gz"
+    dest: "{{IDEA_TEMP_DIR}}"
+  register: IDEA_INSTALLER
+  when: IDEA_CURRENT.changed
+
+- name: "Unarchive {{IDEA_INSTALLER.dest|basename}}"
+  ansible.builtin.unarchive:
+    src: "{{IDEA_INSTALLER.dest}}"
+    dest: "{{IDEA_CURRENT_DIR}}"
+    remote_src: yes
+    extra_opts:
+      - "--strip-components=1"
+      - "--ungzip"
+  become: yes
+  when: IDEA_INSTALLER.changed
+
+- name: "Create Symlink {{IDEA_BIN_DIR}}/idea"
+  ansible.builtin.file:
+    path: "{{IDEA_BIN_DIR}}/idea"
+    src: "{{IDEA_CURRENT_DIR}}/bin/idea.sh"
+    state: link
+  become: yes
+
+- name: "Add {{IDEA_BIN_DIR}} To PATH"
+  ansible.builtin.lineinfile:
+    path: "/etc/zsh/zshenv"
+    line: "export PATH={{IDEA_BIN_DIR}}:$PATH"
+    create: yes
+  become: yes
+
+- name: "Setup {{ansible_env.HOME}}/.ideavimrc"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.ideavimrc"
+    line: "source {{role_path}}/files/idea.vim"
+    create: yes
+
+- name: "Create {{IDEA_PLUGIN_DIR}}"
+  ansible.builtin.file:
+    path: "{{IDEA_PLUGIN_DIR}}"
+    state: directory
+    mode: "0775"
+
+- name: "Install Plugins"
+  ansible.builtin.include_tasks: plugin.yaml
+  loop: "{{IDEA_PLUGINS|dict2items}}"
+  loop_control:
+    loop_var: idea_plugin
+    label: "{{idea_plugin.key}}"
+
