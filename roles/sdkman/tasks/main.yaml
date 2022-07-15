@@ -1,0 +1,37 @@
+---
+- name: "Create {{SDKMAN_TEMP_DIR}}"
+  ansible.builtin.file:
+    path: "{{SDKMAN_TEMP_DIR}}"
+    state: directory
+
+- name: "Download SDKMAN Installer"
+  ansible.builtin.get_url:
+    url: "https://get.sdkman.io"
+    dest: "{{SDKMAN_TEMP_DIR}}"
+    mode: "0755"
+  register: SDKMAN_INSTALLER
+
+- name: "Install SDKMAN"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: "{{SDKMAN_INSTALLER.dest}}"
+  when: SDKMAN_INSTALLER.changed
+
+- name: "Config zsh Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.zshrc"
+    line: source {{role_path}}/files/sdkman.sh
+    create: yes
+
+- name: "Config bash Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.bashrc"
+    line: source {{role_path}}/files/sdkman.sh
+    create: yes
+
+- name: "Install SDKMAN Packages"
+  ansible.builtin.include_tasks: "install.yaml"
+  loop: "{{SDKMAN_PACKAGES|dict2items}}"
+  loop_control:
+    loop_var: sdkman_package
+

@@ -1,0 +1,15 @@
+---
+- name: "Get Installed Versions Of {{sdkman_package.key}}"
+  ansible.builtin.shell:
+    cmd: "ls $SDKMAN_CANDIDATES_DIR/{{sdkman_package.key}} || echo"
+  register: SDKMAN_PACKAGE_INSTALLED_VERSIONS
+  changed_when: false
+
+- name: "Install {{sdkman_package.key}}:{{sdkman_package.value}}"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: |
+      source "{{role_path}}/files/sdkman.sh"
+      sdk install {{sdkman_package.key}} {{sdkman_package.value}}
+  when: sdkman_package.value not in SDKMAN_PACKAGE_INSTALLED_VERSIONS.stdout_lines
+
