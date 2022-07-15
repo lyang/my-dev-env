@@ -1,0 +1,50 @@
+---
+- name: "NeoVim"
+  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+
+- name: "Create {{NEOVIM_CONFIG_DIR}}"
+  ansible.builtin.file:
+    path: "{{NEOVIM_CONFIG_DIR}}"
+    state: directory
+
+- name: "Setup {{NEOVIM_CONFIG_DIR}}/init.vim"
+  ansible.builtin.blockinfile:
+    path: "{{NEOVIM_CONFIG_DIR}}/init.vim"
+    marker: "\" {mark} ANSIBLE MANAGED BLOCK - NeoVim"
+    create: yes
+    block: |
+      source {{role_path}}/files/plugins.vim
+      source {{role_path}}/files/init.vim
+
+- name: "Git Clone junegunn/vim-plug"
+  ansible.builtin.git:
+    repo: https://github.com/junegunn/vim-plug
+    dest: "{{ansible_env.HOME}}/.vim-plug"
+
+- name: "Create NeoVim autoload Dir"
+  ansible.builtin.file:
+    path: "{{ansible_env.HOME}}/.local/share/nvim/site/autoload"
+    state: directory
+
+- name: "Symlink plug.vim To autoload Dir"
+  ansible.builtin.file:
+    src: "{{ansible_env.HOME}}/.vim-plug/plug.vim"
+    path: "{{ansible_env.HOME}}/.local/share/nvim/site/autoload/plug.vim"
+    state: link
+
+- name: "Install NeoVim Plugins"
+  ansible.builtin.shell:
+    cmd: "/opt/nvim/bin/nvim -es -u {{role_path}}/files/plugins.vim -i NONE -c PlugInstall -c PlugClean -c qa"
+  changed_when: false
+
+- name: "Install TreeSitter Language Parsers"
+  ansible.builtin.shell:
+    cmd: "/opt/nvim/bin/nvim -es -u {{role_path}}/files/plugins.vim -i NONE -c TSUpdateSync -c qa"
+  changed_when: false
+
+- name: "Set EDITOR To nvim"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.zshenv"
+    line: export EDITOR='nvim'
+    create: yes
+
