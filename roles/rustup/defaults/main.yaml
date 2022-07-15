@@ -1,0 +1,7 @@
+---
+RUSTUP_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/rustup"
+CARGO_PACKAGES:
+  - bat
+  - fd-find
+  - git-delta
+
