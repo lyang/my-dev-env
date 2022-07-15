@@ -1,0 +1,12 @@
+---
+- name: "Download {{idea_plugin.key}}"
+  ansible.builtin.get_url:
+    url: "https://plugins.jetbrains.com/plugin/download?rel=true&updateId={{idea_plugin.value}}"
+    dest: "{{IDEA_TEMP_DIR}}"
+  register: IDEA_PLUGIN_ARCHIVE
+
+- name: "Unarchive {{idea_plugin.key}}"
+  ansible.builtin.unarchive:
+    src: "{{IDEA_PLUGIN_ARCHIVE.dest}}"
+    dest: "{{IDEA_PLUGIN_DIR}}"
+    remote_src: yes

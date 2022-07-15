@@ -1,0 +1,4 @@
+---
+- name: IntelliJ IDEA CE
+  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+
