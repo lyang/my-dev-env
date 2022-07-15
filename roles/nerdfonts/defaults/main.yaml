@@ -1,0 +1,8 @@
+---
+DCONF_PROFILE_BASE_PATH: "/org/gnome/terminal/legacy/profiles"
+GSETTINGS_PROFILELIST_PATH: "org.gnome.Terminal.ProfilesList"
+FONT:
+  DIR: patched-fonts/Meslo
+  NAME: MesloLGS Nerd Font Mono
+  SIZE: 14
+TERMINAL: "gnome-terminal"

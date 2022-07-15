@@ -9,4 +9,5 @@
     cmd: "./nord.sh"
     chdir: "{{ansible_env.HOME}}/.nord-gnome-terminal/src"
   changed_when: false
+  when: ansible_env.DISPLAY is defined
 

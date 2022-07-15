@@ -1,0 +1,17 @@
+---
+- name: "Find Default Profile"
+  ansible.builtin.shell:
+    cmd: "gsettings get {{GSETTINGS_PROFILELIST_PATH}} default | tr -d \\'"
+  register: GNOME_DEFAULT_PROFILE
+  changed_when: false
+
+- name: "Get Current Font Of Default Profile"
+  ansible.builtin.shell:
+    cmd: "dconf read {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/font"
+  register: NERD_FONTS_CURRENT
+
+- name: "Use '{{FONT.NAME}}' For Default Profile"
+  ansible.builtin.shell:
+    cmd: "dconf write {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/font \"'{{FONT.NAME}} {{FONT.SIZE}}'\""
+  when: FONT.NAME not in NERD_FONTS_CURRENT.stdout
+

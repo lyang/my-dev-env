@@ -45,10 +45,24 @@
     state: link
   become: yes
 
-- name: "Add {{NEOVIM_BIN_DIR}} To PATH"
+- name: "Add {{NEOVIM_BIN_DIR}} To ZSH PATH"
   ansible.builtin.lineinfile:
     path: "/etc/zsh/zshenv"
     line: "export PATH={{NEOVIM_BIN_DIR}}:$PATH"
+    create: yes
+  become: yes
+
+- name: "Add {{NEOVIM_BIN_DIR}} To BASH PATH"
+  ansible.builtin.lineinfile:
+    path: "/etc/profile.d/nvim.sh"
+    line: "export PATH={{NEOVIM_BIN_DIR}}:$PATH"
+    create: yes
+  become: yes
+
+- name: "Set EDITOR To nvim"
+  ansible.builtin.lineinfile:
+    path: "/etc/environment"
+    line: "EDITOR='{{NEOVIM_BIN_DIR}}/nvim'"
     create: yes
   become: yes
 

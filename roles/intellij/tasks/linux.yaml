@@ -44,17 +44,24 @@
     state: link
   become: yes
 
-- name: "Add {{IDEA_BIN_DIR}} To PATH"
+- name: "Add {{IDEA_BIN_DIR}} To ZSH PATH"
   ansible.builtin.lineinfile:
     path: "/etc/zsh/zshenv"
-    line: "export PATH={{IDEA_BIN_DIR}}:$PATH"
+    line: export PATH="{{IDEA_BIN_DIR}}:$PATH"
+    create: yes
+  become: yes
+
+- name: "Add {{IDEA_BIN_DIR}} To BASH PATH"
+  ansible.builtin.lineinfile:
+    path: "/etc/profile.d/idea.sh"
+    line: export PATH="{{IDEA_BIN_DIR}}:$PATH"
     create: yes
   become: yes
 
 - name: "Setup {{ansible_env.HOME}}/.ideavimrc"
   ansible.builtin.lineinfile:
     path: "{{ansible_env.HOME}}/.ideavimrc"
-    line: "source {{role_path}}/files/idea.vim"
+    line: source "{{role_path}}/files/idea.vim"
     create: yes
 
 - name: "Create {{IDEA_PLUGIN_DIR}}"

@@ -34,17 +34,11 @@
 
 - name: "Install NeoVim Plugins"
   ansible.builtin.shell:
-    cmd: "/opt/nvim/bin/nvim -es -u {{role_path}}/files/plugins.vim -i NONE -c PlugInstall -c PlugClean -c qa"
+    cmd: "/opt/nvim/bin/nvim -e -u {{role_path}}/files/plugins.vim -i NONE -c PlugInstall -c PlugClean -c qa"
   changed_when: false
 
 - name: "Install TreeSitter Language Parsers"
   ansible.builtin.shell:
-    cmd: "/opt/nvim/bin/nvim -es -u {{role_path}}/files/plugins.vim -i NONE -c TSUpdateSync -c qa"
+    cmd: "/opt/nvim/bin/nvim -e -u {{role_path}}/files/plugins.vim -i NONE -c TSUpdateSync -c qa"
   changed_when: false
-
-- name: "Set EDITOR To nvim"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshenv"
-    line: export EDITOR='nvim'
-    create: yes
 

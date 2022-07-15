@@ -1,0 +1,38 @@
+---
+- name: "Check previous checkout"
+  ansible.builtin.stat:
+    path: "{{ansible_env.HOME}}/.nerd-fonts"
+  register: NERD_FONTS_DIR
+
+- name: "Sparse Checkout ryanoasis/nerd-fonts"
+  ansible.builtin.shell:
+    cmd: git clone --filter=blob:none --sparse https://github.com/ryanoasis/nerd-fonts .nerd-fonts
+    chdir: "{{ansible_env.HOME}}"
+  when: not NERD_FONTS_DIR.stat.exists
+
+- name: "Check {{FONT.DIR}}"
+  ansible.builtin.stat:
+    path: "{{ansible_env.HOME}}/.nerd-fonts/{{FONT.DIR}}"
+  register: NERD_FONTS_FONT_DIR
+
+- name: "Sparse Checkout {{FONT.DIR}}"
+  ansible.builtin.shell:
+    cmd: git sparse-checkout add {{FONT.DIR}}
+    chdir: "{{ansible_env.HOME}}/.nerd-fonts"
+  when: not NERD_FONTS_FONT_DIR.stat.exists
+
+- name: "Git Pull ryanoasis/nerd-fonts"
+  ansible.builtin.git:
+    repo: https://github.com/ryanoasis/nerd-fonts.git
+    dest: "{{ansible_env.HOME}}/.nerd-fonts"
+  register: NERD_FONTS_REPO
+
+- name: ".nerd-fonts/install.sh --clean --quiet"
+  ansible.builtin.shell:
+    cmd: git pull && ./install.sh --clean --quiet
+    chdir: "{{ansible_env.HOME}}/.nerd-fonts"
+  when: NERD_FONTS_REPO.changed
+
+- name: "Set Font For {{TERMINAL}}"
+  ansible.builtin.include_tasks: "{{TERMINAL}}.yaml"
+  when: NERD_FONTS_REPO.changed
