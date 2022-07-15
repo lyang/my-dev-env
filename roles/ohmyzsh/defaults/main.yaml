@@ -1,0 +1,10 @@
+---
+PLUGINS:
+  - colored-man-pages
+  - command-not-found
+  - git
+  - gpg-agent
+  - nvm
+  - sdk
+  - terraform
+  - tmux
