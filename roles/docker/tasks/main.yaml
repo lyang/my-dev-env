@@ -1,0 +1,21 @@
+---
+- name: "Setup For {{ansible_os_family}}"
+  ansible.builtin.include_tasks: "{{ansible_os_family|lower}}.yaml"
+
+- name: "Install Packages"
+  become: yes
+  ansible.builtin.package:
+    name:
+      - containerd.io
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose-plugin
+    state: latest
+    update_cache: yes
+  
+- name: "Add {{ansible_user_id}} to docker group"
+  become: yes
+  ansible.builtin.user:
+    name: "{{ansible_user_id}}"
+    groups: docker
+    append: yes
