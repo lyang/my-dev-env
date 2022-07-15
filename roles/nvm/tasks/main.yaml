@@ -1,0 +1,77 @@
+---
+- name: "Git Clone nvm-sh/nvm"
+  ansible.builtin.git:
+    repo: https://github.com/nvm-sh/nvm.git
+    dest: "{{ansible_env.HOME}}/.nvm-sh"
+    version: "{{NVM_VERSION}}"
+  register: NVM_REPO
+
+- name: "Config zsh Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.zshrc"
+    line: source {{role_path}}/files/nvm.sh
+    create: yes
+
+- name: "Config bash Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.bashrc"
+    line: source {{role_path}}/files/nvm.sh
+    create: yes
+
+- name: "Install nvm"
+  ansible.builtin.shell:
+    cmd: "./install.sh"
+    chdir: "{{ansible_env.HOME}}/.nvm-sh"
+  when: NVM_REPO.changed
+
+- name: "Get Current Node Version"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: |
+      source {{role_path}}/files/nvm.sh
+      nvm run --lts -v | tail -n 1
+  register: NODE_CURRENT_LTS
+  changed_when: false
+
+- name: "Get Latest Node Version"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: |
+      source {{role_path}}/files/nvm.sh
+      nvm ls-remote --lts --no-colors | tail -n 1 | grep -E -o '(v[^ ]*)'
+  register: NODE_LATEST_LTS
+  changed_when: false
+
+- name: "Install Latest Node Version"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: |
+      source {{role_path}}/files/nvm.sh
+      nvm install --lts --latest-npm
+  when: NODE_CURRENT_LTS.stdout != NODE_LATEST_LTS.stdout
+
+- name: "Create Default Alias"
+  ansible.builtin.copy:
+    dest: "{{ansible_env.HOME}}/.nvm/alias/default"
+    content: "lts/*"
+
+- name: "Find Installed Packages"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: |
+      source {{role_path}}/files/nvm.sh
+      npm list --global --parsable --depth=0 | grep --perl-regex --only-matching --color=never '[^ ]*(?=@)'
+  register: NPM_INSTALLED_PACKAGES
+  changed_when: false
+
+- name: "Install NPM Packages"
+  ansible.builtin.shell:
+    executable: "/usr/bin/zsh"
+    cmd: |
+      source {{role_path}}/files/nvm.sh
+      npm install --global {{npm_package}}
+  loop_control:
+    loop_var: npm_package
+  loop: "{{NPM_PACKAGES}}"
+  changed_when: npm_package not in NPM_INSTALLED_PACKAGES.stdout_lines
+
