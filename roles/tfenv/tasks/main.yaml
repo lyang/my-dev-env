@@ -1,0 +1,29 @@
+---
+- name: "Git Clone tfutils/tfenv"
+  ansible.builtin.git:
+    repo: https://github.com/tfutils/tfenv.git
+    dest: "{{ansible_env.HOME}}/.tfenv"
+  register: TFENV_REPO
+
+- name: "Set PATH"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.zshenv"
+    line: export PATH="$HOME/.tfenv/bin:$PATH"
+
+- name: "Get Latest Terraform Version"
+  ansible.builtin.shell:
+    cmd: $HOME/.tfenv/bin/tfenv list-remote | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1
+  register: TERRAFORM_LATEST
+  changed_when: false
+
+- name: "Get Installed Terraform Version"
+  ansible.builtin.shell:
+    cmd: $HOME/.tfenv/bin/tfenv list | grep --extended-regexp --only-matching --color=never '[0-9]+\.[0-9]+\.[0-9]+' || echo 'N/A'
+  register: TERRAFORM_INSTALLED
+  changed_when: false
+
+- name: "Install Latest Terraform Version"
+  ansible.builtin.shell:
+    cmd: "$HOME/.tfenv/bin/tfenv install latest"
+  when: TERRAFORM_LATEST.stdout not in TERRAFORM_INSTALLED.stdout_lines
+
