@@ -2,6 +2,7 @@
 - name: "Git Clone ryanoasis/nerd-fonts"
   ansible.builtin.git:
     repo: https://github.com/ryanoasis/nerd-fonts.git
+    depth: 1
     dest: "{{ansible_env.HOME}}/.nerd-fonts"
 
 - name: ".nerd-fonts/install.sh --clean --quiet"
