@@ -10,10 +10,13 @@
       - bison
       - build-essential
       - ca-certificates
+      - coreutils
       - curl
+      - dconf-cli
       - fswatch
       - fuse-overlayfs
       - git
+      - gnome-terminal
       - gnupg
       - graphviz
       - hunspell
