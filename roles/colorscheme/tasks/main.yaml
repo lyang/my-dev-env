@@ -1,0 +1,4 @@
+---
+- name: "Set Color Scheme For {{TERMINAL}}"
+  ansible.builtin.include_tasks: "{{TERMINAL}}.yaml"
+

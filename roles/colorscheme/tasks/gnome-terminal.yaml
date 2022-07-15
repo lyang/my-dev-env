@@ -1,0 +1,12 @@
+---
+- name: "Git Clone arcticicestudio/nord-gnome-terminal"
+  ansible.builtin.git:
+    repo: https://github.com/arcticicestudio/nord-gnome-terminal.git
+    dest: "{{ansible_env.HOME}}/.nord-gnome-terminal"
+
+- name: "Install Nord Color Scheme For {{TERMINAL}}"
+  ansible.builtin.shell:
+    cmd: "./nord.sh"
+    chdir: "{{ansible_env.HOME}}/.nord-gnome-terminal/src"
+  changed_when: false
+
