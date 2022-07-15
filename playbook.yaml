@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tasks:
+    - ansible.builtin.shell: "ls roles"
+      register: ROLES
+      changed_when: false
+
+    - name: Include All Roles
+      ansible.builtin.include_role:
+        name: "{{item}}"
+      loop: "{{ROLES.stdout_lines}}"

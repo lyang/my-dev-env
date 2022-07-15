@@ -1,14 +1,28 @@
-#!/bin/zsh
+#!/bin/bash
 set -o errexit
 
-CURRENT_DIR=${0:A:h}
+CURRENT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-for install in $(find $CURRENT_DIR/* -type f -iname install.sh); do
-  $install
-done
+setup() {
+  setup-$(uname)
+  ansible-galaxy collection install community.general
+  ansible-playbook $CURRENT_DIR/playbook.yaml --inventory $CURRENT_DIR/inventory.yaml
+}
 
-for config in $(find $CURRENT_DIR/* -type f -iname config.sh); do
-  zsh -lc $config
-done
+setup-Linux() {
+  DISTRO=$(grep '^ID=' /etc/os-release | cut -d '=' -f 2 | tr -d "'\"")
+  echo "Setting up $DISTRO"
+  setup-$DISTRO
+}
 
+setup-ubuntu() {
+  setup-debian
+}
+
+setup-debian() {
+  sudo apt-get update
+  sudo apt-get install -y --no-install-recommends ansible
+}
+
+setup
 echo 'Setup finished. Please restart your terminal'
