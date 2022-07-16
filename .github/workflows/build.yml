@@ -13,6 +13,15 @@ jobs:
         os: ["ubuntu"]
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            /home/runner/.pyenv
+            /home/runner/.rbenv
+            /home/runner/.sdkman
+            /home/runner/.cargo
+            /home/runner/.nvm
+          key: ${{ matrix.os }}
       - name: setup
         run: ./setup.sh
       
