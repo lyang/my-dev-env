@@ -5,16 +5,23 @@
     dest: "{{ansible_env.HOME}}/.tfenv"
   register: TFENV_REPO
 
-- name: "Set PATH"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshenv"
-    line: export PATH="$HOME/.tfenv/bin:$PATH"
-
 - name: "Get Latest Terraform Version"
   ansible.builtin.shell:
     cmd: $HOME/.tfenv/bin/tfenv list-remote | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1
   register: TERRAFORM_LATEST
   changed_when: false
+
+- name: "Config zsh Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.zshrc"
+    line: source {{role_path}}/files/tfenv.sh
+    create: yes
+
+- name: "Config bash Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.bashrc"
+    line: source {{role_path}}/files/tfenv.sh
+    create: yes
 
 - name: "Get Installed Terraform Version"
   ansible.builtin.shell:
@@ -26,4 +33,3 @@
   ansible.builtin.shell:
     cmd: "$HOME/.tfenv/bin/tfenv install latest"
   when: TERRAFORM_LATEST.stdout not in TERRAFORM_INSTALLED.stdout_lines
-

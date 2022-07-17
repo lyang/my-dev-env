@@ -1,0 +1,17 @@
+---
+- name: "Create {{POETRY_TEMP_DIR}}"
+  ansible.builtin.file:
+    path: "{{POETRY_TEMP_DIR}}"
+    state: directory
+
+- name: "Download Poetry Installer"
+  ansible.builtin.get_url:
+    url: " https://install.python-poetry.org"
+    dest: "{{POETRY_TEMP_DIR}}"
+  register: POETRY_INSTALLER
+
+- name: "Install Poetry"
+  ansible.builtin.shell:
+    cmd: "python3 {{POETRY_INSTALLER.dest}}"
+  when: POETRY_INSTALLER.changed
+
