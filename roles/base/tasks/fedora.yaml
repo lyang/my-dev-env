@@ -3,5 +3,5 @@
   become: yes
   ansible.builtin.package:
     state: latest
-    name: "{{REQUIRED_PACKAGES['debian'] + OPTIONAL_PACKAGES['debian']}}"
+    name: "{{REQUIRED_PACKAGES['fedora'] + OPTIONAL_PACKAGES['fedora']}}"
 

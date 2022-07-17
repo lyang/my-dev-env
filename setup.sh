@@ -24,5 +24,9 @@ setup-debian() {
   sudo apt-get install -y --no-install-recommends ansible
 }
 
+setup-fedora() {
+  sudo dnf install --refresh --assumeyes ansible
+}
+
 setup
 echo 'Setup finished. Please restart your terminal'

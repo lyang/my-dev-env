@@ -1,6 +1,6 @@
 ---
-- name: "Setup For {{ansible_os_family}}"
-  ansible.builtin.include_tasks: "{{ansible_os_family|lower}}.yaml"
+- name: "Setup For {{ansible_distribution}}"
+  ansible.builtin.include_tasks: "{{ansible_distribution|lower}}.yaml"
 
 - name: "Install Packages"
   become: yes

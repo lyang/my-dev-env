@@ -17,8 +17,8 @@ create-dockerfile() {
   rm -rf $DOCKERFILE
   write "FROM docker.io/$DISTRO:$TAG"
   write "ENV LANG=en_US.UTF-8"
-  setup-for-$DISTRO
-  write "RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen"
+  base-package-for-$DISTRO
+  locale-for-$DISTRO
   write "RUN useradd -u $USER_ID -U -m $USER_NAME"
   write "RUN sed -i 's/^SHELL=\/bin\/sh/SHELL=\/usr\/bin\/zsh/g' /etc/default/useradd"
   write "RUN echo '$USER_NAME ALL=(root) NOPASSWD:ALL' >> /etc/sudoers.d/$USER_NAME"
@@ -26,32 +26,31 @@ create-dockerfile() {
   write "USER $USER_NAME"
   write "WORKDIR /home/$USER_NAME"
   write "COPY --chown=$USER_NAME:$USER_NAME . $CURRENT_DIR"
-  run-for-$DISTRO
-  write "CMD [\"/usr/bin/zsh\", \"-l\"]"
-}
-
-setup-for-ubuntu() {
-  setup-for-debian
-}
-
-run-for-ubuntu() {
-  run-for-debian
-}
-
-setup-for-debian() {
-  write "RUN apt-get update && apt-get install -y dbus locales sudo"
-}
-
-run-for-debian() {
   write "RUN dbus-run-session $CURRENT_DIR/setup.sh"
 }
 
-setup-for-fedora() {
-  echo ""
+base-package-for-ubuntu() {
+  base-package-for-debian
 }
 
-run-for-fedora() {
-  echo ""
+locale-for-ubuntu() {
+  locale-for-debian
+}
+
+base-package-for-debian() {
+  write "RUN apt-get update && apt-get install -y dbus locales sudo"
+}
+
+locale-for-debian() {
+  write "RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen"
+}
+
+base-package-for-fedora() {
+  write "RUN dnf install --assumeyes glibc-locale-source glibc-langpack-en dbus-daemon"
+}
+
+locale-for-fedora() {
+  write "RUN localedef -i en_US -f UTF-8 en_US.UTF-8"
 }
 
 write() {
@@ -61,3 +60,4 @@ write() {
 create-dockerfile
 
 docker build -f $DOCKERFILE -t localhost/my-dot-file-container:$DISTRO-$TAG $CURRENT_DIR
+

@@ -1,5 +1,15 @@
 ---
-- name: Install Packages
+- name: Install Common Packages
   ansible.builtin.include_tasks:
-    file: "{{ansible_os_family|lower}}.yaml"
+    file: "common.yaml"
+
+- name: Install {{ansible_distribution}} Packages
+  ansible.builtin.include_tasks:
+    file: "{{ansible_distribution|lower}}.yaml"
+
+- name: "Set Default Shell For {{ansible_user_id}}"
+  ansible.builtin.user:
+    name: "{{ansible_user_id}}"
+    shell: "/usr/bin/zsh"
+  become: yes
 

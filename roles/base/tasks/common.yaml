@@ -1,0 +1,7 @@
+---
+- name: Install Common Packages
+  become: yes
+  ansible.builtin.package:
+    state: latest
+    name: "{{REQUIRED_PACKAGES['common'] + OPTIONAL_PACKAGES['common']}}"
+

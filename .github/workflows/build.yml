@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu", "debian"]
+        os: ["ubuntu", "debian", "fedora"]
     steps:
       - uses: actions/checkout@v3
       - name: "setup ${{ matrix.os }}"

@@ -59,10 +59,15 @@
     create: yes
   become: yes
 
-- name: "Set EDITOR To nvim"
+- name: "Config zsh Environment"
   ansible.builtin.lineinfile:
-    path: "/etc/environment"
-    line: "EDITOR='{{NEOVIM_BIN_DIR}}/nvim'"
+    path: "{{ansible_env.HOME}}/.zshrc"
+    line: source {{role_path}}/files/nvim.sh
     create: yes
-  become: yes
+
+- name: "Config bash Environment"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.bashrc"
+    line: source {{role_path}}/files/nvim.sh
+    create: yes
 
