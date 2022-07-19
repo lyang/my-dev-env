@@ -5,6 +5,7 @@ Started with simple dot files for various tools, this has grown into a full blow
 * [![Debian](https://github.com/lyang/my-dot-files/actions/workflows/debian.yml/badge.svg)](https://github.com/lyang/my-dot-files/actions/workflows/debian.yml)
 * [![Ubuntu](https://github.com/lyang/my-dot-files/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/lyang/my-dot-files/actions/workflows/ubuntu.yml)
 * [![Fedora](https://github.com/lyang/my-dot-files/actions/workflows/fedora.yml/badge.svg)](https://github.com/lyang/my-dot-files/actions/workflows/fedora.yml)
+* [![MacOS](https://github.com/lyang/my-dot-files/actions/workflows/macos.yml/badge.svg)](https://github.com/lyang/my-dot-files/actions/workflows/macos.yml)
 
 ## Included setups
 * OS packages
