@@ -1,0 +1,26 @@
+---
+- name: "Install Homebrew Casks"
+  community.general.homebrew_cask:
+    accept_external_apps: yes
+    state: latest
+    name: "{{HOMEBREW_CASK_PACKAGES}}"
+
+- name: "Install {{ansible_distribution}} Packages"
+  ansible.builtin.package:
+    state: latest
+    name: "{{HOMEBREW_PACKAGES}}"
+
+- name: "Add gnu-tar to ZSH PATH"
+  ansible.builtin.lineinfile:
+    path: "/etc/zsh/zshenv"
+    line: export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+    create: yes
+  become: yes
+
+- name: "Add gnu-tar to BASH PATH"
+  ansible.builtin.lineinfile:
+    path: "/etc/profile.d/gnu-tar.sh"
+    line: export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+    create: yes
+  become: yes
+

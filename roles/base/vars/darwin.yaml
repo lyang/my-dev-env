@@ -1,0 +1,12 @@
+---
+HOMEBREW_CASK_PACKAGES:
+  - iterm2
+
+HOMEBREW_PACKAGES:
+  - coreutils
+  - gnu-tar
+  - grep
+  - openssl
+  - python3
+  - tmux
+  - zsh
