@@ -3,11 +3,12 @@
   ansible.builtin.git:
     repo: https://github.com/arcticicestudio/nord-gnome-terminal.git
     dest: "{{ansible_env.HOME}}/.nord-gnome-terminal"
+  register: NORD_GNOME_TERMINAL_REPO
 
-- name: "Install Nord Color Scheme For {{TERMINAL}}"
+- name: "Install Nord Color Scheme For Gnome Terminal"
   ansible.builtin.shell:
     cmd: "./nord.sh"
     chdir: "{{ansible_env.HOME}}/.nord-gnome-terminal/src"
   changed_when: false
-  when: ansible_env.DISPLAY is defined
+  when: NORD_GNOME_TERMINAL_REPO.changed
 
