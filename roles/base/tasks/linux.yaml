@@ -5,3 +5,7 @@
     state: latest
     name: "{{REQUIRED_PACKAGES['common'] + OPTIONAL_PACKAGES['common']}}"
 
+- name: Install {{ansible_distribution}} Packages
+  ansible.builtin.include_tasks:
+    file: "distros/{{ansible_distribution|lower}}.yaml"
+

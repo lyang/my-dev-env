@@ -1,11 +1,9 @@
 ---
-- name: Install Common Packages
-  ansible.builtin.include_tasks:
-    file: "common.yaml"
+- name: Include {{ansible_system}} Variables
+  ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
 
-- name: Install {{ansible_distribution}} Packages
-  ansible.builtin.include_tasks:
-    file: "{{ansible_distribution|lower}}.yaml"
+- name: Install {{ansible_system}} Packages
+  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
 
 - name: "Set Default Shell For {{ansible_user_id}}"
   ansible.builtin.user:
