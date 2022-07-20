@@ -1,4 +1,7 @@
 ---
+- name: Include {{TERMINALS[ansible_system|lower]}} Variables
+  ansible.builtin.include_vars: "{{TERMINALS[ansible_system|lower]}}.yaml"
+
 - name: "Find Default Profile"
   ansible.builtin.shell:
     cmd: "gsettings get {{GSETTINGS_PROFILELIST_PATH}} default | tr -d \\'"
