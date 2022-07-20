@@ -1,5 +1,6 @@
 ---
 HOMEBREW_CASK_PACKAGES:
+  - docker
   - iterm2
 
 HOMEBREW_PACKAGES:
