@@ -31,7 +31,7 @@
 
 - name: "List Installed Versions"
   ansible.builtin.shell:
-    executable: "/usr/bin/zsh"
+    executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/pyenv.sh
       pyenv versions --bare
@@ -47,7 +47,7 @@
 
 - name: "Set Global Python Version"
   ansible.builtin.shell:
-    executable: "/usr/bin/zsh"
+    executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/pyenv.sh
       pyenv global {{PYTHON_VERSIONS[-1]}}
