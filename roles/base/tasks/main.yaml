@@ -2,12 +2,21 @@
 - name: Include {{ansible_system}} Variables
   ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
 
+- name: "Find ZSH Executable"
+  ansible.builtin.shell: "which zsh"
+  register: ZSH_EXECUTABLE
+  changed_when: false
+
+- name: "Add ZSH Path as Fact"
+  ansible.builtin.set_fact:
+    ZSH_PATH: "{{ZSH_EXECUTABLE.stdout}}"
+
 - name: Install {{ansible_system}} Packages
   ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
 
 - name: "Set Default Shell For {{ansible_user_id}}"
   ansible.builtin.user:
     name: "{{ansible_user_id}}"
-    shell: "/usr/bin/zsh"
+    shell: "{{ZSH_PATH}}"
   become: yes
 

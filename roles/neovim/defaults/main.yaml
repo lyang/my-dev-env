@@ -1,7 +1,4 @@
 ---
-NEOVIM_BUILD: "v0.7.2"
-NEOVIM_DIR: "/opt/nvim"
-NEOVIM_BIN_DIR: "{{NEOVIM_DIR}}/bin"
-NEOVIM_CURRENT_DIR: "{{NEOVIM_DIR}}/{{NEOVIM_BUILD}}"
 NEOVIM_CONFIG_DIR: "{{ansible_env.HOME}}/.config/nvim"
-NEOVIM_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/neovim"
+NEOVIM_AUTOLOAD_DIR: "{{ansible_env.HOME}}/.local/share/nvim/site/autoload"
+

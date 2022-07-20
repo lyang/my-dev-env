@@ -23,22 +23,18 @@
 
 - name: "Create NeoVim autoload Dir"
   ansible.builtin.file:
-    path: "{{ansible_env.HOME}}/.local/share/nvim/site/autoload"
+    path: "{{NEOVIM_AUTOLOAD_DIR}}"
     state: directory
 
 - name: "Symlink plug.vim To autoload Dir"
   ansible.builtin.file:
     src: "{{ansible_env.HOME}}/.vim-plug/plug.vim"
-    path: "{{ansible_env.HOME}}/.local/share/nvim/site/autoload/plug.vim"
+    path: "{{NEOVIM_AUTOLOAD_DIR}}/plug.vim"
     state: link
 
 - name: "Install NeoVim Plugins"
   ansible.builtin.shell:
-    cmd: "/opt/nvim/bin/nvim -e -u {{role_path}}/files/plugins.vim -i NONE -c PlugInstall -c PlugClean -c qa"
-  changed_when: false
-
-- name: "Install TreeSitter Language Parsers"
-  ansible.builtin.shell:
-    cmd: "/opt/nvim/bin/nvim -e -u {{role_path}}/files/plugins.vim -i NONE -c TSUpdateSync -c qa"
+    executable: "{{ZSH_PATH}}"
+    cmd: "nvim -e -u {{role_path}}/files/plugins.vim -i NONE -c PlugInstall -c PlugClean! -c qa"
   changed_when: false
 

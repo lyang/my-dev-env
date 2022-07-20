@@ -26,7 +26,7 @@
 
 - name: "Get Current Node Version"
   ansible.builtin.shell:
-    executable: "/usr/bin/zsh"
+    executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/nvm.sh
       nvm run --lts -v | tail -n 1
@@ -35,7 +35,7 @@
 
 - name: "Get Latest Node Version"
   ansible.builtin.shell:
-    executable: "/usr/bin/zsh"
+    executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/nvm.sh
       nvm ls-remote --lts --no-colors | tail -n 1 | grep -E -o '(v[^ ]*)'
@@ -44,7 +44,7 @@
 
 - name: "Install Latest Node Version"
   ansible.builtin.shell:
-    executable: "/usr/bin/zsh"
+    executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/nvm.sh
       nvm install --lts --latest-npm
@@ -57,7 +57,7 @@
 
 - name: "Find Installed Packages"
   ansible.builtin.shell:
-    executable: "/usr/bin/zsh"
+    executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/nvm.sh
       npm list --global --parsable --depth=0 | grep --perl-regex --only-matching --color=never '[^ ]*(?=@)'
@@ -66,7 +66,7 @@
 
 - name: "Install NPM Packages"
   ansible.builtin.shell:
-    executable: "/usr/bin/zsh"
+    executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/nvm.sh
       npm install --global {{npm_package}}

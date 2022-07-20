@@ -1,4 +1,7 @@
 ---
+- name: Include {{ansible_system}} Variables
+  ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
+
 - name: "Create {{NEOVIM_BIN_DIR}}"
   ansible.builtin.file:
     path: "{{NEOVIM_BIN_DIR}}"
@@ -31,12 +34,14 @@
     dest: "{{NEOVIM_CURRENT_DIR}}"
     mode: "0755"
   become: yes
+  when: NEOVIM_APPIMAGE.changed
 
 - name: "Extract nvim.appimage"
   ansible.builtin.shell:
     cmd: ./nvim.appimage --appimage-extract
     chdir: "{{NEOVIM_CURRENT_DIR}}"
   become: yes
+  when: NEOVIM_APPIMAGE.changed
 
 - name: "Symlink nvim.appimage to {{NEOVIM_BIN_DIR}}/nvim"
   ansible.builtin.file:
