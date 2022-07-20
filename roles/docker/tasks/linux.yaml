@@ -20,10 +20,3 @@
     groups: docker
     append: yes
 
-- name: "Start docker service"
-  become: yes
-  ansible.builtin.systemd:
-    name: docker
-    state: started
-    enabled: yes
-

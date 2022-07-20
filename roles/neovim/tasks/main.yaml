@@ -34,7 +34,6 @@
 
 - name: "Install NeoVim Plugins"
   ansible.builtin.shell:
-    executable: "{{ZSH_PATH}}"
     cmd: "nvim -e -u {{role_path}}/files/plugins.vim -i NONE -c PlugInstall -c PlugClean! -c qa"
   changed_when: false
 

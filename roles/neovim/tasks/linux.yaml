@@ -2,13 +2,6 @@
 - name: Include {{ansible_system}} Variables
   ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
 
-- name: "Create {{NEOVIM_BIN_DIR}}"
-  ansible.builtin.file:
-    path: "{{NEOVIM_BIN_DIR}}"
-    state: directory
-    mode: "0755"
-  become: yes
-
 - name: "Create {{NEOVIM_CURRENT_DIR}}"
   ansible.builtin.file:
     path: "{{NEOVIM_CURRENT_DIR}}"
@@ -43,25 +36,11 @@
   become: yes
   when: NEOVIM_APPIMAGE.changed
 
-- name: "Symlink nvim.appimage to {{NEOVIM_BIN_DIR}}/nvim"
+- name: "Symlink nvim.appimage to {{USR_LOCAL_BIN_DIR}}/nvim"
   ansible.builtin.file:
-    path: "{{NEOVIM_BIN_DIR}}/nvim"
+    path: "{{USR_LOCAL_BIN_DIR}}/nvim"
     src: "{{NEOVIM_CURRENT_DIR}}/squashfs-root/AppRun"
     state: link
-  become: yes
-
-- name: "Add {{NEOVIM_BIN_DIR}} To ZSH PATH"
-  ansible.builtin.lineinfile:
-    path: "/etc/zsh/zshenv"
-    line: "export PATH={{NEOVIM_BIN_DIR}}:$PATH"
-    create: yes
-  become: yes
-
-- name: "Add {{NEOVIM_BIN_DIR}} To BASH PATH"
-  ansible.builtin.lineinfile:
-    path: "/etc/profile.d/nvim.sh"
-    line: "export PATH={{NEOVIM_BIN_DIR}}:$PATH"
-    create: yes
   become: yes
 
 - name: "Config zsh Environment"
