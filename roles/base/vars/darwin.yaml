@@ -8,6 +8,8 @@ HOMEBREW_PACKAGES:
   - gnu-tar
   - grep
   - openssl
+  - pinentry-mac
   - python3
   - tmux
   - zsh
+

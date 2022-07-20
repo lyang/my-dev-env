@@ -1,0 +1,7 @@
+---
+- name: "Set pinentry-program"
+  ansible.builtin.lineinfile:
+    path: "{{ansible_env.HOME}}/.gnupg/gpg-agent.conf"
+    line: pinentry-program /usr/local/bin/pinentry-mac
+    create: yes
+
