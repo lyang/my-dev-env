@@ -10,5 +10,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: "Ubuntu"
-        run: "./containerize.sh ubuntu:latest"
+        run: "./setup.sh"
 
