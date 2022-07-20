@@ -1,10 +1,5 @@
 ---
-IDEA_BUILD: "2022.1.3"
-IDEA_DIR: "/opt/idea"
-IDEA_BIN_DIR: "{{IDEA_DIR}}/bin"
-IDEA_CURRENT_DIR: "{{IDEA_DIR}}/{{IDEA_BUILD}}"
 IDEA_PLUGIN_DIR: "{{ansible_env.HOME}}/.local/share/JetBrains/IdeaIC{{IDEA_BUILD.split('.')[:2]|join('.')}}"
-IDEA_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/intellij"
 IDEA_PLUGINS:
   IdeaVIM: 177370
   Key-Promoter-X: 181677

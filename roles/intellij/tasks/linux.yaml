@@ -1,4 +1,7 @@
 ---
+- name: Include {{ansible_system}} Variables
+  ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
+
 - name: "Create {{IDEA_BIN_DIR}}"
   ansible.builtin.file:
     path: "{{IDEA_BIN_DIR}}"
