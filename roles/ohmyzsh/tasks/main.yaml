@@ -83,3 +83,4 @@
     path: "{{ansible_env.HOME}}/.zshrc"
     line: "source {{P10K_ZSH.dest}}"
     create: yes
+

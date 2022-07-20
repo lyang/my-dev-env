@@ -4,7 +4,7 @@
     executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/rbenv.sh
-      rbenv install --skip-existing {{ruby_version}}
+      {{RUBY_BUILD_FLAGS[ansible_system|lower]}} rbenv install --skip-existing {{ruby_version}}
 
 - name: "Find Installed Packages"
   ansible.builtin.shell:
