@@ -1,0 +1,6 @@
+---
+- name: "Complete Docker Desktop Installation"
+  ansible.builtin.shell:
+    cmd: "open -a docker"
+  changed_when: false
+
