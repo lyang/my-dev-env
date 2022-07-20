@@ -6,4 +6,7 @@ GEM_PACKAGES:
   - bundler
   - neovim
   - solargraph
+RUBY_BUILD_FLAGS:
+  darwin: "OPENSSL_CFLAGS=-Wno-error=implicit-function-declaration"
+  linux: ""
 
