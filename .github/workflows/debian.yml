@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: "Ubuntu"
+      - name: "Debian"
         run: "./containerize.sh debian:latest"
 
