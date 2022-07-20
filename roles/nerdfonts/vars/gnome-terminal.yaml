@@ -1,0 +1,4 @@
+---
+DCONF_PROFILE_BASE_PATH: "/org/gnome/terminal/legacy/profiles"
+GSETTINGS_PROFILELIST_PATH: "org.gnome.Terminal.ProfilesList"
+
