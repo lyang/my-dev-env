@@ -38,7 +38,7 @@
     executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/nvm.sh
-      nvm ls-remote --lts --no-colors | tail -n 1 | grep -E -o '(v[^ ]*)'
+      nvm ls-remote --lts --no-colors | tail -n 1 | grep --extended-regex --only-matching '(v[^ ]*)'
   register: NODE_LATEST_LTS
   changed_when: false
 
@@ -60,7 +60,7 @@
     executable: "{{ZSH_PATH}}"
     cmd: |
       source {{role_path}}/files/nvm.sh
-      npm list --global --parsable --depth=0 | grep --perl-regex --only-matching --color=never '[^ ]*(?=@)'
+      npm list --global --parsable --depth=0 | grep --extended-regex --only-matching --color=never '[^ @]*'
   register: NPM_INSTALLED_PACKAGES
   changed_when: false
 
