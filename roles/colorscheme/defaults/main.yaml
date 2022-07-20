@@ -1,2 +1,5 @@
 ---
-TERMINAL: "gnome-terminal"
+TERMINALS:
+  linux: gnome-terminal
+  darwin: iterm2-app
+
