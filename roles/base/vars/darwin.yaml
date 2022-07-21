@@ -11,6 +11,7 @@ HOMEBREW_PACKAGES:
   - neovim
   - openssl
   - pinentry-mac
+  - podman
   - python3
   - tmux
   - zsh
