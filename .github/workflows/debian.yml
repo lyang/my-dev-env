@@ -10,5 +10,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: "Debian"
-        run: "./containerize.sh debian:latest"
+        run: "./containerize.sh --runtime=podman --distro=debian --tag=latest"
 
