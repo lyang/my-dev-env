@@ -1,0 +1,4 @@
+---
+- name: "podman"
+  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+

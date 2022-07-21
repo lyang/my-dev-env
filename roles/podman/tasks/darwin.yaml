@@ -1,0 +1,10 @@
+---
+- name: "Check Existing podman machine"
+  ansible.builtin.shell: "podman machine list --quiet"
+  register: PODMAN_MACHINES
+  changed_when: false
+
+- name: "Setup podman machine"
+  ansible.builtin.shell: "podman machine init && podman machine start"
+  when: PODMAN_MACHINES.stdout_lines|length > 0
+
