@@ -1,7 +1,7 @@
-# my-dot-files
+# my-dev-env
 [![Debian](https://github.com/lyang/my-dot-files/actions/workflows/debian.yml/badge.svg)](https://github.com/lyang/my-dot-files/actions/workflows/debian.yml) [![Ubuntu](https://github.com/lyang/my-dot-files/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/lyang/my-dot-files/actions/workflows/ubuntu.yml) [![Fedora](https://github.com/lyang/my-dot-files/actions/workflows/fedora.yml/badge.svg)](https://github.com/lyang/my-dot-files/actions/workflows/fedora.yml) [![MacOS](https://github.com/lyang/my-dot-files/actions/workflows/macos.yml/badge.svg)](https://github.com/lyang/my-dot-files/actions/workflows/macos.yml)
 
-Started with simple dot files for various tools, this has grown into a full blown dev environment setup automation.
+Ansible playbook that automate the setup of my dev environment
 
 ## Included setups
 * OS packages
