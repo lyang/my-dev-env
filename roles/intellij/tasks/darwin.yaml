@@ -3,6 +3,7 @@
   ansible.builtin.shell:
     cmd: brew info --cask intellij-idea-ce | grep --extended-regex --only-matching '202[0-9]\.[^,]+'
   register: IDEA_CURRENT_VERSION
+  changed_when: false
 
 - name: "Set IDEA_BUILD Fact"
   ansible.builtin.set_fact:

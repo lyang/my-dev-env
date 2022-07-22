@@ -9,7 +9,7 @@ setup() {
   if sudo --non-interactive true 2> /dev/null; then
     ANSIBLE_OPTIONS=""
   else
-    ANSIBLE_OPTIONS="--ask-for-pass"
+    ANSIBLE_OPTIONS="--ask-become-pass"
   fi
   ansible-playbook $CURRENT_DIR/playbook.yaml --inventory $CURRENT_DIR/inventory.yaml $ANSIBLE_OPTIONS
 }
