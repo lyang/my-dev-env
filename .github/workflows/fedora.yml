@@ -10,5 +10,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: "Fedora"
-        run: "./containerize.sh --runtime=docker --distro=fedora --tag=latest"
+        run: "./containerize.sh --runtime=docker fedora:latest"
 

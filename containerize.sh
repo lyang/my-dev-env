@@ -6,24 +6,14 @@ CURRENT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 CURRENT_FILE=$(basename "${BASH_SOURCE[0]}")
 REPO_NAME=$(basename $CURRENT_DIR)
 
-ARGUMENTS=$(getopt --name $CURRENT_FILE --options r:d:t --longoptions runtime:,distro:,tag: -- "$@")
-eval set -- "$ARGUMENTS"
-unset ARGUMENTS
-
-OCI_RUNTIME=docker
+OPTS=$(getopt --name $CURRENT_FILE --options r: --longoptions runtime: -- "$@")
+eval set -- "$OPTS"
+unset OPTS
 
 while true; do
   case $1 in
     -r|--runtime)
-      OCI_RUNTIME=$2
-      shift 2
-      ;;
-    -d|--distro)
-      DISTRO=$2
-      shift 2
-      ;;
-    -t|--tag)
-      TAG=$2
+      RUNTIME=$2
       shift 2
       ;;
     --)
@@ -33,6 +23,8 @@ while true; do
   esac
 done
 
+DISTRO=${1%:*}
+TAG=${1#*:}
 DOCKERFILE=$CURRENT_DIR/.generated/$DISTRO/$TAG/Dockerfile
 
 USER_ID=$(id -u)
@@ -85,5 +77,7 @@ write() {
 
 create-dockerfile
 
-$OCI_RUNTIME build -f $DOCKERFILE -t localhost/my-dot-file-container:$DISTRO-$TAG $CURRENT_DIR
+${RUNTIME:-podman} build -f $DOCKERFILE -t localhost/my-dot-file-container:$DISTRO-$TAG $CURRENT_DIR
+
+echo "localhost/my-dot-file-container:$DISTRO-$TAG has been built successfully"
 
