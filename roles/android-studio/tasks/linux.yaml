@@ -1,0 +1,63 @@
+---
+- name: Include {{ansible_system}} Variables
+  ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
+
+- name: "Create {{ANDROID_STUDIO_BIN_DIR}}"
+  ansible.builtin.file:
+    path: "{{ANDROID_STUDIO_BIN_DIR}}"
+    state: directory
+    mode: "0755"
+  become: yes
+
+- name: "Create {{ANDROID_STUDIO_CURRENT_DIR}}"
+  ansible.builtin.file:
+    path: "{{ANDROID_STUDIO_CURRENT_DIR}}"
+    state: directory
+    mode: "0755"
+  become: yes
+  register: ANDROID_STUDIO_CURRENT
+
+- name: "Create {{ANDROID_STUDIO_TEMP_DIR}}"
+  ansible.builtin.file:
+    path: "{{ANDROID_STUDIO_TEMP_DIR}}"
+    state: directory
+
+- name: "Download android-studio-{{ANDROID_STUDIO_BUILD}}-{{ansible_system}}.tar.gz"
+  ansible.builtin.get_url:
+    url: "https://redirector.gvt1.com/edgedl/android/studio/ide-zips/{{ANDROID_STUDIO_BUILD}}/android-studio-{{ANDROID_STUDIO_BUILD}}-{{ansible_system}}.tar.gz"
+    dest: "{{ANDROID_STUDIO_TEMP_DIR}}"
+  register: ANDROID_STUDIO_INSTALLER
+  when: ANDROID_STUDIO_CURRENT.changed
+
+- name: "Unarchive {{ANDROID_STUDIO_INSTALLER.dest|basename}}"
+  ansible.builtin.unarchive:
+    src: "{{ANDROID_STUDIO_INSTALLER.dest}}"
+    dest: "{{ANDROID_STUDIO_CURRENT_DIR}}"
+    remote_src: yes
+    extra_opts:
+      - "--strip-components=1"
+      - "--ungzip"
+  become: yes
+  when: ANDROID_STUDIO_INSTALLER.changed
+
+- name: "Create Symlink {{ANDROID_STUDIO_BIN_DIR}}/studio"
+  ansible.builtin.file:
+    path: "{{ANDROID_STUDIO_BIN_DIR}}/studio"
+    src: "{{ANDROID_STUDIO_CURRENT_DIR}}/bin/studio.sh"
+    state: link
+  become: yes
+
+- name: "Add {{ANDROID_STUDIO_BIN_DIR}} To ZSH PATH"
+  ansible.builtin.lineinfile:
+    path: "/etc/zsh/zshenv"
+    line: export PATH="{{ANDROID_STUDIO_BIN_DIR}}:$PATH"
+    create: yes
+  become: yes
+
+- name: "Add {{ANDROID_STUDIO_BIN_DIR}} To BASH PATH"
+  ansible.builtin.lineinfile:
+    path: "/etc/profile.d/studio.sh"
+    line: export PATH="{{ANDROID_STUDIO_BIN_DIR}}:$PATH"
+    create: yes
+  become: yes
+
