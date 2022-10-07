@@ -10,6 +10,7 @@ Ansible playbook that automate the setup of my dev environment
 * Git Config
 * GnuPG
 * IntelliJ IDEA CE
+* Android Studio
 * neovim
 * nerd-fonts
 * nvm
