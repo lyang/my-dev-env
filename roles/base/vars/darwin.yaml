@@ -1,6 +1,5 @@
 ---
 HOMEBREW_CASK_PACKAGES:
-  - android-studio
   - docker
   - intellij-idea-ce
   - iterm2

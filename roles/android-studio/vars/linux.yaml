@@ -1,7 +1,0 @@
----
-ANDROID_STUDIO_BUILD: "2021.3.1.16"
-ANDROID_STUDIO_DIR: "/opt/android-studio"
-ANDROID_STUDIO_BIN_DIR: "{{ANDROID_STUDIO_DIR}}/bin"
-ANDROID_STUDIO_CURRENT_DIR: "{{ANDROID_STUDIO_DIR}}/{{ANDROID_STUDIO_BUILD}}"
-ANDROID_STUDIO_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/android-studio"
-
