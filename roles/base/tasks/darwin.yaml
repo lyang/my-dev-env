@@ -10,17 +10,17 @@
     state: latest
     name: "{{HOMEBREW_PACKAGES}}"
 
-- name: "Add gnu-tar to ZSH PATH"
-  ansible.builtin.lineinfile:
-    path: "/etc/zsh/zshenv"
-    line: export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+- name: "Config Shell env"
+  ansible.builtin.blockinfile:
+    path: "{{ansible_env.HOME}}/{{rc_file}}"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     create: yes
-  become: yes
-
-- name: "Add gnu-tar to BASH PATH"
-  ansible.builtin.lineinfile:
-    path: "/etc/profile.d/gnu-tar.sh"
-    line: export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
-    create: yes
-  become: yes
+    block: |
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+      export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+  loop:
+    - .bash_profile
+    - .zprofile
+  loop_control:
+    loop_var: rc_file
 
