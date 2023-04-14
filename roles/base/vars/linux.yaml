@@ -37,6 +37,7 @@ REQUIRED_PACKAGES:
     - perl
     - readline-devel
     - util-linux-user
+    - which
     - zlib-devel
 
 OPTIONAL_PACKAGES:
