@@ -3,6 +3,8 @@ HOMEBREW_CASK_PACKAGES:
   - docker
   - intellij-idea-ce
   - iterm2
+  - rectangle
+  - stats
 
 HOMEBREW_PACKAGES:
   - coreutils
