@@ -17,17 +17,12 @@
     chdir: "{{ansible_env.HOME}}/.rbenv"
   when: RBENV_REPO.changed or RBENV_RUBY_BUILD_REPO.changed
 
-- name: "Config zsh Environment"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshrc"
-    line: source {{role_path}}/files/rbenv.sh
+- name: "Config Shell Env"
+  ansible.builtin.blockinfile:
+    path: "{{SHARED_ENV_SH.dest}}"
     create: yes
-
-- name: "Config bash Environment"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.bashrc"
-    line: source {{role_path}}/files/rbenv.sh
-    create: yes
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    block: source {{role_path}}/files/rbenv.sh
 
 - name: "List Installed Versions"
   ansible.builtin.shell:

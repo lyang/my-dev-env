@@ -11,10 +11,11 @@
   register: TFENV_REPO
 
 - name: "Git Clone tmux-plugins/tpm"
-  ansible.builtin.lineinfile:
+  ansible.builtin.blockinfile:
     path: "{{ansible_env.HOME}}/.tmux.conf"
-    line: source-file "{{role_path}}/files/tmux.conf"
     create: yes
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    block: source-file "{{role_path}}/files/tmux.conf"
 
 - ansible.builtin.shell:
     cmd: "{{ansible_env.HOME}}/.tmux/plugins/tpm/bin/install_plugins"

@@ -1,7 +1,8 @@
 ---
 - name: "Set GPG_TTY"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshenv"
-    line: export GPG_TTY=$(tty)
+  ansible.builtin.blockinfile:
+    path: "{{SHARED_ENV_SH.dest}}"
     create: yes
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    block: export GPG_TTY=$(tty)
 

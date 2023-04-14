@@ -5,66 +5,47 @@
     dest: "{{ansible_env.HOME}}/.oh-my-zsh"
   register: OMZ_REPO
 
-- name: "Copy zshrc.zsh-template to {{ansible_env.HOME}}/.oh-my-zsh.zshrc"
+- name: "Copy zshrc.zsh-template to {{playbook_dir}}/.generated/oh-my-zsh.zshrc"
   ansible.builtin.copy:
     src: "{{ansible_env.HOME}}/.oh-my-zsh/templates/zshrc.zsh-template"
-    dest: "{{ansible_env.HOME}}/.oh-my-zsh.zshrc"
+    dest: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
     remote_src: yes
   when: OMZ_REPO.changed
 
 - name: "Set ENABLE_CORRECTION"
   ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.oh-my-zsh.zshrc"
+    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
     line: ENABLE_CORRECTION="true"
     regexp: "^# ENABLE_CORRECTION.*"
+  when: OMZ_REPO.changed
 
 - name: "Set HIST_STAMPS"
   ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.oh-my-zsh.zshrc"
+    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
     line: HIST_STAMPS="mm/dd/yyyy"
     regexp: "^# HIST_STAMPS.*"
+  when: OMZ_REPO.changed
 
 - name: "Set HYPHEN_INSENSITIVE"
   ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.oh-my-zsh.zshrc"
+    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
     line: HYPHEN_INSENSITIVE="true"
     regexp: "^# HYPHEN_INSENSITIVE.*"
+  when: OMZ_REPO.changed
 
 - name: "Set ZSH_THEME"
   ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.oh-my-zsh.zshrc"
+    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
     line: ZSH_THEME="powerlevel10k/powerlevel10k"
     regexp: "^ZSH_THEME=.*"
+  when: OMZ_REPO.changed
 
 - name: "Set Plugins"
   ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.oh-my-zsh.zshrc"
+    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
     line: "plugins=({{PLUGINS|join(' ')}})"
     regexp: "^plugins=.*"
-
-- name: "Set ZSH_TMUX_AUTOQUIT"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshenv"
-    line: export ZSH_TMUX_AUTOQUIT=false
-    create: yes
-
-- name: "Set ZSH_TMUX_AUTOSTART"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshenv"
-    line: export ZSH_TMUX_AUTOSTART=true
-    create: yes
-
-- name: "Set GCC_COLORS"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshenv"
-    line: export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-    create: yes
-
-- name: "Source .oh-my-zsh.zshrc in {{ansible_env.HOME}}/.zshrc"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshrc"
-    line: source "$HOME/.oh-my-zsh.zshrc"
-    create: yes
+  when: OMZ_REPO.changed
 
 - name: "Git Clone romkatv/powerlevel10k"
   ansible.builtin.git:
@@ -78,9 +59,13 @@
     state: link
   register: P10K_ZSH
 
-- name: "Source {{P10K_ZSH.dest}} in {{ansible_env.HOME}}/.zshrc"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshrc"
-    line: "source {{P10K_ZSH.dest}}"
+- name: "Config Shell Environment"
+  ansible.builtin.blockinfile:
+    path: "{{ZSH_ENV_SH.dest}}"
     create: yes
+    block: |
+      export ZSH_TMUX_AUTOSTART=true
+      export ZSH_TMUX_AUTOQUIT=false
+      source "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
+      source "{{P10K_ZSH.dest}}"
 

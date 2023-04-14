@@ -17,17 +17,12 @@
     cmd: "{{SDKMAN_INSTALLER.dest}}"
   when: SDKMAN_INSTALLER.changed
 
-- name: "Config zsh Environment"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshrc"
-    line: source {{role_path}}/files/sdkman.sh
+- name: "Config Shell Env"
+  ansible.builtin.blockinfile:
+    path: "{{SHARED_ENV_SH.dest}}"
     create: yes
-
-- name: "Config bash Environment"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.bashrc"
-    line: source {{role_path}}/files/sdkman.sh
-    create: yes
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    block: source {{role_path}}/files/sdkman.sh
 
 - name: "Install SDKMAN Packages"
   ansible.builtin.include_tasks: "install.yaml"

@@ -10,17 +10,12 @@
     state: latest
     name: "{{HOMEBREW_PACKAGES}}"
 
-- name: "Config Shell env"
+- name: "Setup Shell Env For Homebrew"
   ansible.builtin.blockinfile:
-    path: "{{ansible_env.HOME}}/{{rc_file}}"
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    path: "{{SHARED_ENV_SH.dest}}"
     create: yes
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: |
       eval "$(/opt/homebrew/bin/brew shellenv)"
       export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
-  loop:
-    - .bash_profile
-    - .zprofile
-  loop_control:
-    loop_var: rc_file
 

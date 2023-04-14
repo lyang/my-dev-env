@@ -17,17 +17,12 @@
     cmd: "{{RUSTUP_INSTALLER.dest}} -y --no-modify-path"
   when: RUSTUP_INSTALLER.changed
 
-- name: "Config zsh Environment"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshrc"
-    line: source {{role_path}}/files/cargo.sh
+- name: "Config Shell Env"
+  ansible.builtin.blockinfile:
+    path: "{{SHARED_ENV_SH.dest}}"
     create: yes
-
-- name: "Config bash Environment"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.bashrc"
-    line: source {{role_path}}/files/cargo.sh
-    create: yes
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    block: source {{role_path}}/files/cargo.sh
 
 - name: "List Installed Packages"
   ansible.builtin.shell:

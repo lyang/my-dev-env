@@ -47,19 +47,12 @@
     state: link
   become: yes
 
-- name: "Add {{IDEA_BIN_DIR}} To ZSH PATH"
-  ansible.builtin.lineinfile:
-    path: "/etc/zsh/zshenv"
-    line: export PATH="{{IDEA_BIN_DIR}}:$PATH"
+- name: "Setup Shell Env"
+  ansible.builtin.blockinfile:
+    path: "{{SHARED_ENV_SH.dest}}"
     create: yes
-  become: yes
-
-- name: "Add {{IDEA_BIN_DIR}} To BASH PATH"
-  ansible.builtin.lineinfile:
-    path: "/etc/profile.d/idea.sh"
-    line: export PATH="{{IDEA_BIN_DIR}}:$PATH"
-    create: yes
-  become: yes
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    block: export PATH="{{IDEA_BIN_DIR}}:$PATH"
 
 - name: "Setup {{ansible_env.HOME}}/.ideavimrc"
   ansible.builtin.lineinfile:

@@ -6,17 +6,12 @@
     version: "{{NVM_VERSION}}"
   register: NVM_REPO
 
-- name: "Config zsh Environment"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.zshrc"
-    line: source {{role_path}}/files/nvm.sh
+- name: "Config Shell Env"
+  ansible.builtin.blockinfile:
+    path: "{{SHARED_ENV_SH.dest}}"
     create: yes
-
-- name: "Config bash Environment"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.bashrc"
-    line: source {{role_path}}/files/nvm.sh
-    create: yes
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    block: source {{role_path}}/files/nvm.sh
 
 - name: "Install nvm"
   ansible.builtin.shell:

@@ -1,0 +1,4 @@
+---
+SHELLS:
+  bash: .bashrc
+  zsh: .zshrc
