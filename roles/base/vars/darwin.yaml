@@ -1,6 +1,7 @@
 ---
 HOMEBREW_CASK_PACKAGES:
   - docker
+  - firefox
   - intellij-idea-ce
   - iterm2
   - rectangle
