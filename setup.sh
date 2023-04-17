@@ -20,18 +20,6 @@ setup-Linux() {
   setup-$DISTRO
 }
 
-setup-Darwin() {
-  echo "Setting up Darwin"
-  if [[ $(command -v brew) == "" ]]; then
-    echo "Installing Homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  else
-    brew update
-  fi
-  brew install ansible
-}
-
 setup-ubuntu() {
   setup-debian
 }
@@ -43,6 +31,39 @@ setup-debian() {
 
 setup-fedora() {
   sudo dnf install --refresh --assumeyes ansible
+}
+
+setup-Darwin() {
+  echo "Setting up Darwin"
+  setup-rosetta
+  setup-xcode
+  setup-homebrew
+  brew install ansible
+}
+
+setup-rosetta() {
+  if [[ $(uname -m) == "arm64" ]]; then
+    echo "Installing Rosetta for Apple silicon"
+    softwareupdate --install-rosetta --agree-to-license
+  else
+    echo "No need for Rosetta"
+  fi
+}
+
+setup-xcode() {
+  if xcode-select --install 2>&1 | grep installed &>/dev/null; then
+    echo "XCode already installed"
+  fi
+}
+
+setup-homebrew() {
+  if [[ $(command -v brew) == "" ]]; then
+    echo "Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    brew update
+  fi
 }
 
 setup
