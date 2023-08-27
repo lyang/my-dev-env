@@ -59,7 +59,7 @@
     state: link
   register: P10K_ZSH
 
-- name: "Config Shell Environment"
+- name: "Config Shell Env"
   ansible.builtin.blockinfile:
     path: "{{ZSH_ENV_SH.dest}}"
     create: yes

@@ -43,10 +43,3 @@
     state: link
   become: yes
 
-- name: "Config Shell Env"
-  ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{role_path}}/files/nvim.sh
-
