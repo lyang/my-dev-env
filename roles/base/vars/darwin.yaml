@@ -9,8 +9,8 @@ HOMEBREW_CASK_PACKAGES:
 
 HOMEBREW_PACKAGES:
   - coreutils
-  - gnu-tar
   - gnu-getopt
+  - gnu-tar
   - grep
   - neovim
   - openssl
@@ -19,5 +19,6 @@ HOMEBREW_PACKAGES:
   - python3
   - ripgrep
   - tmux
+  - tree
   - zsh
 
