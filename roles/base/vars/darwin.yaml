@@ -12,6 +12,7 @@ HOMEBREW_PACKAGES:
   - gnu-getopt
   - gnu-tar
   - grep
+  - ncdu
   - neovim
   - openssl
   - pinentry-mac
