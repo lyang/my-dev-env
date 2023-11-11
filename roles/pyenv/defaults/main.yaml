@@ -1,9 +1,6 @@
 ---
 PYTHON_VERSIONS:
-  - 3.7.12
-  - 3.8.12
-  - 3.9.9
-  - 3.10.1
+  - 3.12.0
 PIP_PACKAGES:
   - podman-compose
   - pre-commit
