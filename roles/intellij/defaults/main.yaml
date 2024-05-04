@@ -1,6 +1,6 @@
 ---
 IDEA_PLUGIN_DIR: "{{ansible_env.HOME}}/.local/share/JetBrains/IdeaIC{{IDEA_BUILD.split('.')[:2]|join('.')}}"
 IDEA_PLUGINS:
-  IdeaVIM: 177370
-  Key-Promoter-X: 181677
-  google-java-format: 161816
+  IdeaVIM: 515255
+  Key-Promoter-X: 520132
+  google-java-format: 522798
