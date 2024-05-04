@@ -19,6 +19,7 @@ REQUIRED_PACKAGES:
     - libffi-dev
     - libglib2.0-bin
     - libssl-dev
+    - libyaml-dev
     - python3-apt
     - python3-venv
     - uuid-runtime
