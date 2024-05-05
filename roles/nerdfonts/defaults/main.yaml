@@ -1,8 +1,8 @@
 ---
 FONT:
   DIR: patched-fonts/Meslo
-  NAME: MesloLGS Nerd Font Mono
-  SIZE: 14
+  NAME: MesloLGS Nerd Font
+  SIZE: 12
 TERMINALS:
   linux: gnome-terminal
   darwin: iterm2-app

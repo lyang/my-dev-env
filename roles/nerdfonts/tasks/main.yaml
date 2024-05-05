@@ -33,7 +33,6 @@
     chdir: "{{ansible_env.HOME}}/.nerd-fonts"
   when: NERD_FONTS_REPO.changed
 
-- name: "Set Color Scheme For {{ansible_system}}"
+- name: "Set Font For {{ansible_system}}"
   ansible.builtin.include_tasks: "{{TERMINALS[ansible_system|lower]}}.yaml"
-  when: NERD_FONTS_REPO.changed
 
