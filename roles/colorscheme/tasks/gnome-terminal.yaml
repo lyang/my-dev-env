@@ -12,3 +12,37 @@
   changed_when: false
   when: NORD_GNOME_TERMINAL_REPO.changed
 
+- name: "List Gnome Terminal Profile Ids"
+  ansible.builtin.shell:
+    cmd: "dconf list /org/gnome/terminal/legacy/profiles:/ | grep '^:.*/$' | tr -d ':/'"
+  changed_when: false
+  register: GNOME_TERMINAL_PROFILE_IDS
+
+- name: "List Gnome Terminal Profile Names"
+  ansible.builtin.shell:
+    cmd: "dconf read /org/gnome/terminal/legacy/profiles:/:{{profile_id}}/visible-name | tr -d \"'\""
+  loop: "{{GNOME_TERMINAL_PROFILE_IDS.stdout_lines}}"
+  loop_control:
+    loop_var: profile_id
+  changed_when: false
+  register: GNOME_TERMINAL_PROFILE_NAMES
+
+- name: "Set Gnome Terminal Profile Mappings"
+  ansible.builtin.set_fact:
+    GNOME_TERMINAL_PROFILE_MAPPINGS: "{{ GNOME_TERMINAL_PROFILE_MAPPINGS | default({}) | combine({result.stdout: result.profile_id})}}"
+  loop: "{{ GNOME_TERMINAL_PROFILE_NAMES.results }}"
+  loop_control:
+    loop_var: result
+  changed_when: false
+
+- name: "Get Gnome Terminal Default Profile Id"
+  ansible.builtin.shell:
+    cmd: "gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\""
+  changed_when: false
+  register: GNOME_TERMINAL_DEFAULT_PROFILE_ID
+
+- name: "Set Gnome Terminal Default Profile Id"
+  ansible.builtin.shell:
+    cmd: "gsettings set org.gnome.Terminal.ProfilesList default '{{GNOME_TERMINAL_PROFILE_MAPPINGS['Nord']}}'"
+  when: GNOME_TERMINAL_DEFAULT_PROFILE_ID.stdout != GNOME_TERMINAL_PROFILE_MAPPINGS['Nord']
+
