@@ -5,7 +5,7 @@ Ansible playbook that automate the setup of my dev environment
 
 ## Included setups
 * OS packages
-* Termiaal Color Scheme
+* Terminal Color Scheme
 * Docker CE
 * Git Config
 * GnuPG
