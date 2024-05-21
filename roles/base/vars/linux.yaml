@@ -37,6 +37,7 @@ REQUIRED_PACKAGES:
     - patch
     - perl
     - readline-devel
+    - sqlite-devel
     - util-linux-user
     - which
     - zlib-devel
