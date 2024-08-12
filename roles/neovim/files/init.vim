@@ -18,6 +18,7 @@ set infercase
 set linespace=0
 set list
 set listchars=tab:◆◆,
+set mouse=
 set nobackup
 set nowrap
 set nowritebackup
