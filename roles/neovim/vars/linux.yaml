@@ -1,5 +1,5 @@
 ---
-NEOVIM_BUILD: "v0.9.5"
+NEOVIM_BUILD: "v0.10.2"
 NEOVIM_DIR: "/opt/nvim"
 USR_LOCAL_BIN_DIR: "/usr/local/bin"
 NEOVIM_CURRENT_DIR: "{{NEOVIM_DIR}}/{{NEOVIM_BUILD}}"
