@@ -35,7 +35,7 @@ REQUIRED_PACKAGES:
     - ncurses-devel
     - openssl-devel
     - patch
-    - perl
+    - perl-core
     - readline-devel
     - sqlite-devel
     - util-linux-user
