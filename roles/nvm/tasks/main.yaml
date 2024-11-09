@@ -3,6 +3,7 @@
   ansible.builtin.git:
     repo: https://github.com/nvm-sh/nvm.git
     dest: "{{ansible_env.HOME}}/.nvm-sh"
+    recursive: false
     version: "{{NVM_VERSION}}"
   register: NVM_REPO
 
