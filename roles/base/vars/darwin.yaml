@@ -13,7 +13,6 @@ HOMEBREW_PACKAGES:
   - gnu-tar
   - grep
   - ncdu
-  - neovim
   - openssl
   - pinentry-mac
   - podman

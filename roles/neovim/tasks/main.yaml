@@ -1,6 +1,8 @@
 ---
-- name: "NeoVim"
-  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+- name: "Install NeoVim"
+  community.general.homebrew:
+    state: latest
+    name: neovim
 
 - name: "Create {{NEOVIM_CONFIG_DIR}}"
   ansible.builtin.file:
