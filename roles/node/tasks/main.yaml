@@ -1,0 +1,14 @@
+---
+- name: "Install Node"
+  community.general.homebrew:
+    state: latest
+    name: node
+
+- name: "Install Node Packages"
+  community.general.npm:
+    name: "{{package}}"
+    global: yes
+  loop_control:
+    loop_var: package
+  loop: "{{NODE_PACKAGES}}"
+

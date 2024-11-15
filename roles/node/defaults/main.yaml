@@ -1,6 +1,5 @@
 ---
-NVM_VERSION: v0.40.1
-NPM_PACKAGES:
+NODE_PACKAGES:
   - bash-language-server
   - vim-language-server
   - neovim
