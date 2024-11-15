@@ -15,7 +15,7 @@
   when: GITCONFIG_INCLUSION.changed
 
 - name: "Check user.signingkey"
-  community.general.git_config:
+  community.general.git_config_info:
     scope: global
     name: user.signingkey
   register: signingkey
