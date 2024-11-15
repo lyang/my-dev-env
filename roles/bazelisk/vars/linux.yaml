@@ -1,7 +1,0 @@
----
-BAZELISK_BUILD: "v1.23.0"
-BAZELISK_DIR: "/opt/bazelisk"
-USR_LOCAL_BIN_DIR: "/usr/local/bin"
-BAZELISK_CURRENT_DIR: "{{BAZELISK_DIR}}/{{BAZELISK_BUILD}}"
-BAZELISK_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/bazelisk"
-

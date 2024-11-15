@@ -1,4 +1,6 @@
 ---
-- name: "bazelisk"
-  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+- name: "Install Bazelisk"
+  community.general.homebrew:
+    state: latest
+    name: bazelisk
 

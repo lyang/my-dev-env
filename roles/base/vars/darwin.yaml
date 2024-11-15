@@ -8,7 +8,6 @@ HOMEBREW_CASK_PACKAGES:
   - stats
 
 HOMEBREW_PACKAGES:
-  - bazelisk
   - coreutils
   - gnu-getopt
   - gnu-tar
