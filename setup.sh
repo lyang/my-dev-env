@@ -56,8 +56,6 @@ setup-homebrew() {
   if [[ $(command -v brew) == "" ]]; then
     echo "Installing Homebrew"
     NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    echo "eval \"$($HOMEBREW_PREFIX/bin/brew shellenv)\"" >> $HOME/.bashrc
-    echo "eval \"$($HOMEBREW_PREFIX/bin/brew shellenv)\"" >> $HOME/.zshrc
     eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
   else
     brew update

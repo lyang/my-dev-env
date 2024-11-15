@@ -1,4 +1,13 @@
 ---
+- name: "Setup Shell Env For Homebrew"
+  ansible.builtin.blockinfile:
+    path: "{{SHARED_ENV_SH.dest}}"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    create: yes
+    block: |
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+      export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+
 - name: "Install Homebrew Casks"
   community.general.homebrew_cask:
     accept_external_apps: yes
@@ -9,13 +18,4 @@
   ansible.builtin.package:
     state: latest
     name: "{{HOMEBREW_PACKAGES}}"
-
-- name: "Setup Shell Env For Homebrew"
-  ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: |
-      eval "$(/opt/homebrew/bin/brew shellenv)"
-      export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
 

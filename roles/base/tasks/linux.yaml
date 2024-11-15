@@ -1,4 +1,12 @@
 ---
+- name: "Setup Shell Env For Homebrew"
+  ansible.builtin.blockinfile:
+    path: "{{SHARED_ENV_SH.dest}}"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
+    create: yes
+    block: |
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 - name: Install Common Packages
   become: yes
   ansible.builtin.package:
