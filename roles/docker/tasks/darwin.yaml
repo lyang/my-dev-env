@@ -1,4 +1,9 @@
 ---
+- name: "Install Bazelisk"
+  community.general.homebrew_cask:
+    state: latest
+    name: docker
+
 - name: "Complete Docker Desktop Installation"
   ansible.builtin.shell:
     cmd: "open -a docker"
