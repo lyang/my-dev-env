@@ -1,21 +1,8 @@
 ---
-- name: "Create {{RUSTUP_TEMP_DIR}}"
-  ansible.builtin.file:
-    path: "{{RUSTUP_TEMP_DIR}}"
-    state: directory
-
-- name: "Download rustup Installer"
-  ansible.builtin.get_url:
-    url: "https://sh.rustup.rs"
-    dest: "{{RUSTUP_TEMP_DIR}}"
-    mode: "0755"
-  register: RUSTUP_INSTALLER
-
-- name: "Install rustup"
-  ansible.builtin.shell:
-    executable: "{{ZSH_PATH}}"
-    cmd: "{{RUSTUP_INSTALLER.dest}} -y --no-modify-path"
-  when: RUSTUP_INSTALLER.changed
+- name: "Install Rust"
+  community.general.homebrew:
+    state: latest
+    name: rust
 
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
@@ -27,18 +14,14 @@
 - name: "List Installed Packages"
   ansible.builtin.shell:
     executable: "{{ZSH_PATH}}"
-    cmd: |
-      source {{role_path}}/files/cargo.sh
-      cargo install --list | grep --extended-regex --only-matching --color=never '^[^ ]*' || echo 'N/A'
+    cmd: cargo install --list | grep --extended-regex --only-matching --color=never '^[^ ]*' || echo 'N/A'
   register: CARGO_INSTALLED_VERSIONS
   changed_when: false
 
 - name: "Install Cargo Packages"
   ansible.builtin.shell:
     executable: "{{ZSH_PATH}}"
-    cmd: |
-      source {{role_path}}/files/cargo.sh
-      cargo install {{cargo_package}}
+    cmd: cargo install {{cargo_package}}
   loop: "{{CARGO_PACKAGES}}"
   loop_control:
     loop_var: cargo_package
