@@ -1,2 +1,7 @@
 ---
+- name: Install podman
+  become: yes
+  ansible.builtin.package:
+    state: latest
+    name: podman
 

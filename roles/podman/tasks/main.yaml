@@ -2,3 +2,7 @@
 - name: "podman"
   ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
 
+- name: "podman-compose"
+  community.general.homebrew:
+    state: latest
+    name: podman-compose

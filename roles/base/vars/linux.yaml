@@ -6,12 +6,10 @@ REQUIRED_PACKAGES:
     - dbus-x11
     - git
     - gnome-terminal
-    - podman
     - tmux
     - unzip
     - zip
     - zsh
-
   debian:
     - build-essential
     - coreutils

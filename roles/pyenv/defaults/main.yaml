@@ -4,7 +4,6 @@ PYTHON_VERSIONS:
 PIP_PACKAGES:
   - pip
   - pip-tools
-  - podman-compose
   - pre-commit
   - pynvim
   - pyright
