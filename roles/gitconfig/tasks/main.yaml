@@ -1,18 +1,17 @@
 ---
-- name: "Check gitconfig Inclusion"
-  ansible.builtin.shell:
-    cmd: "grep {{GITCONFIG_PATH}} {{ansible_env.HOME}}/.gitconfig"
+- name: "Check include.path"
+  community.general.git_config_info:
+    scope: global
+    name: include.path
   register: GITCONFIG_INCLUSION
-  failed_when: false
-  changed_when: GITCONFIG_INCLUSION.rc != 0
 
-- name: "Add include.path {{gitconfig}}"
+- name: "Add include.path {{GITCONFIG_PATH}}"
   community.general.git_config:
     scope: global
     name: include.path
     value: "{{GITCONFIG_PATH}}"
     state: present
-  when: GITCONFIG_INCLUSION.changed
+  when: GITCONFIG_INCLUSION.config_values is not contains(GITCONFIG_PATH)
 
 - name: "Check user.signingkey"
   community.general.git_config_info:
