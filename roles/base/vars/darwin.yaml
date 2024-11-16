@@ -14,7 +14,6 @@ HOMEBREW_PACKAGES:
   - ncdu
   - openssl
   - pinentry-mac
-  - podman
   - python3
   - ripgrep
   - tmux

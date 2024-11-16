@@ -1,4 +1,9 @@
 ---
+- name: "Install podman"
+  community.general.homebrew:
+    state: latest
+    name: podman
+
 - name: "Check Existing podman machine"
   ansible.builtin.shell: "podman machine list --quiet"
   register: PODMAN_MACHINES
