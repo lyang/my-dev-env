@@ -1,30 +1,22 @@
 ---
-- name: "Git Clone tfutils/tfenv"
-  ansible.builtin.git:
-    repo: https://github.com/tfutils/tfenv.git
-    dest: "{{ansible_env.HOME}}/.tfenv"
-  register: TFENV_REPO
+- name: "Install tfenv"
+  community.general.homebrew:
+    state: latest
+    name: tfenv
 
 - name: "Get Latest Terraform Version"
   ansible.builtin.shell:
-    cmd: $HOME/.tfenv/bin/tfenv list-remote | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1
+    cmd: tfenv list-remote | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1
   register: TERRAFORM_LATEST
   changed_when: false
 
-- name: "Config Shell Env"
-  ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{role_path}}/files/tfenv.sh
-
 - name: "Get Installed Terraform Version"
   ansible.builtin.shell:
-    cmd: $HOME/.tfenv/bin/tfenv list | grep --extended-regexp --only-matching --color=never '[0-9]+\.[0-9]+\.[0-9]+' || echo 'N/A'
+    cmd: tfenv list | grep --extended-regexp --only-matching --color=never '[0-9]+\.[0-9]+\.[0-9]+' || echo 'N/A'
   register: TERRAFORM_INSTALLED
   changed_when: false
 
 - name: "Install Latest Terraform Version"
   ansible.builtin.shell:
-    cmd: "$HOME/.tfenv/bin/tfenv install latest"
+    cmd: "tfenv install latest"
   when: TERRAFORM_LATEST.stdout not in TERRAFORM_INSTALLED.stdout_lines
