@@ -1,11 +1,6 @@
 ---
-- name: "Install Bazelisk"
+- name: "Install Docker"
   community.general.homebrew_cask:
     state: latest
     name: docker
-
-- name: "Complete Docker Desktop Installation"
-  ansible.builtin.shell:
-    cmd: "open -a docker"
-  changed_when: false
 
