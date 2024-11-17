@@ -30,7 +30,7 @@
 - name: "Set Gnome Terminal Profile Mappings"
   ansible.builtin.set_fact:
     GNOME_TERMINAL_PROFILE_MAPPINGS: "{{ GNOME_TERMINAL_PROFILE_MAPPINGS | default({}) | combine({result.stdout: result.profile_id})}}"
-  loop: "{{ GNOME_TERMINAL_PROFILE_NAMES.results }}"
+  loop: "{{ GNOME_TERMINAL_PROFILE_NAMES.results | ansible.utils.keep_keys(target=['stdout', 'profile_id'])}}"
   loop_control:
     loop_var: result
   changed_when: false
