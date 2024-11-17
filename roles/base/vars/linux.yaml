@@ -6,7 +6,6 @@ REQUIRED_PACKAGES:
     - dbus-x11
     - git
     - gnome-terminal
-    - tmux
     - unzip
     - zip
     - zsh

@@ -16,7 +16,6 @@ HOMEBREW_PACKAGES:
   - pinentry-mac
   - python3
   - ripgrep
-  - tmux
   - tree
   - zsh
 

@@ -1,4 +1,9 @@
 ---
+- name: "Install tmux"
+  community.general.homebrew:
+    state: latest
+    name: tmux
+
 - name: "Create {{TMUX_PLUGIN_DIR}}"
   ansible.builtin.file:
     path: "{{TMUX_PLUGIN_DIR}}"
