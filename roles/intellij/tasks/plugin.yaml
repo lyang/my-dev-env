@@ -1,7 +1,7 @@
 ---
 - name: "Download {{idea_plugin}}"
   ansible.builtin.get_url:
-    url: "https://plugins.jetbrains.com/pluginManager?action=download&id={{idea_plugin}}&build={{IDEA_BUILD}}"
+    url: "https://plugins.jetbrains.com/pluginManager?action=download&id={{idea_plugin|urlencode}}&build={{IDEA_BUILD}}"
     dest: "{{IDEA_TEMP_DIR}}/{{idea_plugin}}"
   register: IDEA_PLUGIN_ARCHIVE
 

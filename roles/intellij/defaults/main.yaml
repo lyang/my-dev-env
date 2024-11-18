@@ -8,4 +8,5 @@ IDEA_PLUGINS_BASE_DIR:
 IDEA_PLUGINS:
   - com.google.idea.bazel.ijwb
   - google-java-format
+  - Key Promoter X
 
