@@ -1,4 +1,22 @@
 ---
-- name: IntelliJ IDEA CE
+- name: "Create {{IDEA_TEMP_DIR}}"
+  ansible.builtin.file:
+    path: "{{IDEA_TEMP_DIR}}"
+    state: directory
+
+- name: Install IntelliJ IDEA CE
   ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+
+- name: "Create IntelliJ IDEA DE Plugins Directory"
+  ansible.builtin.file:
+    path: "{{IDEA_PLUGINS_BASE_DIR[ansible_system|lower]}}/IntelliJIdea{{IDEA_VERSION.split('.')[:2]|join('.')}}/plugins"
+    state: directory
+    mode: "0775"
+  register: IDEA_CURRENT_PLUGINS_DIR
+
+- name: "Install Plugins"
+  ansible.builtin.include_tasks: plugin.yaml
+  loop: "{{IDEA_PLUGINS}}"
+  loop_control:
+    loop_var: idea_plugin
 

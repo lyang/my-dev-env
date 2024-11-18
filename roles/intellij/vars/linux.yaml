@@ -1,7 +1,5 @@
 ---
-IDEA_BUILD: "2024.2.4"
 IDEA_DIR: "/opt/idea"
 IDEA_BIN_DIR: "{{IDEA_DIR}}/bin"
-IDEA_CURRENT_DIR: "{{IDEA_DIR}}/{{IDEA_BUILD}}"
-IDEA_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/intellij"
+IDEA_CURRENT_DIR: "{{IDEA_DIR}}/{{IDEA_VERSION}}"
 

@@ -11,6 +11,7 @@ HOMEBREW_PACKAGES:
   - gnu-getopt
   - gnu-tar
   - grep
+  - jq
   - ncdu
   - openssl
   - pinentry-mac

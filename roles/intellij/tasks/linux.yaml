@@ -2,6 +2,18 @@
 - name: Include {{ansible_system}} Variables
   ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
 
+- name: "Get intellij-idea-ce Version"
+  ansible.builtin.shell:
+    cmd: curl --silent https://data.services.jetbrains.com/products/releases?code=IIC | jq --raw-output '.IIC[0] | [.version, .build, .downloads.linux.link][]'
+  register: IDEA_LATEST_VERSION
+  changed_when: false
+
+- name: "Set IDEA version Fact"
+  ansible.builtin.set_fact:
+    IDEA_VERSION: "{{IDEA_LATEST_VERSION.stdout_lines[0]}}"
+    IDEA_BUILD: "{{IDEA_LATEST_VERSION.stdout_lines[1]}}"
+    IDEA_DOWNLOAD_URL: "{{IDEA_LATEST_VERSION.stdout_lines[2]}}"
+
 - name: "Create {{IDEA_BIN_DIR}}"
   ansible.builtin.file:
     path: "{{IDEA_BIN_DIR}}"
@@ -17,14 +29,9 @@
   become: yes
   register: IDEA_CURRENT
 
-- name: "Create {{IDEA_TEMP_DIR}}"
-  ansible.builtin.file:
-    path: "{{IDEA_TEMP_DIR}}"
-    state: directory
-
-- name: "Download ideaIC-{{IDEA_BUILD}}.tar.gz"
+- name: "Download intellij-idea-ce"
   ansible.builtin.get_url:
-    url: "https://download.jetbrains.com/idea/ideaIC-{{IDEA_BUILD}}.tar.gz"
+    url: "{{IDEA_DOWNLOAD_URL}}"
     dest: "{{IDEA_TEMP_DIR}}"
   register: IDEA_INSTALLER
   when: IDEA_CURRENT.changed
@@ -43,7 +50,7 @@
 - name: "Create Symlink {{IDEA_BIN_DIR}}/idea"
   ansible.builtin.file:
     path: "{{IDEA_BIN_DIR}}/idea"
-    src: "{{IDEA_CURRENT_DIR}}/bin/idea.sh"
+    src: "{{IDEA_CURRENT_DIR}}/bin/idea"
     state: link
   become: yes
 
@@ -53,23 +60,4 @@
     create: yes
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: export PATH="{{IDEA_BIN_DIR}}:$PATH"
-
-- name: "Setup {{ansible_env.HOME}}/.ideavimrc"
-  ansible.builtin.lineinfile:
-    path: "{{ansible_env.HOME}}/.ideavimrc"
-    line: source "{{role_path}}/files/idea.vim"
-    create: yes
-
-- name: "Create {{IDEA_PLUGIN_DIR}}"
-  ansible.builtin.file:
-    path: "{{IDEA_PLUGIN_DIR}}"
-    state: directory
-    mode: "0775"
-
-- name: "Install Plugins"
-  ansible.builtin.include_tasks: plugin.yaml
-  loop: "{{IDEA_PLUGINS|dict2items}}"
-  loop_control:
-    loop_var: idea_plugin
-    label: "{{idea_plugin.key}}"
 
