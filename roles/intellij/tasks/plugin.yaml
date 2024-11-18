@@ -2,13 +2,19 @@
 - name: "Download {{idea_plugin}}"
   ansible.builtin.get_url:
     url: "https://plugins.jetbrains.com/pluginManager?action=download&id={{idea_plugin|urlencode}}&build={{IDEA_BUILD}}"
-    dest: "{{IDEA_TEMP_DIR}}/{{idea_plugin}}"
+    dest: "{{IDEA_TEMP_DIR}}"
   register: IDEA_PLUGIN_ARCHIVE
 
-- name: "Unarchive {{idea_plugin}}"
+- name: "Unarchive {{IDEA_PLUGIN_ARCHIVE.dest|basename}}"
   ansible.builtin.unarchive:
     src: "{{IDEA_PLUGIN_ARCHIVE.dest}}"
     dest: "{{IDEA_CURRENT_PLUGINS_DIR.path}}"
     remote_src: yes
-  when: IDEA_PLUGIN_ARCHIVE.changed
+  when: IDEA_PLUGIN_ARCHIVE.changed and IDEA_PLUGIN_ARCHIVE.dest.endswith(".zip")
+
+- name: "Copy {{IDEA_PLUGIN_ARCHIVE.dest|basename}}"
+  ansible.builtin.copy:
+    src: "{{IDEA_PLUGIN_ARCHIVE.dest}}"
+    dest: "{{IDEA_CURRENT_PLUGINS_DIR.path}}"
+  when: IDEA_PLUGIN_ARCHIVE.changed and IDEA_PLUGIN_ARCHIVE.dest.endswith(".jar")
 
