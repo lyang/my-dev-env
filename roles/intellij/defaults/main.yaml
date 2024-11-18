@@ -6,7 +6,8 @@ IDEA_PLUGINS_BASE_DIR:
   darwin: "{{ansible_env.HOME}}/Library/Application Support/JetBrains"
 
 IDEA_PLUGINS:
+  - Key Promoter X
+  - com.arcticicestudio.nord.jetbrains
   - com.google.idea.bazel.ijwb
   - google-java-format
-  - Key Promoter X
 
