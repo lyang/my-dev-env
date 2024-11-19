@@ -45,7 +45,6 @@
     path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
     line: "plugins=({{PLUGINS|join(' ')}})"
     regexp: "^plugins=.*"
-  when: OMZ_REPO.changed
 
 - name: "Git Clone romkatv/powerlevel10k"
   ansible.builtin.git:

@@ -1,10 +1,18 @@
 ---
 PLUGINS:
+  - bazel
+  - brew
   - colored-man-pages
   - command-not-found
+  - docker
   - git
   - gpg-agent
-  - nvm
+  - mvn
+  - npm
+  - podman
+  - poetry
+  - pyenv
+  - rbenv
   - sdk
   - terraform
   - tmux
