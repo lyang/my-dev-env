@@ -12,6 +12,7 @@ HOMEBREW_PACKAGES:
   - gnu-tar
   - grep
   - jq
+  - lcov
   - ncdu
   - openssl
   - pinentry-mac

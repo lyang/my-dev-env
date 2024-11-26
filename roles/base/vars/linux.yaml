@@ -47,6 +47,7 @@ OPTIONAL_PACKAGES:
     - graphviz
     - hunspell
     - jq
+    - lcov
     - man-db
     - ripgrep
     - tree
