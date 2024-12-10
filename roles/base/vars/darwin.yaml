@@ -10,6 +10,7 @@ HOMEBREW_PACKAGES:
   - coreutils
   - gnu-getopt
   - gnu-tar
+  - gnupg
   - grep
   - jq
   - lcov
