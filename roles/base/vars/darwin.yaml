@@ -19,6 +19,7 @@ HOMEBREW_PACKAGES:
   - pinentry-mac
   - python3
   - ripgrep
+  - shellcheck
   - tree
   - zsh
 
