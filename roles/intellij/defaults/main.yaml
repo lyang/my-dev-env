@@ -12,6 +12,7 @@ IDEA_PLUGINS_DIR:
 IDEA_PLUGINS:
   - Key Promoter X
   - com.arcticicestudio.nord.jetbrains
+  - com.github.copilot
   - com.google.idea.bazel.ijwb
   - google-java-format
 
