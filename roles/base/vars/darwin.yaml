@@ -1,7 +1,6 @@
 ---
 HOMEBREW_CASK_PACKAGES:
   - firefox
-  - intellij-idea-ce
   - iterm2
   - rectangle
   - stats
