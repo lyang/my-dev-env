@@ -1,0 +1,6 @@
+---
+- name: "Install helm"
+  community.general.homebrew:
+    state: latest
+    name: helm
+
