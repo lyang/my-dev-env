@@ -1,0 +1,6 @@
+---
+- name: "Install talosctl"
+  community.general.homebrew:
+    state: latest
+    name: talosctl
+
