@@ -1,0 +1,11 @@
+---
+- name: "Add fluxcd/tap to homebrew"
+  community.general.homebrew_tap:
+    name: fluxcd/tap
+    state: present
+
+- name: "Install Flux CLI"
+  community.general.homebrew:
+    state: latest
+    name: fluxcd/tap/flux
+
