@@ -1,7 +1,6 @@
 ---
 REQUIRED_PACKAGES:
   common:
-    - awscli
     - curl
     - dbus-x11
     - git

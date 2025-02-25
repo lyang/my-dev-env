@@ -1,0 +1,6 @@
+---
+- name: "Install awscli"
+  community.general.homebrew:
+    state: latest
+    name: awscli
+
