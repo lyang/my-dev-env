@@ -1,0 +1,6 @@
+---
+- name: "Install sops"
+  community.general.homebrew:
+    state: latest
+    name: sops
+
