@@ -1,0 +1,6 @@
+---
+- name: "Install age"
+  community.general.homebrew:
+    state: latest
+    name: age
+
