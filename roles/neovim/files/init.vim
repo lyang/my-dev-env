@@ -205,6 +205,11 @@ nvim_lsp.vimls.setup {
   capabilities = capabilities,
   on_attach = on_attach,
 }
+
+nvim_lsp.yamlls.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+}
 EOF
 " }}}
 

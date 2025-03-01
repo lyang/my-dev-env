@@ -1,5 +1,7 @@
 ---
 NODE_PACKAGES:
   - bash-language-server
-  - vim-language-server
   - neovim
+  - vim-language-server
+  - yaml-language-server
+
