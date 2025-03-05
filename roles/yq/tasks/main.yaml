@@ -1,0 +1,6 @@
+---
+- name: "Install yq"
+  community.general.homebrew:
+    state: latest
+    name: yq
+
