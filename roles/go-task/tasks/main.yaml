@@ -1,0 +1,11 @@
+---
+- name: "Add go-task/tap to homebrew"
+  community.general.homebrew_tap:
+    name: go-task/tap
+    state: present
+
+- name: "Install go-task"
+  community.general.homebrew:
+    state: latest
+    name: go-task/tap/go-task
+
