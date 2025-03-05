@@ -1,0 +1,6 @@
+---
+- name: "Install kustomize"
+  community.general.homebrew:
+    state: latest
+    name: kustomize
+
