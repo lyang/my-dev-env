@@ -3,5 +3,6 @@ NODE_PACKAGES:
   - bash-language-server
   - neovim
   - vim-language-server
+  - vscode-langservers-extracted
   - yaml-language-server
 
