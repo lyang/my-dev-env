@@ -8,7 +8,6 @@ REQUIRED_PACKAGES:
     - zip
     - zsh
   debian:
-    - coreutils
     - dconf-cli
     - libffi-dev
     - libglib2.0-bin
