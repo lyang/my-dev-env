@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/ansible/ansible-lint/refs/heads/main/src/ansiblelint/schemas/tasks.json 
+- name: Install {{ansible_distribution}} Packages
+  become: true
+  ansible.builtin.dnf:
+    state: latest
+    name:
+      - curl
+      - file
+      - git
+      - procps-ng
+      - python3-libdnf5
+

@@ -1,0 +1,6 @@
+---
+- name: Install {{ansible_distribution}} Packages
+  ansible.builtin.include_tasks:
+    file: "{{ansible_distribution|lower}}.yaml"
+
+

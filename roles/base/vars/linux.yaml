@@ -1,16 +1,13 @@
 ---
 REQUIRED_PACKAGES:
   common:
-    - curl
     - dbus-x11
-    - git
     - gnome-terminal
     - shellcheck
     - unzip
     - zip
     - zsh
   debian:
-    - build-essential
     - coreutils
     - dconf-cli
     - libffi-dev
