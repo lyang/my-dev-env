@@ -1,0 +1,4 @@
+---
+- name: "Setup For {{ansible_system}}"
+  ansible.builtin.include_tasks: "{{ansible_os_family|lower}}.yaml"
+

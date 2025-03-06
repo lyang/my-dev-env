@@ -1,0 +1,8 @@
+---
+- name: "Install 1password"
+  community.general.homebrew_cask:
+    state: latest
+    name:
+      - 1password
+      - 1password-cli
+

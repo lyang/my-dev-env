@@ -1,0 +1,53 @@
+---
+- name: "Create APT Keyrings Directory"
+  become: true
+  ansible.builtin.file:
+    path: "/etc/apt/keyrings"
+    state: directory
+    mode: '0755'
+
+- name: "Create Temp Dir"
+  ansible.builtin.file:
+    path: "/tmp/{{playbook_dir|basename}}/ansible.roles/{{role_name}}"
+    state: directory
+  register: OP_TEMP
+
+- name: "Download 1password Signing Key"
+  ansible.builtin.get_url:
+    url: https://downloads.1password.com/linux/keys/1password.asc
+    dest: "{{OP_TEMP.path}}"
+  register: OP_REPO_KEY
+
+- name: "Dearmor 1password Signing Key"
+  ansible.builtin.shell:
+    cmd: "gpg --batch --yes --output {{OP_TEMP.path}}/dearmored.1password.gpg --dearmor {{OP_REPO_KEY.dest}}"
+  when: OP_REPO_KEY.changed
+
+- name: "Copy 1password Signing Key To Keyrings"
+  become: true
+  ansible.builtin.copy:
+    src: "{{OP_TEMP.path}}/dearmored.1password.gpg"
+    dest: "/etc/apt/keyrings/1password.gpg"
+
+- name: "Get OS Arch"
+  ansible.builtin.shell: dpkg --print-architecture
+  register: ARCH
+  changed_when: false
+
+- name: "Add APT Source List"
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/1password.list
+    content: "deb [arch={{ARCH.stdout}} signed-by=/etc/apt/keyrings/1password.gpg] https://downloads.1password.com/linux/debian/{{ARCH.stdout}} stable main"
+    mode: '0644'
+
+- name: Install 1password
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    autoremove: true
+    install_recommends: false
+    update_cache: true
+    name:
+      - 1password
+      - 1password-cli

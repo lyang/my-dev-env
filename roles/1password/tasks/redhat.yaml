@@ -1,0 +1,18 @@
+---
+- name: "Add 1password repo"
+  become: true
+  ansible.builtin.yum_repository:
+    name: 1password
+    baseurl: https://downloads.1password.com/linux/rpm/stable/$basearch
+    gpgkey: https://downloads.1password.com/linux/keys/1password.asc
+    gpgcheck: true
+    state: present
+    description: 1password
+
+- name: Install 1password
+  become: true
+  ansible.builtin.dnf:
+    state: latest
+    name:
+      - 1password
+      - 1password-cli
