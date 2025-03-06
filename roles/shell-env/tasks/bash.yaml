@@ -1,22 +1,22 @@
 ---
-- name: "Create {{shell}} Env Script"
+- name: "Create bash-env.sh"
   ansible.builtin.copy:
-    dest: "{{playbook_dir}}/.generated/{{shell}}-env.sh"
+    dest: "{{playbook_dir}}/.generated/bash-env.sh"
     content: ""
     force: false
-  register: ZSH_ENV_SH
+  register: BASH_ENV_SH
 
 - name: "Source Shared Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{ZSH_ENV_SH.dest}}"
-    create: yes
+    path: "{{BASH_ENV_SH.dest}}"
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: source {{SHARED_ENV_SH.dest}}
+    create: true
 
 - name: "Add To User Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{ansible_env.HOME}}/{{SHELLS[shell]}}"
-    create: yes
+    path: "{{ansible_env.HOME}}/.bashrc"
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{ZSH_ENV_SH.dest}}
+    block: source {{BASH_ENV_SH.dest}}
+    create: true
 

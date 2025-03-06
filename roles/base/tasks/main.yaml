@@ -1,17 +1,4 @@
 ---
-- name: "Create Shared Shell Env"
-  ansible.builtin.copy:
-    dest: "{{playbook_dir}}/.generated/shared-env.sh"
-    content: ""
-    force: false
-  register: SHARED_ENV_SH
-
-- name: Setup Shell Env
-  ansible.builtin.include_tasks: "{{shell}}.yaml"
-  loop: "{{ SHELLS.keys()|list }}"
-  loop_control:
-    loop_var: shell
-
 - name: Include {{ansible_system}} Variables
   ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
 
