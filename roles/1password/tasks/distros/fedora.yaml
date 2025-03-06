@@ -1,0 +1,9 @@
+---
+- name: "Add 1password repo"
+  ansible.builtin.yum_repository:
+    name: 1password
+    baseurl: https://downloads.1password.com/linux/rpm/stable/$basearch
+    gpgkey: https://downloads.1password.com/linux/keys/1password.asc
+    gpgcheck: true
+  become: true
+
