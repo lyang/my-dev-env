@@ -1,0 +1,13 @@
+---
+- name: "Setup For {{ansible_distribution}}"
+  ansible.builtin.include_tasks: "distros/{{ansible_distribution|lower}}.yaml"
+
+- name: "Install Packages"
+  become: true
+  ansible.builtin.package:
+    name:
+      - 1password
+      - 1password-cli
+    state: latest
+    update_cache: true
+
