@@ -7,6 +7,7 @@
     block: |
       eval "$(/opt/homebrew/bin/brew shellenv)"
       export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+      export PATH="$(brew --prefix)/opt/gnu-getopt/bin:$PATH"
 
 - name: "Install Homebrew Casks"
   community.general.homebrew_cask:

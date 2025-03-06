@@ -77,7 +77,7 @@ write() {
 
 create-dockerfile
 
-${RUNTIME:-podman} build -f $DOCKERFILE -t localhost/my-dot-file-container:$DISTRO-$TAG $CURRENT_DIR
+${RUNTIME:-podman} build --platform=linux/amd64 -f $DOCKERFILE -t localhost/my-dot-file-container:$DISTRO-$TAG $CURRENT_DIR
 
 echo "localhost/my-dot-file-container:$DISTRO-$TAG has been built successfully"
 
