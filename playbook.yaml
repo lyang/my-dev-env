@@ -1,11 +1,34 @@
----
 - hosts: localhost
-  tasks:
-    - ansible.builtin.shell: "ls roles"
-      register: ROLES
-      changed_when: false
-
-    - name: Include All Roles
-      ansible.builtin.include_role:
-        name: "{{item}}"
-      loop: "{{ROLES.stdout_lines}}"
+  roles:
+    - age
+    - awscli
+    - base
+    - bazelisk
+    - colorscheme
+    - coreutils
+    - docker
+    - flux
+    - gitconfig
+    - gnupg
+    - go-task
+    - helm
+    - homebrew-dependencies
+    - intellij
+    - kubeconform
+    - kustomize
+    - neovim
+    - nerdfonts
+    - node
+    - ohmyzsh
+    - podman
+    - poetry
+    - pyenv
+    - rbenv
+    - rustup
+    - sdkman
+    - shell-env
+    - sops
+    - talosctl
+    - tfenv
+    - tmux
+    - yq
