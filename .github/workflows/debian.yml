@@ -6,9 +6,7 @@ on:
     branches: [ "main" ]
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: "Debian"
-        run: "./containerize.sh --runtime=docker debian:latest"
+    uses: ./.github/workflows/roles.yml
+    with:
+      container: debian:latest
 
