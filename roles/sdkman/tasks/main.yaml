@@ -13,7 +13,6 @@
 
 - name: "Install SDKMAN"
   ansible.builtin.shell:
-    executable: "{{ZSH_PATH}}"
     cmd: "{{SDKMAN_INSTALLER.dest}}"
   when: SDKMAN_INSTALLER.changed
 

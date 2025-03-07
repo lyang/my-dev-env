@@ -7,7 +7,7 @@
 
 - name: "Install {{sdkman_package.key}}:{{sdkman_package.value}}"
   ansible.builtin.shell:
-    executable: "{{ZSH_PATH}}"
+    executable: /bin/bash
     cmd: |
       source "{{role_path}}/files/sdkman.sh"
       sdk install {{sdkman_package.key}} {{sdkman_package.value}}
