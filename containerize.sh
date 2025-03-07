@@ -4,9 +4,8 @@ set -o nounset
 
 CURRENT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 CURRENT_FILE=$(basename "${BASH_SOURCE[0]}")
-REPO_NAME=$(basename $CURRENT_DIR)
 
-OPTS=$(getopt --name $CURRENT_FILE --options r: --longoptions runtime: -- "$@")
+OPTS=$(getopt --name "$CURRENT_FILE" --options r: --longoptions runtime: -- "$@")
 eval set -- "$OPTS"
 unset OPTS
 
@@ -31,12 +30,12 @@ USER_ID=$(id -u)
 USER_NAME=$(id -un)
 
 create-dockerfile() {
-  mkdir -p $CURRENT_DIR/.generated/$DISTRO/$TAG
-  rm -rf $DOCKERFILE
+  mkdir -p "$CURRENT_DIR/.generated/$DISTRO/$TAG"
+  rm -rf "$DOCKERFILE"
   write "FROM docker.io/library/$DISTRO:$TAG"
-  base-package-for-$DISTRO
+  base-package-for-"$DISTRO"
   write "ENV LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8"
-  locale-for-$DISTRO
+  locale-for-"$DISTRO"
   write "RUN useradd -u $USER_ID -U -m $USER_NAME"
   write "RUN sed -i 's/^SHELL=\/bin\/sh/SHELL=\/usr\/bin\/zsh/g' /etc/default/useradd"
   write "RUN echo '$USER_NAME ALL=(root) NOPASSWD:ALL' >> /etc/sudoers.d/$USER_NAME"
@@ -72,12 +71,12 @@ locale-for-fedora() {
 }
 
 write() {
-  echo $1 >> $DOCKERFILE
+  echo "$1" >> "$DOCKERFILE"
 }
 
 create-dockerfile
 
-${RUNTIME:-podman} build --platform=linux/amd64 -f $DOCKERFILE -t localhost/my-dot-file-container:$DISTRO-$TAG $CURRENT_DIR
+${RUNTIME:-podman} build --platform=linux/amd64 -f "$DOCKERFILE" -t localhost/my-dot-file-container:"$DISTRO-$TAG" "$CURRENT_DIR"
 
 echo "localhost/my-dot-file-container:$DISTRO-$TAG has been built successfully"
 
