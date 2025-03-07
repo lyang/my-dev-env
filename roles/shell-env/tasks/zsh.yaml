@@ -15,7 +15,7 @@
 
 - name: "Add To User Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{ansible_env.HOME}}/.bashrc"
+    path: "{{ansible_env.HOME}}/.zshrc"
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: source {{ZSH_ENV_SH.dest}}
     create: true
