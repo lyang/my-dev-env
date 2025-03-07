@@ -26,7 +26,7 @@
 
 - name: "List Installed Versions"
   ansible.builtin.shell:
-    executable: "{{ZSH_PATH}}"
+    executable: /bin/bash
     cmd: |
       source {{role_path}}/files/rbenv.sh
       rbenv versions --bare
@@ -42,7 +42,7 @@
 
 - name: "Set Global Ruby Version"
   ansible.builtin.shell:
-    executable: "{{ZSH_PATH}}"
+    executable: /bin/bash
     cmd: |
       source {{role_path}}/files/rbenv.sh
       rbenv global {{RUBY_VERSIONS[-1]}}
