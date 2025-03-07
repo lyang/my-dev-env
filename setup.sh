@@ -2,11 +2,14 @@
 set -o errexit
 
 CURRENT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+PLAYBOOK=$CURRENT_DIR/playbook.yaml
+INVENTORY=$CURRENT_DIR/inventory.yaml
 
 setup() {
-  setup-$(uname)
+  setup-"$(uname)"
   setup-homebrew
   setup-ansible
+  generate-playbook
   run-playbook
 }
 
@@ -14,7 +17,7 @@ setup-Linux() {
   HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
   DISTRO=$(grep '^ID=' /etc/os-release | cut -d '=' -f 2 | tr -d "'\"")
   echo "Setting up $DISTRO"
-  setup-$DISTRO
+  setup-"$DISTRO"
 }
 
 setup-ubuntu() {
@@ -56,7 +59,8 @@ setup-homebrew() {
   if [[ $(command -v brew) == "" ]]; then
     echo "Installing Homebrew"
     NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+    BREW_SHELL_ENV=$("$HOMEBREW_PREFIX"/bin/brew shellenv)
+    eval "$BREW_SHELL_ENV"
   else
     brew update
   fi
@@ -67,13 +71,23 @@ setup-ansible() {
   ansible-galaxy collection install community.general
 }
 
+generate-playbook() {
+  echo "- hosts: localhost" > "$PLAYBOOK"
+  echo "  roles:" >> "$PLAYBOOK"
+  find roles -type d -depth 1 -print0 | sort --zero-terminated | while IFS= read -r -d $'\0' role; do
+    role_name=$(basename "$role")
+    echo "    - role: $role_name" >> "$PLAYBOOK"
+    echo "      tags: [$role_name]" >> "$PLAYBOOK"
+  done
+}
+
 run-playbook() {
   if sudo --non-interactive true 2> /dev/null; then
     ANSIBLE_OPTIONS=""
   else
     ANSIBLE_OPTIONS="--ask-become-pass"
   fi
-  ansible-playbook $CURRENT_DIR/playbook.yaml --inventory $CURRENT_DIR/inventory.yaml $ANSIBLE_OPTIONS
+  ansible-playbook "$PLAYBOOK" --inventory "$INVENTORY" $ANSIBLE_OPTIONS
 }
 
 setup
