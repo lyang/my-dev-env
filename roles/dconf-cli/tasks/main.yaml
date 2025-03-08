@@ -1,0 +1,5 @@
+---
+- name: Install dconf
+  ansible.builtin.include_tasks: "{{ansible_os_family|lower}}.yaml"
+  when: ansible_system|lower == "linux"
+

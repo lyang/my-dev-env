@@ -1,0 +1,9 @@
+---
+- name: "Install dconf-cli"
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    autoremove: true
+    install_recommends: false
+    name: dconf-cli
+
