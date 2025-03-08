@@ -6,9 +6,5 @@ on:
     branches: [ "main" ]
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: "Ubuntu"
-        run: "./setup.sh"
+    uses: ./.github/workflows/roles.yml
 

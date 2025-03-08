@@ -6,9 +6,7 @@ on:
     branches: [ "main" ]
 jobs:
   build:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: "MacOS"
-        run: "./setup.sh"
+    uses: ./.github/workflows/roles.yml
+    with:
+      runs-on: macos-latest
 

@@ -13,14 +13,12 @@
 
 - name: "List Installed Packages"
   ansible.builtin.shell:
-    executable: "{{ZSH_PATH}}"
     cmd: cargo install --list | grep --extended-regex --only-matching --color=never '^[^ ]*' || echo 'N/A'
   register: CARGO_INSTALLED_VERSIONS
   changed_when: false
 
 - name: "Install Cargo Packages"
   ansible.builtin.shell:
-    executable: "{{ZSH_PATH}}"
     cmd: cargo install {{cargo_package}}
   loop: "{{CARGO_PACKAGES}}"
   loop_control:

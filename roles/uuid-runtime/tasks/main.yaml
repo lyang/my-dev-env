@@ -1,0 +1,10 @@
+---
+- name: "Install uuid-runtime"
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    autoremove: true
+    install_recommends: false
+    name: uuid-runtime
+  when: ansible_os_family|lower == "debian"
+
