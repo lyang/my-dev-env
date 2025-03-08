@@ -1,0 +1,10 @@
+---
+- name: "Install libglib2.0-bin"
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    autoremove: true
+    install_recommends: false
+    name: libglib2.0-bin
+  when: ansible_os_family|lower == "debian"
+

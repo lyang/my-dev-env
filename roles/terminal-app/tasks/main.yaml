@@ -1,0 +1,4 @@
+---
+- name: Install terminal app
+  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+
