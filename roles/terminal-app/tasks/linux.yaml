@@ -1,0 +1,7 @@
+---
+- name: Install gnome-terminal
+  become: true
+  ansible.builtin.package:
+    state: latest
+    name: gnome-terminal
+
