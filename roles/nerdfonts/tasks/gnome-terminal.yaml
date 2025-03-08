@@ -16,11 +16,11 @@
 
 - name: "Use '{{FONT.NAME}}' For Default Profile"
   ansible.builtin.shell:
-    cmd: "dconf write {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/font \"'{{FONT.NAME}} {{FONT.SIZE}}'\""
+    cmd: "dbus-run-session dconf write {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/font \"'{{FONT.NAME}} {{FONT.SIZE}}'\""
   when: FONT.NAME not in NERD_FONTS_CURRENT.stdout
 
 - name: "Enable Custom Font For Default Profile"
   ansible.builtin.shell:
-    cmd: "dconf write {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/use-system-font false"
+    cmd: "dbus-run-session dconf write {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/use-system-font false"
   when: FONT.NAME not in NERD_FONTS_CURRENT.stdout
 

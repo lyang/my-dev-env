@@ -1,0 +1,6 @@
+- name: "Install iterm2"
+  community.general.homebrew_cask:
+    accept_external_apps: yes
+    state: latest
+    name: iterm2
+

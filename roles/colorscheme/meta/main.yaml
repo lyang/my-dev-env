@@ -1,0 +1,9 @@
+---
+dependencies:
+  - role: coreutils
+  - role: dbus-daemon
+  - role: dconf
+  - role: libglib2.0-bin
+  - role: terminal-app
+  - role: uuid-runtime
+

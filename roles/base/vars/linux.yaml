@@ -9,12 +9,10 @@ REQUIRED_PACKAGES:
     - zsh
   debian:
     - libffi-dev
-    - libglib2.0-bin
     - libssl-dev
     - libyaml-dev
     - python3-apt
     - python3-venv
-    - uuid-runtime
     - zlib1g-dev
   fedora:
     - bzip2-devel
