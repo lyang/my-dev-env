@@ -7,9 +7,8 @@
 
 - name: "Install Nord Color Scheme For Gnome Terminal"
   ansible.builtin.shell:
-    cmd: "./nord.sh"
+    cmd: "dbus-run-session ./nord.sh"
     chdir: "{{ansible_env.HOME}}/.nord-gnome-terminal/src"
-  changed_when: false
   when: NORD_GNOME_TERMINAL_REPO.changed
 
 - name: "List Gnome Terminal Profile Ids"
