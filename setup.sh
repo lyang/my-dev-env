@@ -10,7 +10,7 @@ setup() {
   setup-homebrew
   setup-ansible
   generate-playbook
-  run-playbook
+  run-playbook "$@"
 }
 
 setup-Linux() {
@@ -82,13 +82,13 @@ generate-playbook() {
 }
 
 run-playbook() {
-  if sudo --non-interactive true 2> /dev/null; then
-    ANSIBLE_OPTIONS=""
-  else
-    ANSIBLE_OPTIONS="--ask-become-pass"
+  ANSIBLE_OPTIONS=("${@}")
+  if ! sudo --non-interactive true 2> /dev/null; then
+    ANSIBLE_OPTIONS+=("--ask-become-pass")
   fi
-  ansible-playbook "$PLAYBOOK" --inventory "$INVENTORY" $ANSIBLE_OPTIONS
+  ansible-playbook "$PLAYBOOK" --inventory "$INVENTORY" "${ANSIBLE_OPTIONS[@]}"
 }
 
-setup
+setup "$@"
+
 echo 'Setup finished. Please restart your terminal'
