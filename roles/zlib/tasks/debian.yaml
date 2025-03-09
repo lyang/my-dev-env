@@ -1,0 +1,9 @@
+---
+- name: "Install zlib1g-dev"
+  become: true
+  ansible.builtin.apt:
+    state: latest
+    autoremove: true
+    install_recommends: false
+    name: zlib1g-dev
+

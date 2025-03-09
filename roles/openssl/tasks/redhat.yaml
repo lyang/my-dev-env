@@ -1,0 +1,7 @@
+---
+- name: "Install openssl-devel"
+  become: true
+  ansible.builtin.dnf:
+    state: latest
+    name: openssl-devel
+

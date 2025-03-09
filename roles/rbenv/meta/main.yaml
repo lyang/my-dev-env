@@ -1,3 +1,8 @@
 ---
 dependencies:
+  - role: autoconf
+  - role: gcc
+  - role: openssl
   - role: shell-env
+  - role: zlib
+

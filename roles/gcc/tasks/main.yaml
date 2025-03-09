@@ -1,0 +1,8 @@
+---
+- name: Install gcc
+  become: true
+  ansible.builtin.package:
+    state: latest
+    name: gcc
+  when: ansible_system|lower == "linux"
+
