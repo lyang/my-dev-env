@@ -1,7 +1,0 @@
----
-- name: "Add docker-ce repo"
-  ansible.builtin.shell:
-    cmd: "dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo"
-    creates: "/etc/yum.repos.d/docker-ce.repo"
-  become: yes
-

@@ -1,4 +1,6 @@
 ---
-- name: "Setup For {{ansible_system}}"
-  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+- name: "Install Docker"
+  community.general.homebrew:
+    state: latest
+    name: docker
 

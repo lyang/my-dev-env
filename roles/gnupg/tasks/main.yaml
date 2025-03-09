@@ -1,4 +1,9 @@
 ---
+- name: "Install gnupg"
+  community.general.homebrew:
+    state: latest
+    name: gnupg
+
 - name: "Set GPG_TTY"
   ansible.builtin.blockinfile:
     path: "{{SHARED_ENV_SH.dest}}"

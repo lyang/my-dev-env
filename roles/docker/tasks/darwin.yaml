@@ -1,6 +1,0 @@
----
-- name: "Install Docker"
-  community.general.homebrew_cask:
-    state: latest
-    name: docker
-
