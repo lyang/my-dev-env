@@ -1,0 +1,6 @@
+---
+- name: "Install zip"
+  community.general.homebrew:
+    state: latest
+    name: zip
+
