@@ -1,0 +1,6 @@
+---
+- name: "Install jq"
+  community.general.homebrew:
+    state: latest
+    name: jq
+
