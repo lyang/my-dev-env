@@ -1,3 +1,4 @@
 ---
 dependencies:
+  - role: autoconf
   - role: shell-env

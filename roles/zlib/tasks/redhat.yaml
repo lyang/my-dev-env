@@ -1,0 +1,7 @@
+---
+- name: "Install zlib-devel"
+  become: true
+  ansible.builtin.dnf:
+    state: latest
+    name: zlib-devel
+

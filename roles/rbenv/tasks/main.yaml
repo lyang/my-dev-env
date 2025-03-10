@@ -1,34 +1,13 @@
 ---
-- name: "Git Clone rbenv/rbenv"
-  ansible.builtin.git:
-    repo: https://github.com/rbenv/rbenv.git
-    dest: "{{ansible_env.HOME}}/.rbenv"
-  register: RBENV_REPO
-
-- name: "Git Clone rbenv/ruby-build"
-  ansible.builtin.git:
-    repo: https://github.com/rbenv/ruby-build.git
-    dest: "{{ansible_env.HOME}}/.rbenv/plugins/ruby-build"
-  register: RBENV_RUBY_BUILD_REPO
-
-- name: "Config And Make"
-  ansible.builtin.shell:
-    cmd: "src/configure && make -C src"
-    chdir: "{{ansible_env.HOME}}/.rbenv"
-  when: RBENV_REPO.changed or RBENV_RUBY_BUILD_REPO.changed
-
-- name: "Config Shell Env"
-  ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{role_path}}/files/rbenv.sh
+- name: "Install rbenv"
+  community.general.homebrew:
+    state: latest
+    name: rbenv
 
 - name: "List Installed Versions"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/rbenv.sh
       rbenv versions --bare
   register: RUBY_INSTALLED_VERSIONS
   changed_when: false
@@ -44,7 +23,6 @@
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/rbenv.sh
       rbenv global {{RUBY_VERSIONS[-1]}}
   when: RUBY_VERSIONS|last != RUBY_INSTALLED_VERSIONS.stdout_lines|last|default('N/A')
 

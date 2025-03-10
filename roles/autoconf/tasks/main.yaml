@@ -1,0 +1,6 @@
+---
+- name: "Install autoconf"
+  community.general.homebrew:
+    state: latest
+    name: autoconf
+

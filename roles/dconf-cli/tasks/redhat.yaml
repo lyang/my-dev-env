@@ -1,0 +1,7 @@
+---
+- name: "Install dconf"
+  become: true
+  ansible.builtin.dnf:
+    state: latest
+    name: dconf
+

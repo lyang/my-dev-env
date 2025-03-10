@@ -1,0 +1,44 @@
+name: Roles
+on:
+  workflow_call:
+    inputs:
+      runs-on:
+        required: false
+        type: string
+        default: ubuntu-latest
+      container:
+        required: false
+        type: string
+        default: ''
+jobs:
+  find-roles:
+    runs-on: ubuntu-latest
+    outputs:
+      roles: ${{ steps.roles.outputs.roles }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: roles
+        run: |
+          echo "roles=[$(ls roles | sed -E 's/(.*)/\"\1\"/g' | paste -sd , -)]" >> "$GITHUB_OUTPUT"
+  apply-role:
+    runs-on: ${{ inputs.runs-on }}
+    container: ${{ inputs.container }}
+    needs: find-roles
+    strategy:
+      matrix:
+        role: ${{ fromJson(needs.find-roles.outputs.roles) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - id: setup-debian
+        if: "${{ startsWith(inputs.container, 'debian') }}"
+        run: |
+          apt-get update && apt-get install sudo
+      - id: setup-fedora
+        if: "${{ startsWith(inputs.container, 'fedora') }}"
+        run: |
+          dnf install dnf-plugins-core --assumeyes
+      - id: apply
+        run: |
+          ./setup.sh --tags ${{ matrix.role }}
+

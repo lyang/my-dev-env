@@ -1,34 +1,15 @@
 ---
-- name: "Git Clone pyenv/pyenv"
-  ansible.builtin.git:
-    repo: https://github.com/pyenv/pyenv.git
-    dest: "{{ansible_env.HOME}}/.pyenv"
-  register: PYENV_REPO
-
-- name: "Git Clone pyenv/pyenv-virtualenv"
-  ansible.builtin.git:
-    repo: https://github.com/pyenv/pyenv-virtualenv.git
-    dest: "{{ansible_env.HOME}}/.pyenv/plugins/pyenv-virtualenv"
-  register: PYENV_VIRTUALENV_REPO
-
-- name: "Config And Make"
-  ansible.builtin.shell:
-    cmd: "src/configure && make -C src"
-    chdir: "{{ansible_env.HOME}}/.pyenv"
-  when: PYENV_REPO.changed or PYENV_VIRTUALENV_REPO.changed
-
-- name: "Config Shell Env"
-  ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{role_path}}/files/pyenv.sh
+- name: "Install pyenv"
+  community.general.homebrew:
+    state: latest
+    name:
+      - pyenv
+      - pyenv-virtualenv
 
 - name: "List Installed Versions"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/pyenv.sh
       pyenv versions --bare
   register: PYTHON_INSTALLED_VERSIONS
   changed_when: false
@@ -44,7 +25,6 @@
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/pyenv.sh
       pyenv global {{PYTHON_VERSIONS[-1]}}
   when: PYTHON_VERSIONS|last != PYTHON_INSTALLED_VERSIONS.stdout_lines|last|default('N/A')
 
