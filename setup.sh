@@ -74,7 +74,7 @@ setup-ansible() {
 generate-playbook() {
   echo "- hosts: localhost" > "$PLAYBOOK"
   echo "  roles:" >> "$PLAYBOOK"
-  find "$CURRENT_DIR/roles" -type d -maxdepth 1 -mindepth 1 -print0 | sort --zero-terminated | while IFS= read -r -d $'\0' role; do
+  find "$CURRENT_DIR/roles" -maxdepth 1 -mindepth 1 -type d -print0 | sort --zero-terminated | while IFS= read -r -d $'\0' role; do
     role_name=$(basename "$role")
     echo "    - role: $role_name" >> "$PLAYBOOK"
     echo "      tags: [$role_name]" >> "$PLAYBOOK"
