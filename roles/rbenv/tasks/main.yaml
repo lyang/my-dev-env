@@ -1,21 +1,8 @@
 ---
-- name: "Git Clone rbenv/rbenv"
-  ansible.builtin.git:
-    repo: https://github.com/rbenv/rbenv.git
-    dest: "{{ansible_env.HOME}}/.rbenv"
-  register: RBENV_REPO
-
-- name: "Git Clone rbenv/ruby-build"
-  ansible.builtin.git:
-    repo: https://github.com/rbenv/ruby-build.git
-    dest: "{{ansible_env.HOME}}/.rbenv/plugins/ruby-build"
-  register: RBENV_RUBY_BUILD_REPO
-
-- name: "Config And Make"
-  ansible.builtin.shell:
-    cmd: "src/configure && make -C src"
-    chdir: "{{ansible_env.HOME}}/.rbenv"
-  when: RBENV_REPO.changed or RBENV_RUBY_BUILD_REPO.changed
+- name: "Install rbenv"
+  community.general.homebrew:
+    state: latest
+    name: rbenv
 
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
