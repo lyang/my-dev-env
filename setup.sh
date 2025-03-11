@@ -30,7 +30,7 @@ setup-debian() {
 }
 
 setup-fedora() {
-  sudo dnf install --refresh --assumeyes gcc procps-ng curl file git python3-libdnf5
+  sudo dnf install --refresh --assumeyes @development-tools procps-ng curl file git python3-libdnf5
 }
 
 setup-Darwin() {
