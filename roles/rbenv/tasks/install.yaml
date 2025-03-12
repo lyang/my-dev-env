@@ -4,7 +4,7 @@
     executable: /bin/bash
     cmd: |
       source {{role_path}}/files/rbenv.sh
-      {{RUBY_BUILD_FLAGS[ansible_system|lower]}} rbenv install --skip-existing {{ruby_version}}
+      {{RUBY_BUILD_FLAGS[ansible_system|lower]}} rbenv install --skip-existing {{ruby_version}} -- --with-openssl-dir="$(brew --prefix openssl@3)" --with-zlib-dir="$(brew --prefix zlib)"
 
 - name: "Find Installed Packages"
   ansible.builtin.shell:
