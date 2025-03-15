@@ -3,4 +3,5 @@ CARGO_PACKAGES:
   - bat
   - fd-find
   - git-delta
+  - minijinja-cli
 
