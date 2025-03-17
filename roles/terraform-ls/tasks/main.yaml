@@ -1,0 +1,6 @@
+---
+- name: "Install terraform-ls"
+  community.general.homebrew:
+    state: latest
+    name: terraform-ls
+
