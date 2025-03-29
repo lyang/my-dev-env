@@ -1,0 +1,7 @@
+---
+- name: "Install chatgpt"
+  community.general.homebrew_cask:
+    state: latest
+    name: chatgpt
+  when: ansible_os_family|lower == "darwin"
+
