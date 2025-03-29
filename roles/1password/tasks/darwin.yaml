@@ -1,8 +1,20 @@
 ---
+- name: "Check 1Password System Installation"
+  ansible.builtin.shell:
+    cmd: mdfind "kMDItemKind = Application && kMDItemDisplayName = 1Password"
+  register: OP_INSTALLED_BY_SYSTEM
+  changed_when: false
+
 - name: "Install 1password"
   community.general.homebrew_cask:
     state: latest
     name:
       - 1password
+  when: OP_INSTALLED_BY_SYSTEM.stdout|length == 0
+
+- name: "Install 1password-cli"
+  community.general.homebrew_cask:
+    state: latest
+    name:
       - 1password-cli
 
