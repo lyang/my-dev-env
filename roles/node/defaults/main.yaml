@@ -1,6 +1,7 @@
 ---
 NODE_PACKAGES:
   - bash-language-server
+  - "@anthropic-ai/claude-code"
   - neovim
   - vim-language-server
   - vscode-langservers-extracted
