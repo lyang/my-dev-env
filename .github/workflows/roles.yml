@@ -31,9 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - id: setup-debian
-        if: "${{ startsWith(inputs.container, 'debian') }}"
+        if: "${{ startsWith(inputs.container, 'debian') || startsWith(inputs.container, 'ubuntu') }}"
         run: |
-          apt-get update && apt-get install sudo
+          apt-get update && apt-get install -y sudo
       - id: setup-fedora
         if: "${{ startsWith(inputs.container, 'fedora') }}"
         run: |
