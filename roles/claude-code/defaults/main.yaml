@@ -1,0 +1,3 @@
+---
+CLAUDE_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/{{role_name}}"
+
