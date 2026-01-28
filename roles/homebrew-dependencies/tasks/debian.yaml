@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/ansible/ansible-lint/refs/heads/main/src/ansiblelint/schemas/tasks.json 
-- name: Install {{ansible_distribution}} Packages
+- name: Install {{ansible_facts['distribution']}} Packages
   become: true
   ansible.builtin.apt:
     state: latest

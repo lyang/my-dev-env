@@ -1,4 +1,4 @@
 ---
-- name: "Set Color Scheme For {{ansible_system}}"
-  ansible.builtin.include_tasks: "{{TERMINALS[ansible_system|lower]}}.yaml"
+- name: "Set Color Scheme For {{ansible_facts['system']}}"
+  ansible.builtin.include_tasks: "{{TERMINALS[ansible_facts['system']|lower]}}.yaml"
 

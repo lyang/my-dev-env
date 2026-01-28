@@ -3,5 +3,5 @@
   community.general.homebrew_cask:
     state: latest
     name: chatgpt
-  when: ansible_os_family|lower == "darwin"
+  when: ansible_facts['os_family']|lower == "darwin"
 

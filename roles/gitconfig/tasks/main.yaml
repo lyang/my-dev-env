@@ -23,9 +23,9 @@
   community.general.git_config:
     scope: global
     name: user.signingkey
-    value: "{{ansible_env.GIT_USER_SIGNINGKEY}}"
+    value: "{{ansible_facts['env'].GIT_USER_SIGNINGKEY}}"
     state: present
   when:
     - signingkey.config_value|length == 0
-    - ansible_env.GIT_USER_SIGNINGKEY is defined
+    - ansible_facts['env'].GIT_USER_SIGNINGKEY is defined
 

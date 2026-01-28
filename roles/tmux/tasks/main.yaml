@@ -17,12 +17,12 @@
 
 - name: "Git Clone tmux-plugins/tpm"
   ansible.builtin.blockinfile:
-    path: "{{ansible_env.HOME}}/.tmux.conf"
+    path: "{{ansible_facts['env'].HOME}}/.tmux.conf"
     create: yes
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: source-file "{{role_path}}/files/tmux.conf"
 
 - ansible.builtin.shell:
-    cmd: "{{ansible_env.HOME}}/.tmux/plugins/tpm/bin/install_plugins"
+    cmd: "{{ansible_facts['env'].HOME}}/.tmux/plugins/tpm/bin/install_plugins"
   changed_when: false
 

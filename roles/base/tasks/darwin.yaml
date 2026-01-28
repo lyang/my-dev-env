@@ -15,7 +15,7 @@
     state: latest
     name: "{{HOMEBREW_CASK_PACKAGES}}"
 
-- name: "Install {{ansible_distribution}} Packages"
+- name: "Install {{ansible_facts['distribution']}} Packages"
   ansible.builtin.package:
     state: latest
     name: "{{HOMEBREW_PACKAGES}}"

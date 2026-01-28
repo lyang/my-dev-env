@@ -2,13 +2,13 @@
 - name: "Git Clone arcticicestudio/nord-gnome-terminal"
   ansible.builtin.git:
     repo: https://github.com/arcticicestudio/nord-gnome-terminal.git
-    dest: "{{ansible_env.HOME}}/.nord-gnome-terminal"
+    dest: "{{ansible_facts['env'].HOME}}/.nord-gnome-terminal"
   register: NORD_GNOME_TERMINAL_REPO
 
 - name: "Install Nord Color Scheme For Gnome Terminal"
   ansible.builtin.shell:
     cmd: "dbus-run-session ./nord.sh"
-    chdir: "{{ansible_env.HOME}}/.nord-gnome-terminal/src"
+    chdir: "{{ansible_facts['env'].HOME}}/.nord-gnome-terminal/src"
   when: NORD_GNOME_TERMINAL_REPO.changed
 
 - name: "List Gnome Terminal Profile Ids"

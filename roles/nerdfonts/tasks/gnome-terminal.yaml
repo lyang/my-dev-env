@@ -1,6 +1,6 @@
 ---
-- name: Include {{TERMINALS[ansible_system|lower]}} Variables
-  ansible.builtin.include_vars: "{{TERMINALS[ansible_system|lower]}}.yaml"
+- name: Include {{TERMINALS[ansible_facts['system']|lower]}} Variables
+  ansible.builtin.include_vars: "{{TERMINALS[ansible_facts['system']|lower]}}.yaml"
 
 - name: "Find Default Profile"
   ansible.builtin.shell:

@@ -2,11 +2,11 @@
 - name: "Git Clone arcticicestudio/nord-iterm2"
   ansible.builtin.git:
     repo: https://github.com/arcticicestudio/nord-iterm2.git
-    dest: "{{ansible_env.HOME}}/.nord-iterm2"
+    dest: "{{ansible_facts['env'].HOME}}/.nord-iterm2"
   register: NORD_ITERM2_REPO
 
 - name: "Install Nord Color Scheme For iterm2"
   ansible.builtin.shell:
-    cmd: "open {{ansible_env.HOME}}/.nord-iterm2/src/xml/Nord.itermcolors"
+    cmd: "open {{ansible_facts['env'].HOME}}/.nord-iterm2/src/xml/Nord.itermcolors"
   when: NORD_ITERM2_REPO.changed
 

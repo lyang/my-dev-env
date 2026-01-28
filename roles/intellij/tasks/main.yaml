@@ -5,11 +5,11 @@
     state: directory
 
 - name: Install IntelliJ IDEA CE
-  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+  ansible.builtin.include_tasks: "{{ansible_facts['system']|lower}}.yaml"
 
 - name: "Create IntelliJ IDEA CE Plugins Directory"
   ansible.builtin.file:
-    path: "{{IDEA_PLUGINS_DIR[ansible_system|lower]}}"
+    path: "{{IDEA_PLUGINS_DIR[ansible_facts['system']|lower]}}"
     state: directory
     mode: "0775"
   register: IDEA_CURRENT_PLUGINS_DIR
