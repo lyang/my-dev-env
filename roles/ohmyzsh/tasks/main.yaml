@@ -2,12 +2,12 @@
 - name: "Git Clone ohmyzsh/ohmyzsh"
   ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
-    dest: "{{ansible_env.HOME}}/.oh-my-zsh"
+    dest: "{{ansible_facts['env'].HOME}}/.oh-my-zsh"
   register: OMZ_REPO
 
 - name: "Copy zshrc.zsh-template to {{playbook_dir}}/.generated/oh-my-zsh.zshrc"
   ansible.builtin.copy:
-    src: "{{ansible_env.HOME}}/.oh-my-zsh/templates/zshrc.zsh-template"
+    src: "{{ansible_facts['env'].HOME}}/.oh-my-zsh/templates/zshrc.zsh-template"
     dest: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
     remote_src: yes
   when: OMZ_REPO.changed
@@ -49,11 +49,11 @@
 - name: "Git Clone romkatv/powerlevel10k"
   ansible.builtin.git:
     repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{ansible_env.HOME}}/.oh-my-zsh/custom/themes/powerlevel10k"
+    dest: "{{ansible_facts['env'].HOME}}/.oh-my-zsh/custom/themes/powerlevel10k"
 
-- name: "Symlink p10k.zsh to {{ansible_env.HOME}}/.p10k.zsh"
+- name: "Symlink p10k.zsh to {{ansible_facts['env'].HOME}}/.p10k.zsh"
   ansible.builtin.file:
-    path: "{{ansible_env.HOME}}/.p10k.zsh"
+    path: "{{ansible_facts['env'].HOME}}/.p10k.zsh"
     src: "{{role_path}}/files/p10k.zsh"
     state: link
   register: P10K_ZSH

@@ -1,5 +1,5 @@
 ---
-- name: Install {{ansible_distribution}} Packages
+- name: Install {{ansible_facts['distribution']}} Packages
   become: yes
   ansible.builtin.package:
     state: latest

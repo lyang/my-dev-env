@@ -1,6 +1,6 @@
 ---
-- name: Include {{ansible_system}} Variables
-  ansible.builtin.include_vars: "{{ansible_system|lower}}.yaml"
+- name: Include {{ansible_facts['system']}} Variables
+  ansible.builtin.include_vars: "{{ansible_facts['system']|lower}}.yaml"
 
 - name: "Get intellij-idea-ce Version"
   ansible.builtin.shell:

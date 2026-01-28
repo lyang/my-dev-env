@@ -6,5 +6,5 @@
     autoremove: true
     install_recommends: false
     name: libglib2.0-bin
-  when: ansible_os_family|lower == "debian"
+  when: ansible_facts['os_family']|lower == "debian"
 

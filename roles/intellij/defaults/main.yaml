@@ -2,8 +2,8 @@
 IDEA_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/{{role_name}}"
 
 IDEA_PLUGINS_BASE_DIR:
-  linux: "{{ansible_env.HOME}}/.local/share/JetBrains"
-  darwin: "{{ansible_env.HOME}}/Library/Application Support/JetBrains"
+  linux: "{{ansible_facts['env'].HOME}}/.local/share/JetBrains"
+  darwin: "{{ansible_facts['env'].HOME}}/Library/Application Support/JetBrains"
 
 IDEA_PLUGINS_DIR:
   linux: "{{IDEA_PLUGINS_BASE_DIR['linux']}}/IdeaIC{{IDEA_VERSION.split('.')[:2]|join('.')}}"

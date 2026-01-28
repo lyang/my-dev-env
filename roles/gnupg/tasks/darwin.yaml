@@ -1,7 +1,7 @@
 ---
 - name: "Set pinentry-program"
   ansible.builtin.blockinfile:
-    path: "{{ansible_env.HOME}}/.gnupg/gpg-agent.conf"
+    path: "{{ansible_facts['env'].HOME}}/.gnupg/gpg-agent.conf"
     create: yes
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: pinentry-program /opt/homebrew/bin/pinentry-mac

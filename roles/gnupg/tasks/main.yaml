@@ -11,6 +11,6 @@
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: export GPG_TTY=$(tty)
 
-- name: "Setup For {{ansible_system}}"
-  ansible.builtin.include_tasks: "{{ansible_system|lower}}.yaml"
+- name: "Setup For {{ansible_facts['system']}}"
+  ansible.builtin.include_tasks: "{{ansible_facts['system']|lower}}.yaml"
 

@@ -4,5 +4,5 @@
   ansible.builtin.package:
     state: latest
     name: dbus-daemon
-  when: ansible_system|lower == "linux"
+  when: ansible_facts['system']|lower == "linux"
 

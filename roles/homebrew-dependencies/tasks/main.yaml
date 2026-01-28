@@ -1,6 +1,6 @@
 ---
-- name: Install {{ansible_distribution}} Packages
+- name: Install {{ansible_facts['distribution']}} Packages
   ansible.builtin.include_tasks:
-    file: "{{ansible_distribution|lower}}.yaml"
+    file: "{{ansible_facts['distribution']|lower}}.yaml"
 
 
