@@ -1,41 +1,63 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended"
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^roles/rbenv/defaults/main\\.yaml$"],
-      "matchStrings": ["RUBY_VERSIONS:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"],
+      "managerFilePatterns": [
+        "/^roles/rbenv/defaults/main\\.yaml$/"
+      ],
+      "matchStrings": [
+        "RUBY_VERSIONS:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
+      ],
       "depNameTemplate": "ruby",
       "datasourceTemplate": "ruby-version"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^roles/pyenv/defaults/main\\.yaml$"],
-      "matchStrings": ["PYTHON_VERSIONS:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"],
+      "managerFilePatterns": [
+        "/^roles/pyenv/defaults/main\\.yaml$/"
+      ],
+      "matchStrings": [
+        "PYTHON_VERSIONS:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
+      ],
       "depNameTemplate": "python",
       "datasourceTemplate": "python-version"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^roles/sdkman/defaults/main\\.yaml$"],
-      "matchStrings": ["java: \"(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)-tem\""],
+      "managerFilePatterns": [
+        "/^roles/sdkman/defaults/main\\.yaml$/"
+      ],
+      "matchStrings": [
+        "java: \"(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)-tem\""
+      ],
       "depNameTemplate": "java",
       "datasourceTemplate": "java-version",
       "extractVersionTemplate": "^(?<version>[0-9]+\\.[0-9]+\\.[0-9]+)"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^roles/sdkman/defaults/main\\.yaml$"],
-      "matchStrings": ["maven: \"(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)\""],
+      "managerFilePatterns": [
+        "/^roles/sdkman/defaults/main\\.yaml$/"
+      ],
+      "matchStrings": [
+        "maven: \"(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)\""
+      ],
       "depNameTemplate": "maven",
       "datasourceTemplate": "maven",
       "packageNameTemplate": "org.apache.maven:maven"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^roles/sdkman/defaults/main\\.yaml$"],
-      "matchStrings": ["gradle: \"(?<currentValue>[0-9]+\\.[0-9]+)\""],
+      "managerFilePatterns": [
+        "/^roles/sdkman/defaults/main\\.yaml$/"
+      ],
+      "matchStrings": [
+        "gradle: \"(?<currentValue>[0-9]+\\.[0-9]+)\""
+      ],
       "depNameTemplate": "gradle",
       "datasourceTemplate": "gradle-version"
     }
