@@ -1,6 +1,6 @@
 ---
 RUBY_VERSIONS:
-  - 3.4.1
+  - 3.4.8
 GEM_PACKAGES:
   - bundler
   - neovim
