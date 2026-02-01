@@ -41,11 +41,11 @@ setup-Darwin() {
 }
 
 setup-rosetta() {
-  if [[ $(uname -m) == "arm64" ]]; then
+  if [[ $(uname -m) == "arm64" ]] && [[ ! -f /Library/Apple/usr/share/rosetta/rosetta ]]; then
     echo "Installing Rosetta for Apple silicon"
     softwareupdate --install-rosetta --agree-to-license
   else
-    echo "No need for Rosetta"
+    echo "Rosetta not needed or already installed"
   fi
 }
 
