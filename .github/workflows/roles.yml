@@ -14,16 +14,25 @@ jobs:
   find-roles:
     runs-on: ubuntu-latest
     outputs:
-      roles: ${{ steps.roles.outputs.roles }}
+      roles: ${{ steps.affected.outputs.roles }}
     steps:
       - uses: actions/checkout@v6
-      - id: roles
+        with:
+          fetch-depth: 0
+      - id: affected
         run: |
-          echo "roles=[$(ls roles | sed -E 's/(.*)/\"\1\"/g' | paste -sd , -)]" >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            base_ref="origin/${{ github.base_ref }}"
+          else
+            base_ref="HEAD~1"
+          fi
+          roles=$(./scripts/find-affected-roles.sh "$base_ref")
+          echo "roles=$roles" >> "$GITHUB_OUTPUT"
   apply-role:
     runs-on: ${{ inputs.runs-on }}
     container: ${{ inputs.container }}
     needs: find-roles
+    if: ${{ needs.find-roles.outputs.roles != '[]' }}
     strategy:
       matrix:
         role: ${{ fromJson(needs.find-roles.outputs.roles) }}
