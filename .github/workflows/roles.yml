@@ -33,6 +33,7 @@ jobs:
     container: ${{ inputs.container }}
     needs: find-roles
     if: ${{ needs.find-roles.outputs.roles != '[]' }}
+    timeout-minutes: 10
     strategy:
       matrix:
         role: ${{ fromJson(needs.find-roles.outputs.roles) }}
