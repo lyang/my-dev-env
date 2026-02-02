@@ -3,6 +3,12 @@
   "extends": [
     "config:recommended"
   ],
+  "packageRules": [
+    {
+      "matchDepNames": ["java"],
+      "minimumReleaseAge": "90 days"
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
