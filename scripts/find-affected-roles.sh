@@ -15,9 +15,7 @@ fi
 # Find roles that depend on a given role
 find_dependents() {
   local role="$1"
-  grep -lF -- '- role: '"$role" roles/*/meta/main.yaml 2>/dev/null | while read -r meta; do
-    dirname "$meta" | xargs basename
-  done
+  grep -lF -- '- role: '"$role" roles/*/meta/main.yaml 2>/dev/null | cut -d'/' -f2
 }
 
 # Collect affected roles (changed + dependents)
