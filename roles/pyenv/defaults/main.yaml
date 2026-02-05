@@ -1,6 +1,6 @@
 ---
 PYTHON_VERSIONS:
-  - 3.14.2
+  - 3.14.3
 PIP_PACKAGES:
   - pip
   - pip-tools
