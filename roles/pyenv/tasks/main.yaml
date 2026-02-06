@@ -21,10 +21,18 @@
     loop_var: python_version
   when: python_version not in PYTHON_INSTALLED_VERSIONS.stdout_lines
 
+- name: "Check Global Python Version"
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: |
+      pyenv global
+  register: PYTHON_GLOBAL_VERSION
+  changed_when: false
+
 - name: "Set Global Python Version"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
       pyenv global {{PYTHON_VERSIONS[-1]}}
-  when: PYTHON_VERSIONS|last != PYTHON_INSTALLED_VERSIONS.stdout_lines|last|default('N/A')
+  when: PYTHON_VERSIONS|last != PYTHON_GLOBAL_VERSION.stdout
 

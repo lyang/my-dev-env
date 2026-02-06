@@ -6,6 +6,5 @@ PIP_PACKAGES:
   - pip-tools
   - pre-commit
   - pynvim
-  - pyright
   - tox
   - tox-pyenv
