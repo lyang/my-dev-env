@@ -1,3 +1,5 @@
 ---
 dependencies:
+  - role: pyenv
   - role: shell-env
+  - role: tree-sitter-cli

@@ -1,4 +1,2 @@
 ---
 NEOVIM_CONFIG_DIR: "{{ansible_facts['env'].HOME}}/.config/nvim"
-NEOVIM_AUTOLOAD_DIR: "{{ansible_facts['env'].HOME}}/.local/share/nvim/site/autoload"
-

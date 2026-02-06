@@ -1,0 +1,33 @@
+return {
+  "nvim-treesitter/nvim-treesitter",
+  lazy = false,
+  build = ":TSUpdate",
+  config = function()
+    require("nvim-treesitter").install({
+      "bash",
+      "dockerfile",
+      "go",
+      "gomod",
+      "gowork",
+      "graphql",
+      "hcl",
+      "java",
+      "javascript",
+      "json",
+      "lua",
+      "markdown",
+      "markdown_inline",
+      "proto",
+      "python",
+      "ruby",
+      "rust",
+      "terraform",
+      "toml",
+      "typescript",
+      "vim",
+      "vimdoc",
+      "xml",
+      "yaml",
+    })
+  end,
+}
