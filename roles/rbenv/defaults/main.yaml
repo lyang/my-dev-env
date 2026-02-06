@@ -4,5 +4,3 @@ RUBY_VERSIONS:
 GEM_PACKAGES:
   - bundler
   - neovim
-  - solargraph
-

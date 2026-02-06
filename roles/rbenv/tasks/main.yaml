@@ -2,7 +2,9 @@
 - name: "Install rbenv"
   community.general.homebrew:
     state: latest
-    name: rbenv
+    name:
+      - rbenv
+      - ruby-build
 
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
