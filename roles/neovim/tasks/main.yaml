@@ -4,6 +4,11 @@
     state: latest
     name: neovim
 
+- name: "Create {{NEOVIM_CONFIG_DIR | dirname}}"
+  ansible.builtin.file:
+    path: "{{NEOVIM_CONFIG_DIR | dirname}}"
+    state: directory
+
 - name: "Symlink {{NEOVIM_CONFIG_DIR}}"
   ansible.builtin.file:
     src: "{{role_path}}/files/nvim"
