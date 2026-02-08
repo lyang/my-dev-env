@@ -1,12 +1,12 @@
 ---
-- name: "Install intellij-idea-ce"
+- name: "Install intellij-idea"
   community.general.homebrew_cask:
     state: latest
-    name: intellij-idea-ce
+    name: intellij-idea
 
-- name: "Get intellij-idea-ce Version"
+- name: "Get intellij-idea Version"
   ansible.builtin.shell:
-    cmd: brew info --cask --json=v2 intellij-idea-ce | jq --raw-output '.casks[0].version | split(",")[]'
+    cmd: brew info --cask --json=v2 intellij-idea | jq --raw-output '.casks[0].version | split(",")[]'
   register: IDEA_CURRENT_VERSION
   changed_when: false
 
@@ -14,4 +14,3 @@
   ansible.builtin.set_fact:
     IDEA_VERSION: "{{IDEA_CURRENT_VERSION.stdout_lines[0]}}"
     IDEA_BUILD: "{{IDEA_CURRENT_VERSION.stdout_lines[1]}}"
-

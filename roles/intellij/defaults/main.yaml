@@ -6,13 +6,12 @@ IDEA_PLUGINS_BASE_DIR:
   darwin: "{{ansible_facts['env'].HOME}}/Library/Application Support/JetBrains"
 
 IDEA_PLUGINS_DIR:
-  linux: "{{IDEA_PLUGINS_BASE_DIR['linux']}}/IdeaIC{{IDEA_VERSION.split('.')[:2]|join('.')}}"
-  darwin: "{{IDEA_PLUGINS_BASE_DIR['darwin']}}/IdeaIC{{IDEA_VERSION.split('.')[:2]|join('.')}}/plugins"
+  linux: "{{IDEA_PLUGINS_BASE_DIR['linux']}}/IntelliJIdea{{IDEA_VERSION.split('.')[:2]|join('.')}}"
+  darwin: "{{IDEA_PLUGINS_BASE_DIR['darwin']}}/IntelliJIdea{{IDEA_VERSION.split('.')[:2]|join('.')}}/plugins"
 
 IDEA_PLUGINS:
   - Key Promoter X
   - com.arcticicestudio.nord.jetbrains
   - com.github.copilot
-  - com.google.idea.bazel.ijwb
   - google-java-format
-
+  - org.jetbrains.bazel

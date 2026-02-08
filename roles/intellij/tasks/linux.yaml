@@ -2,7 +2,7 @@
 - name: Include {{ansible_facts['system']}} Variables
   ansible.builtin.include_vars: "{{ansible_facts['system']|lower}}.yaml"
 
-- name: "Get intellij-idea-ce Version"
+- name: "Get intellij-idea Version"
   ansible.builtin.shell:
     cmd: curl --silent https://data.services.jetbrains.com/products/releases?code=IIC | jq --raw-output '.IIC[0] | [.version, .build, .downloads.linux.link][]'
   register: IDEA_LATEST_VERSION
@@ -29,7 +29,7 @@
   become: yes
   register: IDEA_CURRENT
 
-- name: "Download intellij-idea-ce"
+- name: "Download intellij-idea"
   ansible.builtin.get_url:
     url: "{{IDEA_DOWNLOAD_URL}}"
     dest: "{{IDEA_TEMP_DIR}}"
@@ -60,4 +60,3 @@
     create: yes
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: export PATH="{{IDEA_BIN_DIR}}:$PATH"
-

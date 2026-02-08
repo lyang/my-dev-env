@@ -4,10 +4,10 @@
     path: "{{IDEA_TEMP_DIR}}"
     state: directory
 
-- name: Install IntelliJ IDEA CE
+- name: Install IntelliJ IDEA
   ansible.builtin.include_tasks: "{{ansible_facts['system']|lower}}.yaml"
 
-- name: "Create IntelliJ IDEA CE Plugins Directory"
+- name: "Create IntelliJ IDEA Plugins Directory"
   ansible.builtin.file:
     path: "{{IDEA_PLUGINS_DIR[ansible_facts['system']|lower]}}"
     state: directory
@@ -19,4 +19,3 @@
   loop: "{{IDEA_PLUGINS}}"
   loop_control:
     loop_var: idea_plugin
-
