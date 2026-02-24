@@ -1,18 +1,20 @@
 local map = vim.keymap.set
-local opts = { noremap = true, silent = true }
 
--- Telescope
-map("n", "<leader>fa", "<cmd>Telescope live_grep<cr>", opts)
-map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
-map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
-map("n", "<leader>fg", "<cmd>Telescope git_files<cr>", opts)
-map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
-map("n", "<leader>ft", "<cmd>Telescope tags<cr>", opts)
+-- Clear search highlight
+map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 
--- NvimTree
-map("n", "<LocalLeader>nt", "<cmd>NvimTreeToggle<cr>", opts)
-map("n", "<LocalLeader>nf", "<cmd>NvimTreeFindFile<cr>", opts)
-map("n", "<LocalLeader>nr", "<cmd>NvimTreeRefresh<cr>", opts)
+-- Window navigation
+map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
+map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
+map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
+map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
--- Fugitive
-map("n", "<LocalLeader>gw", ":Ggrep! <cword><cr><cr>", opts)
+-- Window management
+map("n", "<leader>ws", "<cmd>split<cr>", { desc = "Split horizontal" })
+map("n", "<leader>wv", "<cmd>vsplit<cr>", { desc = "Split vertical" })
+map("n", "<leader>wc", "<cmd>close<cr>", { desc = "Close window" })
+map("n", "<leader>wo", "<cmd>only<cr>", { desc = "Close other windows" })
+
+-- Buffer management
+map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+map("n", "<leader>bo", "<cmd>%bdelete|edit#|bdelete#<cr>", { desc = "Delete other buffers" })
