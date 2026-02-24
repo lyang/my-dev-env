@@ -18,7 +18,6 @@ return {
         "buf_ls",
         "docker_compose_language_service",
         "dockerls",
-        "gopls",
         "graphql",
         "jdtls",
         "jsonls",
@@ -64,7 +63,6 @@ return {
         "buf_ls",
         "docker_compose_language_service",
         "dockerls",
-        "gopls",
         "graphql",
         "jdtls",
         "jsonls",
@@ -99,29 +97,28 @@ return {
       -- LSP keymaps on attach
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
-          local map = function(mode, lhs, rhs)
-            vim.keymap.set(mode, lhs, rhs, { buffer = args.buf, noremap = true, silent = true })
+          local map = function(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = args.buf, desc = desc })
           end
 
-          map("n", "gd", vim.lsp.buf.definition)
-          map("n", "gD", vim.lsp.buf.declaration)
-          map("n", "gi", vim.lsp.buf.implementation)
-          map("n", "gr", vim.lsp.buf.references)
-          map("n", "K", vim.lsp.buf.hover)
-          map("n", "<C-k>", vim.lsp.buf.signature_help)
-          map("n", "<space>D", vim.lsp.buf.type_definition)
-          map("n", "<space>ca", vim.lsp.buf.code_action)
-          map("n", "<space>e", vim.diagnostic.open_float)
-          map("n", "<space>q", vim.diagnostic.setloclist)
-          map("n", "<space>rn", vim.lsp.buf.rename)
-          map("n", "<space>f", function() vim.lsp.buf.format({ async = true }) end)
-          map("n", "<space>wa", vim.lsp.buf.add_workspace_folder)
-          map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder)
-          map("n", "<space>wl", function()
+          -- Extend Neovim 0.11 gr* convention
+          map("n", "grd", vim.lsp.buf.definition, "Go to definition")
+          map("n", "grt", vim.lsp.buf.type_definition, "Go to type definition")
+          map("n", "grD", vim.lsp.buf.declaration, "Go to declaration")
+
+          -- Code actions
+          map("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, "Format")
+
+          -- LSP management
+          map("n", "<leader>li", "<cmd>checkhealth lsp<cr>", "LSP info")
+          map("n", "<leader>lr", "<cmd>LspRestart<cr>", "Restart LSP")
+          map("n", "<leader>lw", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end)
-          map("n", "[d", vim.diagnostic.goto_prev)
-          map("n", "]d", vim.diagnostic.goto_next)
+          end, "Workspace folders")
+
+          -- Diagnostics (merged into <leader>x group)
+          map("n", "<leader>xf", vim.diagnostic.open_float, "Diagnostic float")
+          map("n", "<leader>xq", vim.diagnostic.setloclist, "Send to location list")
         end,
       })
     end,
