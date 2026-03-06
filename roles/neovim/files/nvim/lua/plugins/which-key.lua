@@ -15,6 +15,7 @@ return {
       { "<leader>l", group = "LSP" },
       { "<leader>t", group = "Test" },
       { "<leader>w", group = "Window" },
+      { "<leader>u", group = "Utilities" },
       { "<leader>x", group = "Diagnostics" },
       { "gr", group = "LSP (go to)" },
       { "gz", group = "Surround" },

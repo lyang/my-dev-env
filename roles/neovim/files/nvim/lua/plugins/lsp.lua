@@ -118,7 +118,6 @@ return {
 
           -- Diagnostics (merged into <leader>x group)
           map("n", "<leader>xf", vim.diagnostic.open_float, "Diagnostic float")
-          map("n", "<leader>xq", vim.diagnostic.setloclist, "Send to location list")
         end,
       })
     end,

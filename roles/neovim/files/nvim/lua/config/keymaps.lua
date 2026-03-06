@@ -15,6 +15,4 @@ map("n", "<leader>wv", "<cmd>vsplit<cr>", { desc = "Split vertical" })
 map("n", "<leader>wc", "<cmd>close<cr>", { desc = "Close window" })
 map("n", "<leader>wo", "<cmd>only<cr>", { desc = "Close other windows" })
 
--- Buffer management
-map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
-map("n", "<leader>bo", "<cmd>%bdelete|edit#|bdelete#<cr>", { desc = "Delete other buffers" })
+-- Buffer management (handled by snacks.bufdelete in plugins/snacks.lua)
