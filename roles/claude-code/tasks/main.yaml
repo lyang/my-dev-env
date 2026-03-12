@@ -3,6 +3,7 @@
   community.general.homebrew_cask:
     state: latest
     name: claude
+  when: ansible_facts['os_family']|lower == "darwin"
 
 - name: "Create {{CLAUDE_TEMP_DIR}}"
   ansible.builtin.file:
