@@ -11,6 +11,7 @@ IDEA_PLUGINS_DIR:
 
 IDEA_PLUGINS:
   - Key Promoter X
+  - com.anthropic.code.plugin
   - com.arcticicestudio.nord.jetbrains
   - com.github.copilot
   - google-java-format

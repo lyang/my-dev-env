@@ -1,4 +1,9 @@
 ---
+- name: "Install Claude app"
+  community.general.homebrew_cask:
+    state: latest
+    name: claude
+
 - name: "Create {{CLAUDE_TEMP_DIR}}"
   ansible.builtin.file:
     path: "{{CLAUDE_TEMP_DIR}}"
@@ -21,4 +26,3 @@
     create: yes
     marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
     block: source {{role_path}}/files/claude-code.sh
-
