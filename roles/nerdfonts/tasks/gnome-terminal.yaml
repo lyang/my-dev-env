@@ -1,26 +1,31 @@
 ---
-- name: Include {{TERMINALS[ansible_facts['system']|lower]}} Variables
-  ansible.builtin.include_vars: "{{TERMINALS[ansible_facts['system']|lower]}}.yaml"
+- name: "Include Variables - {{ nerdfonts_terminals[ansible_facts['system'] | lower] }}"
+  ansible.builtin.include_vars: "{{ nerdfonts_terminals[ansible_facts['system'] | lower] }}.yaml"
 
 - name: "Find Default Profile"
   ansible.builtin.shell:
-    cmd: "gsettings get {{GSETTINGS_PROFILELIST_PATH}} default | tr -d \\'"
+    cmd: "set -o pipefail && gsettings get {{ nerdfonts_gsettings_profilelist_path }} default | tr -d \\'"
+    executable: /bin/bash
   changed_when: false
-  register: GNOME_DEFAULT_PROFILE
+  register: nerdfonts_gnome_default_profile
 
 - name: "Get Current Font Of Default Profile"
-  ansible.builtin.shell:
-    cmd: "dconf read {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/font"
+  ansible.builtin.command:
+    cmd: "dconf read {{ nerdfonts_dconf_profile_base_path }}:/:{{ nerdfonts_gnome_default_profile.stdout }}/font"
   changed_when: false
-  register: NERD_FONTS_CURRENT
+  register: nerdfonts_nerd_fonts_current
 
-- name: "Use '{{FONT.NAME}}' For Default Profile"
-  ansible.builtin.shell:
-    cmd: "dbus-run-session dconf write {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/font \"'{{FONT.NAME}} {{FONT.SIZE}}'\""
-  when: FONT.NAME not in NERD_FONTS_CURRENT.stdout
+- name: "Use Font For Default Profile - {{ nerdfonts_font.NAME }}"
+  ansible.builtin.command:
+    cmd: >-
+      dbus-run-session dconf write
+      {{ nerdfonts_dconf_profile_base_path }}:/:{{ nerdfonts_gnome_default_profile.stdout }}/font
+      "'{{ nerdfonts_font.NAME }} {{ nerdfonts_font.SIZE }}'"
+  when: nerdfonts_font.NAME not in nerdfonts_nerd_fonts_current.stdout
+  changed_when: true
 
 - name: "Enable Custom Font For Default Profile"
-  ansible.builtin.shell:
-    cmd: "dbus-run-session dconf write {{DCONF_PROFILE_BASE_PATH}}:/:{{GNOME_DEFAULT_PROFILE.stdout}}/use-system-font false"
-  when: FONT.NAME not in NERD_FONTS_CURRENT.stdout
-
+  ansible.builtin.command:
+    cmd: "dbus-run-session dconf write {{ nerdfonts_dconf_profile_base_path }}:/:{{ nerdfonts_gnome_default_profile.stdout }}/use-system-font false"
+  when: nerdfonts_font.NAME not in nerdfonts_nerd_fonts_current.stdout
+  changed_when: true

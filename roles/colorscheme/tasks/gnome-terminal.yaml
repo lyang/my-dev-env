@@ -2,46 +2,51 @@
 - name: "Git Clone arcticicestudio/nord-gnome-terminal"
   ansible.builtin.git:
     repo: https://github.com/arcticicestudio/nord-gnome-terminal.git
-    dest: "{{ansible_facts['env'].HOME}}/.nord-gnome-terminal"
-  register: NORD_GNOME_TERMINAL_REPO
+    dest: "{{ ansible_facts['env'].HOME }}/.nord-gnome-terminal"
+    version: c15b85a5389cf3bfd37fe409e915a88ecf902640
+  register: colorscheme_nord_gnome_terminal_repo
 
-- name: "Install Nord Color Scheme For Gnome Terminal"
-  ansible.builtin.shell:
+- name: "Install Nord Color Scheme For Gnome Terminal" # noqa: no-handler
+  ansible.builtin.command:
     cmd: "dbus-run-session ./nord.sh"
-    chdir: "{{ansible_facts['env'].HOME}}/.nord-gnome-terminal/src"
-  when: NORD_GNOME_TERMINAL_REPO.changed
+    chdir: "{{ ansible_facts['env'].HOME }}/.nord-gnome-terminal/src"
+  changed_when: true
+  when: colorscheme_nord_gnome_terminal_repo.changed
 
 - name: "List Gnome Terminal Profile Ids"
   ansible.builtin.shell:
-    cmd: "dconf list /org/gnome/terminal/legacy/profiles:/ | grep '^:.*/$' | tr -d ':/'"
+    cmd: "set -o pipefail && dconf list /org/gnome/terminal/legacy/profiles:/ | grep '^:.*/$' | tr -d ':/'"
+    executable: /bin/bash
   changed_when: false
-  register: GNOME_TERMINAL_PROFILE_IDS
+  register: colorscheme_gnome_terminal_profile_ids
 
 - name: "List Gnome Terminal Profile Names"
   ansible.builtin.shell:
-    cmd: "dconf read /org/gnome/terminal/legacy/profiles:/:{{profile_id}}/visible-name | tr -d \"'\""
-  loop: "{{GNOME_TERMINAL_PROFILE_IDS.stdout_lines}}"
+    cmd: "set -o pipefail && dconf read /org/gnome/terminal/legacy/profiles:/:{{ profile_id }}/visible-name | tr -d \"'\""
+    executable: /bin/bash
+  loop: "{{ colorscheme_gnome_terminal_profile_ids.stdout_lines }}"
   loop_control:
     loop_var: profile_id
   changed_when: false
-  register: GNOME_TERMINAL_PROFILE_NAMES
+  register: colorscheme_gnome_terminal_profile_names
 
 - name: "Set Gnome Terminal Profile Mappings"
   ansible.builtin.set_fact:
-    GNOME_TERMINAL_PROFILE_MAPPINGS: "{{ GNOME_TERMINAL_PROFILE_MAPPINGS | default({}) | combine({result.stdout: result.profile_id})}}"
-  loop: "{{ GNOME_TERMINAL_PROFILE_NAMES.results | ansible.utils.keep_keys(target=['stdout', 'profile_id'])}}"
+    colorscheme_gnome_terminal_profile_mappings: "{{ colorscheme_gnome_terminal_profile_mappings | default({}) | combine({result.stdout: result.profile_id}) }}"
+  loop: "{{ colorscheme_gnome_terminal_profile_names.results | ansible.utils.keep_keys(target=['stdout', 'profile_id']) }}"
   loop_control:
     loop_var: result
   changed_when: false
 
 - name: "Get Gnome Terminal Default Profile Id"
   ansible.builtin.shell:
-    cmd: "gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\""
+    cmd: "set -o pipefail && gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\""
+    executable: /bin/bash
   changed_when: false
-  register: GNOME_TERMINAL_DEFAULT_PROFILE_ID
+  register: colorscheme_gnome_terminal_default_profile_id
 
 - name: "Set Gnome Terminal Default Profile Id"
-  ansible.builtin.shell:
-    cmd: "gsettings set org.gnome.Terminal.ProfilesList default '{{GNOME_TERMINAL_PROFILE_MAPPINGS['Nord']}}'"
-  when: GNOME_TERMINAL_DEFAULT_PROFILE_ID.stdout != GNOME_TERMINAL_PROFILE_MAPPINGS['Nord']
-
+  ansible.builtin.command:
+    cmd: "gsettings set org.gnome.Terminal.ProfilesList default '{{ colorscheme_gnome_terminal_profile_mappings['Nord'] }}'"
+  changed_when: true
+  when: colorscheme_gnome_terminal_default_profile_id.stdout != colorscheme_gnome_terminal_profile_mappings['Nord']

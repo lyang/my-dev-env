@@ -1,6 +1,6 @@
 ---
-RUBY_VERSIONS:
+rbenv_ruby_versions:
   - 4.0.1
-GEM_PACKAGES:
+rbenv_gem_packages:
   - bundler
   - neovim

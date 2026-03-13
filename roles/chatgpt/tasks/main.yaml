@@ -4,4 +4,3 @@
     state: latest
     name: chatgpt
   when: ansible_facts['os_family']|lower == "darwin"
-

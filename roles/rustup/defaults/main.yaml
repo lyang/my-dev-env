@@ -1,7 +1,6 @@
 ---
-CARGO_PACKAGES:
+rustup_cargo_packages:
   - bat
   - fd-find
   - git-delta
   - minijinja-cli
-

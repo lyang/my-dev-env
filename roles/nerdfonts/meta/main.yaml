@@ -1,4 +1,6 @@
 ---
 dependencies:
+  - role: base
   - role: dbus-daemon
   - role: dconf
+  - role: libglib2.0-bin

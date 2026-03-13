@@ -1,21 +1,22 @@
 ---
-- name: "Create {{IDEA_TEMP_DIR}}"
+- name: "Create {{ intellij_idea_temp_dir }}"
   ansible.builtin.file:
-    path: "{{IDEA_TEMP_DIR}}"
+    path: "{{ intellij_idea_temp_dir }}"
     state: directory
+    mode: "0755"
 
 - name: Install IntelliJ IDEA
-  ansible.builtin.include_tasks: "{{ansible_facts['system']|lower}}.yaml"
+  ansible.builtin.include_tasks: "{{ ansible_facts['system'] | lower }}.yaml"
 
 - name: "Create IntelliJ IDEA Plugins Directory"
   ansible.builtin.file:
-    path: "{{IDEA_PLUGINS_DIR[ansible_facts['system']|lower]}}"
+    path: "{{ intellij_idea_plugins_dir[ansible_facts['system'] | lower] }}"
     state: directory
     mode: "0775"
-  register: IDEA_CURRENT_PLUGINS_DIR
+  register: intellij_idea_current_plugins_dir
 
 - name: "Install Plugins"
   ansible.builtin.include_tasks: plugin.yaml
-  loop: "{{IDEA_PLUGINS}}"
+  loop: "{{ intellij_idea_plugins }}"
   loop_control:
-    loop_var: idea_plugin
+    loop_var: intellij_idea_plugin

@@ -1,7 +1,6 @@
 ---
-- name: Include {{ansible_facts['system']}} Variables
-  ansible.builtin.include_vars: "{{ansible_facts['system']|lower}}.yaml"
+- name: "Include Variables - {{ ansible_facts['system'] }}"
+  ansible.builtin.include_vars: "{{ ansible_facts['system'] | lower }}.yaml"
 
-- name: Install {{ansible_facts['system']}} Packages
-  ansible.builtin.include_tasks: "{{ansible_facts['system']|lower}}.yaml"
-
+- name: "Install Packages - {{ ansible_facts['system'] }}"
+  ansible.builtin.include_tasks: "{{ ansible_facts['system'] | lower }}.yaml"

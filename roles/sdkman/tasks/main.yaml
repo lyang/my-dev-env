@@ -1,31 +1,33 @@
 ---
-- name: "Create {{SDKMAN_TEMP_DIR}}"
+- name: "Create {{ sdkman_temp_dir }}"
   ansible.builtin.file:
-    path: "{{SDKMAN_TEMP_DIR}}"
+    path: "{{ sdkman_temp_dir }}"
     state: directory
+    mode: "0755"
 
 - name: "Download SDKMAN Installer"
   ansible.builtin.get_url:
     url: "https://get.sdkman.io"
-    dest: "{{SDKMAN_TEMP_DIR}}"
+    dest: "{{ sdkman_temp_dir }}"
     mode: "0755"
-  register: SDKMAN_INSTALLER
+  register: sdkman_installer
 
-- name: "Install SDKMAN"
-  ansible.builtin.shell:
-    cmd: "{{SDKMAN_INSTALLER.dest}}"
-  when: SDKMAN_INSTALLER.changed
+- name: "Install SDKMAN" # noqa: no-handler
+  ansible.builtin.command:
+    cmd: "{{ sdkman_installer.dest }}"
+  changed_when: true
+  when: sdkman_installer.changed
 
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{role_path}}/files/sdkman.sh
+    path: "{{ shared_env_sh.dest }}"
+    create: true
+    mode: "0644"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{ playbook_dir | basename }}/roles/{{ role_name }} ####"
+    block: source {{ role_path }}/files/sdkman.sh
 
 - name: "Install SDKMAN Packages"
   ansible.builtin.include_tasks: "install.yaml"
-  loop: "{{SDKMAN_PACKAGES|dict2items}}"
+  loop: "{{ sdkman_packages | dict2items }}"
   loop_control:
     loop_var: sdkman_package
-

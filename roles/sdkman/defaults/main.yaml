@@ -1,7 +1,6 @@
 ---
-SDKMAN_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/sdkman"
-SDKMAN_PACKAGES:
+sdkman_temp_dir: "/tmp/{{ playbook_dir | basename }}/ansible.roles/sdkman"
+sdkman_packages:
   java: "25.0.2-tem"
   maven: "3.9.14"
   gradle: "8.11"
-

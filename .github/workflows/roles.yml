@@ -9,9 +9,17 @@ on:
       container:
         required: false
         type: string
-        default: ''
+        default: ""
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: pip install ansible-lint
+      - run: ansible-galaxy collection install community.general
+      - run: ansible-lint roles/
   find-roles:
+    needs: lint
     runs-on: ubuntu-latest
     outputs:
       roles: ${{ steps.affected.outputs.roles }}
@@ -33,7 +41,7 @@ jobs:
     container: ${{ inputs.container }}
     needs: find-roles
     if: ${{ needs.find-roles.outputs.roles != '[]' }}
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       matrix:
         role: ${{ fromJson(needs.find-roles.outputs.roles) }}
@@ -51,4 +59,3 @@ jobs:
       - id: apply
         run: |
           ./setup.sh --tags ${{ matrix.role }}
-

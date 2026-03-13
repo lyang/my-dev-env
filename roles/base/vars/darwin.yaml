@@ -1,11 +1,11 @@
 ---
-HOMEBREW_CASK_PACKAGES:
+base_homebrew_cask_packages:
   - firefox
   - iterm2
   - rectangle
   - stats
 
-HOMEBREW_PACKAGES:
+base_homebrew_packages:
   - coreutils
   - gnu-getopt
   - gnu-tar
@@ -21,4 +21,3 @@ HOMEBREW_PACKAGES:
   - shellcheck
   - tree
   - zsh
-

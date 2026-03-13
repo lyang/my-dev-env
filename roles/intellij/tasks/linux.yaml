@@ -1,62 +1,69 @@
 ---
-- name: Include {{ansible_facts['system']}} Variables
-  ansible.builtin.include_vars: "{{ansible_facts['system']|lower}}.yaml"
+- name: "Include Variables - {{ ansible_facts['system'] }}"
+  ansible.builtin.include_vars: "{{ ansible_facts['system'] | lower }}.yaml"
 
-- name: "Get intellij-idea Version"
+- name: "Get intellij-idea Version" # noqa: command-instead-of-module
   ansible.builtin.shell:
-    cmd: curl --silent https://data.services.jetbrains.com/products/releases?code=IIC | jq --raw-output '.IIC[0] | [.version, .build, .downloads.linux.link][]'
-  register: IDEA_LATEST_VERSION
+    cmd: >-
+      set -o pipefail &&
+      curl --silent https://data.services.jetbrains.com/products/releases?code=IIC |
+      jq --raw-output '.IIC[0] | [.version, .build, .downloads.linux.link][]'
+    executable: /bin/bash
+  register: intellij_idea_latest_version
   changed_when: false
 
 - name: "Set IDEA version Fact"
   ansible.builtin.set_fact:
-    IDEA_VERSION: "{{IDEA_LATEST_VERSION.stdout_lines[0]}}"
-    IDEA_BUILD: "{{IDEA_LATEST_VERSION.stdout_lines[1]}}"
-    IDEA_DOWNLOAD_URL: "{{IDEA_LATEST_VERSION.stdout_lines[2]}}"
+    intellij_idea_version: "{{ intellij_idea_latest_version.stdout_lines[0] }}"
+    intellij_idea_build: "{{ intellij_idea_latest_version.stdout_lines[1] }}"
+    intellij_idea_download_url: "{{ intellij_idea_latest_version.stdout_lines[2] }}"
 
-- name: "Create {{IDEA_BIN_DIR}}"
+- name: "Create {{ intellij_idea_bin_dir }}"
   ansible.builtin.file:
-    path: "{{IDEA_BIN_DIR}}"
+    path: "{{ intellij_idea_bin_dir }}"
     state: directory
     mode: "0755"
-  become: yes
+  become: true
 
-- name: "Create {{IDEA_CURRENT_DIR}}"
+- name: "Create {{ intellij_idea_current_dir }}"
   ansible.builtin.file:
-    path: "{{IDEA_CURRENT_DIR}}"
+    path: "{{ intellij_idea_current_dir }}"
     state: directory
     mode: "0755"
-  become: yes
-  register: IDEA_CURRENT
+  become: true
+  register: intellij_idea_current
 
-- name: "Download intellij-idea"
+- name: "Download intellij-idea" # noqa: no-handler
   ansible.builtin.get_url:
-    url: "{{IDEA_DOWNLOAD_URL}}"
-    dest: "{{IDEA_TEMP_DIR}}"
-  register: IDEA_INSTALLER
-  when: IDEA_CURRENT.changed
+    url: "{{ intellij_idea_download_url }}"
+    dest: "{{ intellij_idea_temp_dir }}"
+    mode: "0644"
+  register: intellij_idea_installer
+  when: intellij_idea_current.changed
 
-- name: "Unarchive {{IDEA_INSTALLER.dest|basename}}"
+- name: "Unarchive intellij-idea" # noqa: no-handler
   ansible.builtin.unarchive:
-    src: "{{IDEA_INSTALLER.dest}}"
-    dest: "{{IDEA_CURRENT_DIR}}"
-    remote_src: yes
+    src: "{{ intellij_idea_installer.dest }}"
+    dest: "{{ intellij_idea_current_dir }}"
+    remote_src: true
     extra_opts:
       - "--strip-components=1"
       - "--ungzip"
-  become: yes
-  when: IDEA_INSTALLER.changed
+    mode: "0755"
+  become: true
+  when: intellij_idea_installer.changed
 
-- name: "Create Symlink {{IDEA_BIN_DIR}}/idea"
+- name: "Create Symlink For idea"
   ansible.builtin.file:
-    path: "{{IDEA_BIN_DIR}}/idea"
-    src: "{{IDEA_CURRENT_DIR}}/bin/idea"
+    path: "{{ intellij_idea_bin_dir }}/idea"
+    src: "{{ intellij_idea_current_dir }}/bin/idea"
     state: link
-  become: yes
+  become: true
 
 - name: "Setup Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: export PATH="{{IDEA_BIN_DIR}}:$PATH"
+    path: "{{ shared_env_sh.dest }}"
+    create: true
+    mode: "0644"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{ playbook_dir | basename }}/roles/{{ role_name }} ####"
+    block: export PATH="{{ intellij_idea_bin_dir }}:$PATH"

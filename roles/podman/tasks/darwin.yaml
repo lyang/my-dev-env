@@ -5,29 +5,31 @@
     name: podman
 
 - name: "Check Existing podman machine"
-  ansible.builtin.shell: "podman machine list --quiet"
-  register: PODMAN_MACHINES
+  ansible.builtin.command: "podman machine list --quiet"
+  register: podman_machines
   changed_when: false
 
 - name: "Init podman machine"
-  ansible.builtin.shell: "podman machine init"
-  when: PODMAN_MACHINES.stdout_lines|length == 0
+  ansible.builtin.command: "podman machine init"
+  changed_when: true
+  when: podman_machines.stdout_lines|length == 0
 
 - name: "Check if running in a VM"
-  ansible.builtin.shell: "sysctl -n kern.hv_vmm_present"
-  register: HV_VMM_PRESENT
+  ansible.builtin.command: "sysctl -n kern.hv_vmm_present"
+  register: podman_hv_vmm_present
   changed_when: false
 
 - name: "Check if podman machine is running"
-  ansible.builtin.shell: |
-    podman machine list | grep --quiet 'Currently running'
-  register: PODMAN_MACHINE_RUNNING
+  ansible.builtin.shell:
+    cmd: set -o pipefail && podman machine list | grep --quiet 'Currently running'
+    executable: /bin/bash
+  register: podman_machine_running
   changed_when: false
   failed_when: false
 
 - name: "Start podman machine"
-  ansible.builtin.shell: "podman machine start"
+  ansible.builtin.command: "podman machine start"
+  changed_when: true
   when:
-    - HV_VMM_PRESENT.stdout == "0"
-    - PODMAN_MACHINE_RUNNING.rc != 0
-
+    - podman_hv_vmm_present.stdout == "0"
+    - podman_machine_running.rc != 0

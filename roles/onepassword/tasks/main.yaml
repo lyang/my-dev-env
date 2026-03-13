@@ -1,4 +1,3 @@
 ---
-- name: Install dconf
+- name: "Setup For {{ ansible_facts['system'] }}"
   ansible.builtin.include_tasks: "{{ ansible_facts['os_family'] | lower }}.yaml"
-  when: ansible_facts['system']|lower == "linux"

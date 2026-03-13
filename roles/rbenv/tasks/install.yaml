@@ -1,28 +1,29 @@
 ---
-- name: "Install Ruby {{ruby_version}}"
+- name: "Install Ruby {{ ruby_version }}"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/rbenv.sh
-      rbenv install --skip-existing {{ruby_version}} -- --with-openssl-dir="$(brew --prefix openssl@3)" --with-zlib-dir="$(brew --prefix zlib)"
+      source {{ role_path }}/files/rbenv.sh
+      rbenv install --skip-existing {{ ruby_version }} -- --with-openssl-dir="$(brew --prefix openssl@3)" --with-zlib-dir="$(brew --prefix zlib)"
+  changed_when: true
 
 - name: "Find Installed Packages"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/rbenv.sh
-      RBENV_VERSION={{ruby_version}} rbenv exec gem list | grep --extended-regex --only-matching --color=never '^[^ ]*'
-  register: GEM_INSTALLED_PACKAGES
+      set -o pipefail
+      source {{ role_path }}/files/rbenv.sh
+      RBENV_VERSION={{ ruby_version }} rbenv exec gem list | grep --extended-regex --only-matching --color=never '^[^ ]*'
+  register: rbenv_gem_installed_packages
   changed_when: false
 
 - name: "Install Gem Packages"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/rbenv.sh
-      RBENV_VERSION={{ruby_version}} rbenv exec gem install {{gem_package}}
+      source {{ role_path }}/files/rbenv.sh
+      RBENV_VERSION={{ ruby_version }} rbenv exec gem install {{ gem_package }}
   loop_control:
     loop_var: gem_package
-  loop: "{{GEM_PACKAGES}}"
-  changed_when: gem_package not in GEM_INSTALLED_PACKAGES.stdout_lines
-
+  loop: "{{ rbenv_gem_packages }}"
+  changed_when: gem_package not in rbenv_gem_installed_packages.stdout_lines

@@ -1,5 +1,5 @@
 ---
-PLUGINS:
+ohmyzsh_plugins:
   - bazel
   - brew
   - colored-man-pages
@@ -16,4 +16,3 @@ PLUGINS:
   - sdk
   - terraform
   - tmux
-

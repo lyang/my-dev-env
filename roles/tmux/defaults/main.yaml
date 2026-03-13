@@ -1,3 +1,2 @@
 ---
-TMUX_PLUGIN_DIR: "{{ansible_facts['env'].HOME}}/.tmux/plugins"
-
+tmux_plugin_dir: "{{ ansible_facts['env'].HOME }}/.tmux/plugins"

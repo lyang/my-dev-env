@@ -1,7 +1,6 @@
 ---
-- name: Install {{ansible_facts['distribution']}} Packages
-  become: yes
+- name: "Install Packages - {{ ansible_facts['distribution'] }}"
+  become: true
   ansible.builtin.package:
-    state: latest
-    name: "{{REQUIRED_PACKAGES['fedora'] + OPTIONAL_PACKAGES['fedora']}}"
-
+    state: present
+    name: "{{ base_required_packages['fedora'] + base_optional_packages['fedora'] }}"

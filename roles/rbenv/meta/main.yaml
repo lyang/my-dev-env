@@ -1,5 +1,5 @@
 ---
 dependencies:
+  - role: base
   - role: shell-env
   - role: homebrew-dependencies
-

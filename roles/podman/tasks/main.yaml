@@ -1,8 +1,8 @@
 ---
-- name: "podman"
-  ansible.builtin.include_tasks: "{{ansible_facts['system']|lower}}.yaml"
+- name: "Podman"
+  ansible.builtin.include_tasks: "{{ ansible_facts['system'] | lower }}.yaml"
 
-- name: "podman-compose"
+- name: "Podman-compose"
   community.general.homebrew:
     state: latest
     name: podman-compose

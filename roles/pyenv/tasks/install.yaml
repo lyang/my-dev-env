@@ -1,25 +1,26 @@
 ---
-- name: "Install Python {{python_version}}"
+- name: "Install Python {{ python_version }}"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      pyenv install --skip-existing {{python_version}}
+      pyenv install --skip-existing {{ python_version }}
+  changed_when: true
 
 - name: "Find Installed Packages"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      PYENV_VERSION={{python_version}} pyenv exec pip list --format freeze | grep --extended-regex --only-matching --color=never '^[^=]*'
-  register: PIP_INSTALLED_PACKAGES
+      set -o pipefail
+      PYENV_VERSION={{ python_version }} pyenv exec pip list --format freeze | grep --extended-regex --only-matching --color=never '^[^=]*'
+  register: pyenv_pip_installed_packages
   changed_when: false
 
 - name: "Install PIP Packages"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      PYENV_VERSION={{python_version}} pyenv exec pip install --upgrade {{pip_package}}
+      PYENV_VERSION={{ python_version }} pyenv exec pip install --upgrade {{ pip_package }}
   loop_control:
     loop_var: pip_package
-  loop: "{{PIP_PACKAGES}}"
-  changed_when: pip_package not in PIP_INSTALLED_PACKAGES.stdout_lines
-
+  loop: "{{ pyenv_pip_packages }}"
+  changed_when: pip_package not in pyenv_pip_installed_packages.stdout_lines

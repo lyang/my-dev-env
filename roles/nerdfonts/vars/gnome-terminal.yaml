@@ -1,4 +1,3 @@
 ---
-DCONF_PROFILE_BASE_PATH: "/org/gnome/terminal/legacy/profiles"
-GSETTINGS_PROFILELIST_PATH: "org.gnome.Terminal.ProfilesList"
-
+nerdfonts_dconf_profile_base_path: "/org/gnome/terminal/legacy/profiles"
+nerdfonts_gsettings_profilelist_path: "org.gnome.Terminal.ProfilesList"

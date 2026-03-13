@@ -1,7 +1,6 @@
 ---
-- name: Install {{ansible_facts['distribution']}} Packages
-  become: yes
+- name: "Install Packages - {{ ansible_facts['distribution'] }}"
+  become: true
   ansible.builtin.package:
-    state: latest
-    name: "{{REQUIRED_PACKAGES['debian'] + OPTIONAL_PACKAGES['debian']}}"
-
+    state: present
+    name: "{{ base_required_packages['debian'] + base_optional_packages['debian'] }}"

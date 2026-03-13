@@ -6,22 +6,24 @@
 
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{role_path}}/files/cargo.sh
+    path: "{{ shared_env_sh.dest }}"
+    create: true
+    mode: "0644"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{ playbook_dir | basename }}/roles/{{ role_name }} ####"
+    block: source {{ role_path }}/files/cargo.sh
 
 - name: "List Installed Packages"
   ansible.builtin.shell:
-    cmd: cargo install --list | grep --extended-regex --only-matching --color=never '^[^ ]*' || echo 'N/A'
-  register: CARGO_INSTALLED_VERSIONS
+    cmd: set -o pipefail && cargo install --list | grep --extended-regex --only-matching --color=never '^[^ ]*' || echo 'N/A'
+    executable: /bin/bash
+  register: rustup_cargo_installed_versions
   changed_when: false
 
 - name: "Install Cargo Packages"
-  ansible.builtin.shell:
-    cmd: cargo install {{cargo_package}}
-  loop: "{{CARGO_PACKAGES}}"
+  ansible.builtin.command:
+    cmd: cargo install {{ cargo_package }}
+  loop: "{{ rustup_cargo_packages }}"
   loop_control:
     loop_var: cargo_package
-  when: cargo_package not in CARGO_INSTALLED_VERSIONS.stdout_lines
-
+  changed_when: true
+  when: cargo_package not in rustup_cargo_installed_versions.stdout_lines

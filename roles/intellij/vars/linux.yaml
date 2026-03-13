@@ -1,5 +1,4 @@
 ---
-IDEA_DIR: "/opt/idea"
-IDEA_BIN_DIR: "{{IDEA_DIR}}/bin"
-IDEA_CURRENT_DIR: "{{IDEA_DIR}}/{{IDEA_VERSION}}"
-
+intellij_idea_dir: "/opt/idea"
+intellij_idea_bin_dir: "{{ intellij_idea_dir }}/bin"
+intellij_idea_current_dir: "{{ intellij_idea_dir }}/{{ intellij_idea_version }}"
