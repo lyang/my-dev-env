@@ -11,7 +11,14 @@ on:
         type: string
         default: ''
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: pip install ansible-lint
+      - run: ansible-lint roles/
   find-roles:
+    needs: lint
     runs-on: ubuntu-latest
     outputs:
       roles: ${{ steps.affected.outputs.roles }}
