@@ -6,17 +6,20 @@
 
 - name: "Get Latest Terraform Version"
   ansible.builtin.shell:
-    cmd: tfenv list-remote | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1
-  register: TERRAFORM_LATEST
+    cmd: set -o pipefail && tfenv list-remote | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1
+    executable: /bin/bash
+  register: tfenv_terraform_latest
   changed_when: false
 
 - name: "Get Installed Terraform Version"
   ansible.builtin.shell:
-    cmd: tfenv list | grep --extended-regexp --only-matching --color=never '[0-9]+\.[0-9]+\.[0-9]+' || echo 'N/A'
-  register: TERRAFORM_INSTALLED
+    cmd: set -o pipefail && tfenv list | grep --extended-regexp --only-matching --color=never '[0-9]+\.[0-9]+\.[0-9]+' || echo 'N/A'
+    executable: /bin/bash
+  register: tfenv_terraform_installed
   changed_when: false
 
 - name: "Install Latest Terraform Version"
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "tfenv install latest"
-  when: TERRAFORM_LATEST.stdout not in TERRAFORM_INSTALLED.stdout_lines
+  changed_when: true
+  when: tfenv_terraform_latest.stdout not in tfenv_terraform_installed.stdout_lines

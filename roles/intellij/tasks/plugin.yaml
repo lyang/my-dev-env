@@ -1,20 +1,22 @@
 ---
-- name: "Download {{idea_plugin}}"
+- name: "Download {{ intellij_idea_plugin }}"
   ansible.builtin.get_url:
-    url: "https://plugins.jetbrains.com/pluginManager?action=download&id={{idea_plugin|urlencode}}&build={{IDEA_BUILD}}"
-    dest: "{{IDEA_TEMP_DIR}}"
-  register: IDEA_PLUGIN_ARCHIVE
+    url: "https://plugins.jetbrains.com/pluginManager?action=download&id={{ intellij_idea_plugin | urlencode }}&build={{ intellij_idea_build }}"
+    dest: "{{ intellij_idea_temp_dir }}"
+    mode: "0644"
+  register: intellij_idea_plugin_archive
 
-- name: "Unarchive {{IDEA_PLUGIN_ARCHIVE.dest|basename}}"
+- name: "Unarchive {{ intellij_idea_plugin_archive.dest | basename }}"
   ansible.builtin.unarchive:
-    src: "{{IDEA_PLUGIN_ARCHIVE.dest}}"
-    dest: "{{IDEA_CURRENT_PLUGINS_DIR.path}}"
-    remote_src: yes
-  when: IDEA_PLUGIN_ARCHIVE.changed and IDEA_PLUGIN_ARCHIVE.dest.endswith(".zip")
+    src: "{{ intellij_idea_plugin_archive.dest }}"
+    dest: "{{ intellij_idea_current_plugins_dir.path }}"
+    remote_src: true
+    mode: "0755"
+  when: intellij_idea_plugin_archive.changed and intellij_idea_plugin_archive.dest.endswith(".zip")
 
-- name: "Copy {{IDEA_PLUGIN_ARCHIVE.dest|basename}}"
+- name: "Copy {{ intellij_idea_plugin_archive.dest | basename }}"
   ansible.builtin.copy:
-    src: "{{IDEA_PLUGIN_ARCHIVE.dest}}"
-    dest: "{{IDEA_CURRENT_PLUGINS_DIR.path}}"
-  when: IDEA_PLUGIN_ARCHIVE.changed and IDEA_PLUGIN_ARCHIVE.dest.endswith(".jar")
-
+    src: "{{ intellij_idea_plugin_archive.dest }}"
+    dest: "{{ intellij_idea_current_plugins_dir.path }}"
+    mode: "0644"
+  when: intellij_idea_plugin_archive.changed and intellij_idea_plugin_archive.dest.endswith(".jar")

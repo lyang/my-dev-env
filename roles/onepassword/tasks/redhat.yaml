@@ -12,7 +12,7 @@
 - name: Install 1password
   become: true
   ansible.builtin.dnf:
-    state: latest
+    state: present
     name:
       - 1password
       - 1password-cli

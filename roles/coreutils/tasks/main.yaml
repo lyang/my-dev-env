@@ -6,9 +6,9 @@
 
 - name: "Setup Shell Env For coreutils"
   ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    create: yes
+    path: "{{ shared_env_sh.dest }}"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{ playbook_dir | basename }}/roles/{{ role_name }} ####"
+    create: true
+    mode: "0644"
     block: |
       export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
-

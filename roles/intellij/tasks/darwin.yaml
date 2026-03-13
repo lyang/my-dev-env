@@ -6,11 +6,15 @@
 
 - name: "Get intellij-idea Version"
   ansible.builtin.shell:
-    cmd: brew info --cask --json=v2 intellij-idea | jq --raw-output '.casks[0].version | split(",")[]'
-  register: IDEA_CURRENT_VERSION
+    cmd: >-
+      set -o pipefail &&
+      brew info --cask --json=v2 intellij-idea |
+      jq --raw-output '.casks[0].version | split(",")[]'
+    executable: /bin/bash
+  register: intellij_idea_current_version
   changed_when: false
 
 - name: "Set IDEA version Fact"
   ansible.builtin.set_fact:
-    IDEA_VERSION: "{{IDEA_CURRENT_VERSION.stdout_lines[0]}}"
-    IDEA_BUILD: "{{IDEA_CURRENT_VERSION.stdout_lines[1]}}"
+    intellij_idea_version: "{{ intellij_idea_current_version.stdout_lines[0] }}"
+    intellij_idea_build: "{{ intellij_idea_current_version.stdout_lines[1] }}"

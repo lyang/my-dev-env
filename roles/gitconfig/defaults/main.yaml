@@ -1,2 +1,2 @@
 ---
-GITCONFIG_PATH: "{{role_path}}/files/gitconfig"
+gitconfig_path: "{{ role_path }}/files/gitconfig"

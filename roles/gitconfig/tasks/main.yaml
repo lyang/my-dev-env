@@ -3,29 +3,28 @@
   community.general.git_config_info:
     scope: global
     name: include.path
-  register: GITCONFIG_INCLUSION
+  register: gitconfig_inclusion
 
-- name: "Add include.path {{GITCONFIG_PATH}}"
+- name: "Add include.path {{ gitconfig_path }}"
   community.general.git_config:
     scope: global
     name: include.path
-    value: "{{GITCONFIG_PATH}}"
+    value: "{{ gitconfig_path }}"
     state: present
-  when: GITCONFIG_INCLUSION.config_values is not contains(GITCONFIG_PATH)
+  when: gitconfig_inclusion.config_values is not contains(gitconfig_path)
 
 - name: "Check user.signingkey"
   community.general.git_config_info:
     scope: global
     name: user.signingkey
-  register: signingkey
+  register: gitconfig_signingkey
 
 - name: "Set user.signingkey"
   community.general.git_config:
     scope: global
     name: user.signingkey
-    value: "{{ansible_facts['env'].GIT_USER_SIGNINGKEY}}"
+    value: "{{ ansible_facts['env'].GIT_USER_SIGNINGKEY }}"
     state: present
   when:
-    - signingkey.config_value|length == 0
+    - gitconfig_signingkey.config_value|length == 0
     - ansible_facts['env'].GIT_USER_SIGNINGKEY is defined
-

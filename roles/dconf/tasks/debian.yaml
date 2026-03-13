@@ -2,10 +2,9 @@
 - name: "Install dconf"
   become: true
   ansible.builtin.apt:
-    state: latest
+    state: present
     autoremove: true
     install_recommends: false
     name:
       - dconf-cli
       - dconf-service
-

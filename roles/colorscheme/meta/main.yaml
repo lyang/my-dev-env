@@ -6,4 +6,3 @@ dependencies:
   - role: libglib2.0-bin
   - role: terminal-app
   - role: uuid-runtime
-

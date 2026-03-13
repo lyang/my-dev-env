@@ -1,5 +1,5 @@
 ---
-TERMINALS:
+colorscheme_terminals:
   linux: gnome-terminal
   darwin: iterm2-app
-
+colorscheme_iterm2_plist: "{{ ansible_facts['env'].HOME }}/Library/Preferences/com.googlecode.iterm2.plist"

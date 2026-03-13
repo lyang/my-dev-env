@@ -1,15 +1,15 @@
 ---
-IDEA_TEMP_DIR: "/tmp/{{playbook_dir|basename}}/ansible.roles/{{role_name}}"
+intellij_idea_temp_dir: "/tmp/{{ playbook_dir | basename }}/ansible.roles/{{ role_name }}"
 
-IDEA_PLUGINS_BASE_DIR:
-  linux: "{{ansible_facts['env'].HOME}}/.local/share/JetBrains"
-  darwin: "{{ansible_facts['env'].HOME}}/Library/Application Support/JetBrains"
+intellij_idea_plugins_base_dir:
+  linux: "{{ ansible_facts['env'].HOME }}/.local/share/JetBrains"
+  darwin: "{{ ansible_facts['env'].HOME }}/Library/Application Support/JetBrains"
 
-IDEA_PLUGINS_DIR:
-  linux: "{{IDEA_PLUGINS_BASE_DIR['linux']}}/IntelliJIdea{{IDEA_VERSION.split('.')[:2]|join('.')}}"
-  darwin: "{{IDEA_PLUGINS_BASE_DIR['darwin']}}/IntelliJIdea{{IDEA_VERSION.split('.')[:2]|join('.')}}/plugins"
+intellij_idea_plugins_dir:
+  linux: "{{ intellij_idea_plugins_base_dir['linux'] }}/IntelliJIdea{{ intellij_idea_version.split('.')[:2] | join('.') }}"
+  darwin: "{{ intellij_idea_plugins_base_dir['darwin'] }}/IntelliJIdea{{ intellij_idea_version.split('.')[:2] | join('.') }}/plugins"
 
-IDEA_PLUGINS:
+intellij_idea_plugins:
   - Key Promoter X
   - com.anthropic.code.plugin
   - com.arcticicestudio.nord.jetbrains

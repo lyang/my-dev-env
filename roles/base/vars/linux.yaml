@@ -1,5 +1,5 @@
 ---
-REQUIRED_PACKAGES:
+base_required_packages:
   common:
     - dbus-x11
     - gnome-terminal
@@ -32,7 +32,7 @@ REQUIRED_PACKAGES:
     - which
     - zlib-devel
 
-OPTIONAL_PACKAGES:
+base_optional_packages:
   common:
     - ca-certificates
     - fswatch
@@ -47,4 +47,3 @@ OPTIONAL_PACKAGES:
     - wget
   debian: []
   fedora: []
-

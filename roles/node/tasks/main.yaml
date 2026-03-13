@@ -6,9 +6,8 @@
 
 - name: "Install Node Packages"
   community.general.npm:
-    name: "{{package}}"
-    global: yes
+    name: "{{ package }}"
+    global: true
   loop_control:
     loop_var: package
-  loop: "{{NODE_PACKAGES}}"
-
+  loop: "{{ node_packages }}"

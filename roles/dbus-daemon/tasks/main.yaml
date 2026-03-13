@@ -2,7 +2,6 @@
 - name: Install dbus-daemon
   become: true
   ansible.builtin.package:
-    state: latest
+    state: present
     name: dbus-daemon
   when: ansible_facts['system']|lower == "linux"
-

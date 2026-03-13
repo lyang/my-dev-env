@@ -11,6 +11,6 @@
 - name: "Run peon-ping-setup"
   ansible.builtin.shell: peon-ping-setup
   args:
-    creates: "{{ansible_facts['env'].HOME}}/.claude/hooks/peon-ping/peon.sh"
+    creates: "{{ ansible_facts['env'].HOME }}/.claude/hooks/peon-ping/peon.sh"
     executable: /bin/bash
   when: "(ansible_facts['env'].HOME + '/.claude') is directory"

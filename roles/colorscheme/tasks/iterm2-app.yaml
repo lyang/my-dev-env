@@ -2,11 +2,20 @@
 - name: "Git Clone arcticicestudio/nord-iterm2"
   ansible.builtin.git:
     repo: https://github.com/arcticicestudio/nord-iterm2.git
-    dest: "{{ansible_facts['env'].HOME}}/.nord-iterm2"
-  register: NORD_ITERM2_REPO
+    dest: "{{ ansible_facts['env'].HOME }}/.nord-iterm2"
+    version: 233a2462e04e07a9676386a52dad0c2ff6666d72
+  register: colorscheme_nord_iterm2_repo
 
-- name: "Install Nord Color Scheme For iterm2"
+- name: "Set Nord Color Scheme For Default iterm2 Profile" # noqa: no-handler
   ansible.builtin.shell:
-    cmd: "open {{ansible_facts['env'].HOME}}/.nord-iterm2/src/xml/Nord.itermcolors"
-  when: NORD_ITERM2_REPO.changed
-
+    cmd: >-
+      /usr/libexec/PlistBuddy
+      -c "Add :'New Bookmarks' array"
+      -c "Add :'New Bookmarks':0 dict"
+      {{ colorscheme_iterm2_plist }} 2>/dev/null;
+      /usr/libexec/PlistBuddy
+      -c "Merge '{{ ansible_facts['env'].HOME }}/.nord-iterm2/src/xml/Nord.itermcolors' :'New Bookmarks':0"
+      {{ colorscheme_iterm2_plist }}
+    executable: /bin/bash
+  changed_when: true
+  when: colorscheme_nord_iterm2_repo.changed

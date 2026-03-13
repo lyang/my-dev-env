@@ -8,32 +8,33 @@
 
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{role_path}}/files/rbenv.sh
+    path: "{{ shared_env_sh.dest }}"
+    create: true
+    mode: "0644"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{ playbook_dir | basename }}/roles/{{ role_name }} ####"
+    block: source {{ role_path }}/files/rbenv.sh
 
 - name: "List Installed Versions"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/rbenv.sh
+      source {{ role_path }}/files/rbenv.sh
       rbenv versions --bare
-  register: RUBY_INSTALLED_VERSIONS
+  register: rbenv_ruby_installed_versions
   changed_when: false
 
 - name: "Install Ruby Versions"
   ansible.builtin.include_tasks: "install.yaml"
-  loop: "{{RUBY_VERSIONS}}"
+  loop: "{{ rbenv_ruby_versions }}"
   loop_control:
     loop_var: ruby_version
-  when: ruby_version not in RUBY_INSTALLED_VERSIONS.stdout_lines
+  when: ruby_version not in rbenv_ruby_installed_versions.stdout_lines
 
 - name: "Set Global Ruby Version"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      source {{role_path}}/files/rbenv.sh
-      rbenv global {{RUBY_VERSIONS[-1]}}
-  when: RUBY_VERSIONS|last != RUBY_INSTALLED_VERSIONS.stdout_lines|last|default('N/A')
-
+      source {{ role_path }}/files/rbenv.sh
+      rbenv global {{ rbenv_ruby_versions[-1] }}
+  changed_when: true
+  when: rbenv_ruby_versions|last != rbenv_ruby_installed_versions.stdout_lines|last|default('N/A')

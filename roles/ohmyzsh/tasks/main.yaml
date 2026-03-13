@@ -2,69 +2,72 @@
 - name: "Git Clone ohmyzsh/ohmyzsh"
   ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
-    dest: "{{ansible_facts['env'].HOME}}/.oh-my-zsh"
-  register: OMZ_REPO
+    dest: "{{ ansible_facts['env'].HOME }}/.oh-my-zsh"
+    version: 8df5c1b18b1393dc5046c729094f897bd3636a9b
+  register: ohmyzsh_omz_repo
 
-- name: "Copy zshrc.zsh-template to {{playbook_dir}}/.generated/oh-my-zsh.zshrc"
+- name: "Copy zshrc.zsh-template to generated oh-my-zsh.zshrc" # noqa: no-handler
   ansible.builtin.copy:
-    src: "{{ansible_facts['env'].HOME}}/.oh-my-zsh/templates/zshrc.zsh-template"
-    dest: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
-    remote_src: yes
-  when: OMZ_REPO.changed
+    src: "{{ ansible_facts['env'].HOME }}/.oh-my-zsh/templates/zshrc.zsh-template"
+    dest: "{{ playbook_dir }}/.generated/oh-my-zsh.zshrc"
+    remote_src: true
+    mode: "0644"
+  when: ohmyzsh_omz_repo.changed
 
-- name: "Set ENABLE_CORRECTION"
+- name: "Set ENABLE_CORRECTION" # noqa: no-handler
   ansible.builtin.lineinfile:
-    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
+    path: "{{ playbook_dir }}/.generated/oh-my-zsh.zshrc"
     line: ENABLE_CORRECTION="true"
     regexp: "^# ENABLE_CORRECTION.*"
-  when: OMZ_REPO.changed
+  when: ohmyzsh_omz_repo.changed
 
-- name: "Set HIST_STAMPS"
+- name: "Set HIST_STAMPS" # noqa: no-handler
   ansible.builtin.lineinfile:
-    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
+    path: "{{ playbook_dir }}/.generated/oh-my-zsh.zshrc"
     line: HIST_STAMPS="mm/dd/yyyy"
     regexp: "^# HIST_STAMPS.*"
-  when: OMZ_REPO.changed
+  when: ohmyzsh_omz_repo.changed
 
-- name: "Set HYPHEN_INSENSITIVE"
+- name: "Set HYPHEN_INSENSITIVE" # noqa: no-handler
   ansible.builtin.lineinfile:
-    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
+    path: "{{ playbook_dir }}/.generated/oh-my-zsh.zshrc"
     line: HYPHEN_INSENSITIVE="true"
     regexp: "^# HYPHEN_INSENSITIVE.*"
-  when: OMZ_REPO.changed
+  when: ohmyzsh_omz_repo.changed
 
-- name: "Set ZSH_THEME"
+- name: "Set ZSH_THEME" # noqa: no-handler
   ansible.builtin.lineinfile:
-    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
+    path: "{{ playbook_dir }}/.generated/oh-my-zsh.zshrc"
     line: ZSH_THEME="powerlevel10k/powerlevel10k"
     regexp: "^ZSH_THEME=.*"
-  when: OMZ_REPO.changed
+  when: ohmyzsh_omz_repo.changed
 
 - name: "Set Plugins"
   ansible.builtin.lineinfile:
-    path: "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
-    line: "plugins=({{PLUGINS|join(' ')}})"
+    path: "{{ playbook_dir }}/.generated/oh-my-zsh.zshrc"
+    line: "plugins=({{ ohmyzsh_plugins | join(' ') }})"
     regexp: "^plugins=.*"
 
 - name: "Git Clone romkatv/powerlevel10k"
   ansible.builtin.git:
     repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{ansible_facts['env'].HOME}}/.oh-my-zsh/custom/themes/powerlevel10k"
+    dest: "{{ ansible_facts['env'].HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    version: 7ff836131ab462073053dde941c3188ce0e4243c
 
-- name: "Symlink p10k.zsh to {{ansible_facts['env'].HOME}}/.p10k.zsh"
+- name: "Symlink p10k.zsh to ~/.p10k.zsh"
   ansible.builtin.file:
-    path: "{{ansible_facts['env'].HOME}}/.p10k.zsh"
-    src: "{{role_path}}/files/p10k.zsh"
+    path: "{{ ansible_facts['env'].HOME }}/.p10k.zsh"
+    src: "{{ role_path }}/files/p10k.zsh"
     state: link
-  register: P10K_ZSH
+  register: ohmyzsh_p10k_zsh
 
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{ZSH_ENV_SH.dest}}"
-    create: yes
+    path: "{{ zsh_env_sh.dest }}"
+    create: true
+    mode: "0644"
     block: |
       export ZSH_TMUX_AUTOSTART=true
       export ZSH_TMUX_AUTOQUIT=false
-      source "{{playbook_dir}}/.generated/oh-my-zsh.zshrc"
-      source "{{P10K_ZSH.dest}}"
-
+      source "{{ playbook_dir }}/.generated/oh-my-zsh.zshrc"
+      source "{{ ohmyzsh_p10k_zsh.dest }}"

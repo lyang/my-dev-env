@@ -8,4 +8,3 @@
   community.general.homebrew:
     state: latest
     name: go-task/tap/go-task
-

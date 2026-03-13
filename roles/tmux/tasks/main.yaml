@@ -1,28 +1,31 @@
 ---
 - name: "Install tmux"
   community.general.homebrew:
-    state: latest
+    state: present
     name: tmux
 
-- name: "Create {{TMUX_PLUGIN_DIR}}"
+- name: "Create {{ tmux_plugin_dir }}"
   ansible.builtin.file:
-    path: "{{TMUX_PLUGIN_DIR}}"
+    path: "{{ tmux_plugin_dir }}"
     state: directory
+    mode: "0755"
 
 - name: "Git Clone tmux-plugins/tpm"
   ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tpm.git
-    dest: "{{TMUX_PLUGIN_DIR}}/tpm"
-  register: TFENV_REPO
+    dest: "{{ tmux_plugin_dir }}/tpm"
+    version: 99469c4a9b1ccf77fade25842dc7bafbc8ce9946
+  register: tmux_tfenv_repo
 
 - name: "Git Clone tmux-plugins/tpm"
   ansible.builtin.blockinfile:
-    path: "{{ansible_facts['env'].HOME}}/.tmux.conf"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source-file "{{role_path}}/files/tmux.conf"
+    path: "{{ ansible_facts['env'].HOME }}/.tmux.conf"
+    create: true
+    mode: "0644"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{ playbook_dir | basename }}/roles/{{ role_name }} ####"
+    block: source-file "{{ role_path }}/files/tmux.conf"
 
-- ansible.builtin.shell:
-    cmd: "{{ansible_facts['env'].HOME}}/.tmux/plugins/tpm/bin/install_plugins"
+- name: "Install tmux plugins"
+  ansible.builtin.command:
+    cmd: "{{ ansible_facts['env'].HOME }}/.tmux/plugins/tpm/bin/install_plugins"
   changed_when: false
-

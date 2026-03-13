@@ -1,38 +1,41 @@
 ---
 - name: "Check previous checkout"
   ansible.builtin.stat:
-    path: "{{ansible_facts['env'].HOME}}/.nerd-fonts"
-  register: NERD_FONTS_DIR
+    path: "{{ ansible_facts['env'].HOME }}/.nerd-fonts"
+  register: nerdfonts_nerd_fonts_dir
 
-- name: "Sparse Checkout ryanoasis/nerd-fonts"
-  ansible.builtin.shell:
+- name: "Sparse Checkout ryanoasis/nerd-fonts" # noqa: command-instead-of-module
+  ansible.builtin.command:
     cmd: git clone --filter=blob:none --sparse https://github.com/ryanoasis/nerd-fonts .nerd-fonts
-    chdir: "{{ansible_facts['env'].HOME}}"
-  when: not NERD_FONTS_DIR.stat.exists
+    chdir: "{{ ansible_facts['env'].HOME }}"
+  when: not nerdfonts_nerd_fonts_dir.stat.exists
+  changed_when: true
 
-- name: "Check {{FONT.DIR}}"
+- name: "Check {{ nerdfonts_font.DIR }}"
   ansible.builtin.stat:
-    path: "{{ansible_facts['env'].HOME}}/.nerd-fonts/{{FONT.DIR}}"
-  register: NERD_FONTS_FONT_DIR
+    path: "{{ ansible_facts['env'].HOME }}/.nerd-fonts/{{ nerdfonts_font.DIR }}"
+  register: nerdfonts_nerd_fonts_font_dir
 
-- name: "Sparse Checkout {{FONT.DIR}}"
-  ansible.builtin.shell:
-    cmd: git sparse-checkout add {{FONT.DIR}}
-    chdir: "{{ansible_facts['env'].HOME}}/.nerd-fonts"
-  when: not NERD_FONTS_FONT_DIR.stat.exists
+- name: "Sparse Checkout {{ nerdfonts_font.DIR }}" # noqa: command-instead-of-module
+  ansible.builtin.command:
+    cmd: git sparse-checkout add {{ nerdfonts_font.DIR }}
+    chdir: "{{ ansible_facts['env'].HOME }}/.nerd-fonts"
+  when: not nerdfonts_nerd_fonts_font_dir.stat.exists
+  changed_when: true
 
 - name: "Git Pull ryanoasis/nerd-fonts"
   ansible.builtin.git:
     repo: https://github.com/ryanoasis/nerd-fonts.git
-    dest: "{{ansible_facts['env'].HOME}}/.nerd-fonts"
-  register: NERD_FONTS_REPO
+    dest: "{{ ansible_facts['env'].HOME }}/.nerd-fonts"
+    version: d6bd0b33bcce3c1b39b006add7e694961faf8c5a
+  register: nerdfonts_nerd_fonts_repo
 
-- name: ".nerd-fonts/install.sh --clean --quiet"
-  ansible.builtin.shell:
-    cmd: git pull && ./install.sh --clean --quiet
-    chdir: "{{ansible_facts['env'].HOME}}/.nerd-fonts"
-  when: NERD_FONTS_REPO.changed
+- name: "Install nerd-fonts" # noqa: no-handler
+  ansible.builtin.command:
+    cmd: ./install.sh --clean --quiet
+    chdir: "{{ ansible_facts['env'].HOME }}/.nerd-fonts"
+  when: nerdfonts_nerd_fonts_repo.changed
+  changed_when: true
 
-- name: "Set Font For {{ansible_facts['system']}}"
-  ansible.builtin.include_tasks: "{{TERMINALS[ansible_facts['system']|lower]}}.yaml"
-
+- name: "Set Font For {{ ansible_facts['system'] }}"
+  ansible.builtin.include_tasks: "{{ nerdfonts_terminals[ansible_facts['system'] | lower] }}.yaml"

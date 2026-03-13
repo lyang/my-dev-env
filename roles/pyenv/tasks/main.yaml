@@ -11,28 +11,28 @@
     executable: /bin/bash
     cmd: |
       pyenv versions --bare
-  register: PYTHON_INSTALLED_VERSIONS
+  register: pyenv_python_installed_versions
   changed_when: false
 
 - name: "Install Python Versions"
   ansible.builtin.include_tasks: "install.yaml"
-  loop: "{{PYTHON_VERSIONS}}"
+  loop: "{{ pyenv_python_versions }}"
   loop_control:
     loop_var: python_version
-  when: python_version not in PYTHON_INSTALLED_VERSIONS.stdout_lines
+  when: python_version not in pyenv_python_installed_versions.stdout_lines
 
 - name: "Check Global Python Version"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
       pyenv global
-  register: PYTHON_GLOBAL_VERSION
+  register: pyenv_python_global_version
   changed_when: false
 
 - name: "Set Global Python Version"
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: |
-      pyenv global {{PYTHON_VERSIONS[-1]}}
-  when: PYTHON_VERSIONS|last != PYTHON_GLOBAL_VERSION.stdout
-
+      pyenv global {{ pyenv_python_versions[-1] }}
+  changed_when: true
+  when: pyenv_python_versions|last != pyenv_python_global_version.stdout

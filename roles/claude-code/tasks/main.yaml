@@ -5,25 +5,28 @@
     name: claude
   when: ansible_facts['os_family']|lower == "darwin"
 
-- name: "Create {{CLAUDE_TEMP_DIR}}"
+- name: "Create {{ claude_temp_dir }}"
   ansible.builtin.file:
-    path: "{{CLAUDE_TEMP_DIR}}"
+    path: "{{ claude_temp_dir }}"
     state: directory
+    mode: "0755"
 
 - name: "Download claude-code installer"
   ansible.builtin.get_url:
     url: https://claude.ai/install.sh
-    dest: "{{CLAUDE_TEMP_DIR}}"
-  register: CLAUDE_INSTALLER
+    dest: "{{ claude_temp_dir }}"
+    mode: "0755"
+  register: claude_installer
 
-- name: "Install claude-code"
+- name: "Install claude-code" # noqa: no-handler
   ansible.builtin.script: |
-    {{ CLAUDE_INSTALLER.dest }}
-  when: CLAUDE_INSTALLER.changed
+    {{ claude_installer.dest }}
+  when: claude_installer.changed
 
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
-    path: "{{SHARED_ENV_SH.dest}}"
-    create: yes
-    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{playbook_dir|basename}}/roles/{{role_name}} ####"
-    block: source {{role_path}}/files/claude-code.sh
+    path: "{{ shared_env_sh.dest }}"
+    create: true
+    mode: "0644"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{ playbook_dir | basename }}/roles/{{ role_name }} ####"
+    block: source {{ role_path }}/files/claude-code.sh
