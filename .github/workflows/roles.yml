@@ -18,6 +18,7 @@ jobs:
       - run: pip install ansible-lint
       - run: ansible-galaxy collection install community.general
       - run: ansible-lint roles/
+      - run: npx --yes --package renovate -- renovate-config-validator
   find-roles:
     needs: lint
     runs-on: ubuntu-latest

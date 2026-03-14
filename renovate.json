@@ -12,29 +12,29 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
+      "fileMatch": [
         "/^roles/rbenv/defaults/main\\.yaml$/"
       ],
       "matchStrings": [
-        "ruby_versions:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
+        "rbenv_ruby_versions:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
       ],
       "depNameTemplate": "ruby",
       "datasourceTemplate": "ruby-version"
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
+      "fileMatch": [
         "/^roles/pyenv/defaults/main\\.yaml$/"
       ],
       "matchStrings": [
-        "python_versions:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
+        "pyenv_python_versions:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
       ],
       "depNameTemplate": "python",
       "datasourceTemplate": "python-version"
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
+      "fileMatch": [
         "/^roles/sdkman/defaults/main\\.yaml$/"
       ],
       "matchStrings": [
@@ -46,7 +46,7 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
+      "fileMatch": [
         "/^roles/sdkman/defaults/main\\.yaml$/"
       ],
       "matchStrings": [
@@ -58,7 +58,7 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
+      "fileMatch": [
         "/^roles/sdkman/defaults/main\\.yaml$/"
       ],
       "matchStrings": [
@@ -69,11 +69,11 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^roles/.+/tasks/.+\\.yaml$/"
+      "fileMatch": [
+        "/^roles/(nerdfonts|ohmyzsh|tmux)/tasks/.+\\.yaml$/"
       ],
       "matchStrings": [
-        "repo: (?<packageName>https://github\\.com/(?!arcticicestudio)[^.]+\\.git)\\n\\s+dest: [^\\n]+\\n\\s+version: (?<currentDigest>[a-f0-9]{40})"
+        "repo: (?<packageName>https://github\\.com/[^.]+\\.git)\\n\\s+dest: [^\\n]+\\n\\s+version: (?<currentDigest>[a-f0-9]{40})"
       ],
       "depNameTemplate": "{{{packageName}}}",
       "datasourceTemplate": "git-refs",
@@ -81,11 +81,11 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^roles/.+/tasks/.+\\.yaml$/"
+      "fileMatch": [
+        "/^roles/colorscheme/tasks/.+\\.yaml$/"
       ],
       "matchStrings": [
-        "repo: (?<packageName>https://github\\.com/arcticicestudio/[^.]+\\.git)\\n\\s+dest: [^\\n]+\\n\\s+version: (?<currentDigest>[a-f0-9]{40})"
+        "repo: (?<packageName>https://github\\.com/[^.]+\\.git)\\n\\s+dest: [^\\n]+\\n\\s+version: (?<currentDigest>[a-f0-9]{40})"
       ],
       "depNameTemplate": "{{{packageName}}}",
       "datasourceTemplate": "git-refs",
