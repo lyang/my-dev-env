@@ -16,7 +16,7 @@
         "/^roles/rbenv/defaults/main\\.yaml$/"
       ],
       "matchStrings": [
-        "ruby_versions:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
+        "rbenv_ruby_versions:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
       ],
       "depNameTemplate": "ruby",
       "datasourceTemplate": "ruby-version"
@@ -27,7 +27,7 @@
         "/^roles/pyenv/defaults/main\\.yaml$/"
       ],
       "matchStrings": [
-        "python_versions:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
+        "pyenv_python_versions:\\s*\\n\\s*- (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
       ],
       "depNameTemplate": "python",
       "datasourceTemplate": "python-version"
