@@ -90,6 +90,16 @@
       "depNameTemplate": "{{{packageName}}}",
       "datasourceTemplate": "git-refs",
       "currentValueTemplate": "develop"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "/^roles/rustup/defaults/main\\.yaml$/"
+      ],
+      "matchStrings": [
+        "(?<depName>[a-z][a-z0-9-]+): \"(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)\""
+      ],
+      "datasourceTemplate": "crate"
     }
   ]
 }

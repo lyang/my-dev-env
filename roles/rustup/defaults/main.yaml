@@ -1,6 +1,6 @@
 ---
 rustup_cargo_packages:
-  - bat
-  - fd-find
-  - git-delta
-  - minijinja-cli
+  bat: "0.26.1"
+  fd-find: "10.4.2"
+  git-delta: "0.18.2"
+  minijinja-cli: "2.18.0"
