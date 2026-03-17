@@ -89,7 +89,7 @@
       ],
       "depNameTemplate": "{{{packageName}}}",
       "datasourceTemplate": "git-refs",
-      "currentValueTemplate": "develop"
+      "currentValueTemplate": "main"
     },
     {
       "customType": "regex",

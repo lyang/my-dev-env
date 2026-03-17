@@ -12,7 +12,7 @@ intellij_idea_plugins_dir:
 intellij_idea_plugins:
   - Key Promoter X
   - com.anthropic.code.plugin
-  - com.arcticicestudio.nord.jetbrains
+  - com.github.catppuccin.jetbrains
   - com.github.copilot
   - google-java-format
   - org.jetbrains.bazel

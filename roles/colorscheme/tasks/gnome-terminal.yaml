@@ -1,17 +1,17 @@
 ---
-- name: "Git Clone arcticicestudio/nord-gnome-terminal"
+- name: "Git Clone catppuccin/gnome-terminal"
   ansible.builtin.git:
-    repo: https://github.com/arcticicestudio/nord-gnome-terminal.git
-    dest: "{{ ansible_facts['env'].HOME }}/.nord-gnome-terminal"
-    version: c15b85a5389cf3bfd37fe409e915a88ecf902640
-  register: colorscheme_nord_gnome_terminal_repo
+    repo: https://github.com/catppuccin/gnome-terminal.git
+    dest: "{{ ansible_facts['env'].HOME }}/.catppuccin-gnome-terminal"
+    version: 75e57457f58a34baf2ec7d9e13556ca53d598395
+  register: colorscheme_catppuccin_gnome_terminal_repo
 
-- name: "Install Nord Color Scheme For Gnome Terminal" # noqa: no-handler
+- name: "Install Catppuccin Color Scheme For Gnome Terminal" # noqa: no-handler
   ansible.builtin.command:
-    cmd: "dbus-run-session ./nord.sh"
-    chdir: "{{ ansible_facts['env'].HOME }}/.nord-gnome-terminal/src"
+    cmd: "dbus-run-session python3 install.py"
+    chdir: "{{ ansible_facts['env'].HOME }}/.catppuccin-gnome-terminal"
   changed_when: true
-  when: colorscheme_nord_gnome_terminal_repo.changed
+  when: colorscheme_catppuccin_gnome_terminal_repo.changed
 
 - name: "List Gnome Terminal Profile Ids"
   ansible.builtin.shell:
@@ -47,6 +47,6 @@
 
 - name: "Set Gnome Terminal Default Profile Id"
   ansible.builtin.command:
-    cmd: "gsettings set org.gnome.Terminal.ProfilesList default '{{ colorscheme_gnome_terminal_profile_mappings['Nord'] }}'"
+    cmd: "gsettings set org.gnome.Terminal.ProfilesList default '{{ colorscheme_gnome_terminal_profile_mappings['Catppuccin Mocha'] }}'"
   changed_when: true
-  when: colorscheme_gnome_terminal_default_profile_id.stdout != colorscheme_gnome_terminal_profile_mappings['Nord']
+  when: colorscheme_gnome_terminal_default_profile_id.stdout != colorscheme_gnome_terminal_profile_mappings['Catppuccin Mocha']
