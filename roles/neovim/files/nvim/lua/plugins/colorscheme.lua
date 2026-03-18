@@ -1,9 +1,8 @@
 return {
-  "nordtheme/vim",
-  name = "nord",
-  lazy = false,
+  "catppuccin/nvim",
+  name = "catppuccin",
   priority = 1000,
   config = function()
-    vim.cmd.colorscheme("nord")
+    vim.cmd.colorscheme("catppuccin-nvim")
   end,
 }

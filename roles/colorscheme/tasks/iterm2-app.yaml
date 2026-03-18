@@ -1,21 +1,13 @@
 ---
-- name: "Git Clone arcticicestudio/nord-iterm2"
+- name: "Git Clone catppuccin/iterm"
   ansible.builtin.git:
-    repo: https://github.com/arcticicestudio/nord-iterm2.git
-    dest: "{{ ansible_facts['env'].HOME }}/.nord-iterm2"
-    version: 233a2462e04e07a9676386a52dad0c2ff6666d72
-  register: colorscheme_nord_iterm2_repo
+    repo: https://github.com/catppuccin/iterm.git
+    dest: "{{ ansible_facts['env'].HOME }}/.catppuccin-iterm"
+    version: b2936a6e55270fcc55421b1bb7d5fd194a489591
+  register: colorscheme_catppuccin_iterm_repo
 
-- name: "Set Nord Color Scheme For Default iterm2 Profile" # noqa: no-handler
-  ansible.builtin.shell:
-    cmd: >-
-      /usr/libexec/PlistBuddy
-      -c "Add :'New Bookmarks' array"
-      -c "Add :'New Bookmarks':0 dict"
-      {{ colorscheme_iterm2_plist }} 2>/dev/null;
-      /usr/libexec/PlistBuddy
-      -c "Merge '{{ ansible_facts['env'].HOME }}/.nord-iterm2/src/xml/Nord.itermcolors' :'New Bookmarks':0"
-      {{ colorscheme_iterm2_plist }}
-    executable: /bin/bash
+- name: "Import Catppuccin Mocha Color Scheme into iTerm2" # noqa: no-handler
+  ansible.builtin.command:
+    cmd: open "{{ ansible_facts['env'].HOME }}/.catppuccin-iterm/colors/catppuccin-mocha.itermcolors"
   changed_when: true
-  when: colorscheme_nord_iterm2_repo.changed
+  when: colorscheme_catppuccin_iterm_repo.changed
