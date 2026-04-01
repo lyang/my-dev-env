@@ -64,6 +64,7 @@
 - name: "Config Shell Env"
   ansible.builtin.blockinfile:
     path: "{{ zsh_env_sh.dest }}"
+    marker: "#### {mark} ANSIBLE MANAGED BLOCK - {{ playbook_dir | basename }}/roles/{{ role_name }} ####"
     create: true
     mode: "0644"
     block: |
