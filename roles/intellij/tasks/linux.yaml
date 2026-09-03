@@ -11,6 +11,7 @@
     executable: /bin/bash
   register: intellij_idea_latest_version
   changed_when: false
+  check_mode: false
 
 - name: "Set IDEA version Fact"
   ansible.builtin.set_fact:
