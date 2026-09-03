@@ -1,0 +1,22 @@
+---
+- name: "Find Stale IntelliJ IDEA State Directories"
+  ansible.builtin.find:
+    paths: "{{ intellij_idea_state_dirs[ansible_facts['system'] | lower] }}"
+    patterns:
+      - "IntelliJIdea*"
+      - "IdeaIC*"
+    file_type: directory
+    recurse: false
+  register: intellij_idea_stale_state
+
+- name: "Remove Stale IntelliJ IDEA State Directories"
+  ansible.builtin.file:
+    path: "{{ intellij_idea_state_dir.path }}"
+    state: absent
+  loop: "{{ intellij_idea_stale_state.files }}"
+  loop_control:
+    loop_var: intellij_idea_state_dir
+    label: "{{ intellij_idea_state_dir.path }}"
+  when: >-
+    intellij_idea_state_dir.path | basename
+    != "IntelliJIdea" ~ intellij_idea_version_series

@@ -1,13 +1,26 @@
 ---
 intellij_idea_temp_dir: "/tmp/{{ playbook_dir | basename }}/ansible.roles/{{ role_name }}"
 
+intellij_idea_version_series: "{{ intellij_idea_version.split('.')[:2] | join('.') }}"
+
 intellij_idea_plugins_base_dir:
   linux: "{{ ansible_facts['env'].HOME }}/.local/share/JetBrains"
   darwin: "{{ ansible_facts['env'].HOME }}/Library/Application Support/JetBrains"
 
 intellij_idea_plugins_dir:
-  linux: "{{ intellij_idea_plugins_base_dir['linux'] }}/IntelliJIdea{{ intellij_idea_version.split('.')[:2] | join('.') }}"
-  darwin: "{{ intellij_idea_plugins_base_dir['darwin'] }}/IntelliJIdea{{ intellij_idea_version.split('.')[:2] | join('.') }}/plugins"
+  linux: "{{ intellij_idea_plugins_base_dir['linux'] }}/IntelliJIdea{{ intellij_idea_version_series }}"
+  darwin: "{{ intellij_idea_plugins_base_dir['darwin'] }}/IntelliJIdea{{ intellij_idea_version_series }}/plugins"
+
+# Roots holding per-version state directories, pruned on every upgrade.
+intellij_idea_state_dirs:
+  linux:
+    - "{{ ansible_facts['env'].HOME }}/.config/JetBrains"
+    - "{{ ansible_facts['env'].HOME }}/.local/share/JetBrains"
+    - "{{ ansible_facts['env'].HOME }}/.cache/JetBrains"
+  darwin:
+    - "{{ ansible_facts['env'].HOME }}/Library/Application Support/JetBrains"
+    - "{{ ansible_facts['env'].HOME }}/Library/Caches/JetBrains"
+    - "{{ ansible_facts['env'].HOME }}/Library/Logs/JetBrains"
 
 intellij_idea_plugins:
   - Key Promoter X
