@@ -1,0 +1,7 @@
+---
+# Role directories mirror upstream package/tool names (e.g. gh-cli, go-task,
+# libglib2.0-bin), which don't fit ansible-lint's [a-z][a-z0-9_]* convention.
+# Renaming them to satisfy the rule would ripple through every tag, the
+# playbook, CI matrices and docs for no functional benefit.
+skip_list:
+  - role-name
