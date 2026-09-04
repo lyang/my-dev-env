@@ -8,6 +8,9 @@
 - name: Install IntelliJ IDEA
   ansible.builtin.include_tasks: "{{ ansible_facts['system'] | lower }}.yaml"
 
+- name: Prune Stale IntelliJ IDEA State
+  ansible.builtin.include_tasks: prune.yaml
+
 - name: "Create IntelliJ IDEA Plugins Directory"
   ansible.builtin.file:
     path: "{{ intellij_idea_plugins_dir[ansible_facts['system'] | lower] }}"

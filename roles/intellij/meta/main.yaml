@@ -2,3 +2,4 @@
 dependencies:
   - role: jq
   - role: shell-env
+  - role: unzip
