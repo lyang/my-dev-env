@@ -38,7 +38,7 @@ To run specific roles:
 | **Cloud & Infra** | awscli, tfenv, terraform-ls, sops, age |
 | **Dev Tools** | gitconfig, gnupg, gh-cli, jq, yq, bazelisk, go-task |
 | **CLI Tools** | bat, fd-find, git-delta, minijinja-cli (via rustup/cargo) |
-| **Apps** | 1password, claude-code, chatgpt, peon-ping |
+| **Apps** | 1password, claude-code, chatgpt, google-chrome, peon-ping |
 
 ## Architecture
 

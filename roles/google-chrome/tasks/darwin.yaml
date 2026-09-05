@@ -1,0 +1,5 @@
+---
+- name: "Install google-chrome"
+  community.general.homebrew_cask:
+    state: latest
+    name: google-chrome
