@@ -1,0 +1,58 @@
+---
+- name: "Create APT Keyrings Directory"
+  become: true
+  ansible.builtin.file:
+    path: "/etc/apt/keyrings"
+    state: directory
+    mode: "0755"
+
+- name: "Create Temp Dir"
+  ansible.builtin.file:
+    path: "/tmp/{{ playbook_dir | basename }}/ansible.roles/{{ role_name }}"
+    state: directory
+    mode: "0755"
+  register: google_chrome_temp
+
+- name: "Download Google Chrome Signing Key"
+  ansible.builtin.get_url:
+    url: https://dl.google.com/linux/linux_signing_key.pub
+    dest: "{{ google_chrome_temp.path }}"
+    mode: "0644"
+  register: google_chrome_repo_key
+
+- name: "Dearmor Google Chrome Signing Key" # noqa: no-handler
+  ansible.builtin.command:
+    cmd: >-
+      gpg --batch --yes
+      --output {{ google_chrome_temp.path }}/dearmored.google-chrome.gpg
+      --dearmor {{ google_chrome_repo_key.dest }}
+  changed_when: true
+  when: google_chrome_repo_key.changed
+
+- name: "Copy Google Chrome Signing Key To Keyrings"
+  become: true
+  ansible.builtin.copy:
+    src: "{{ google_chrome_temp.path }}/dearmored.google-chrome.gpg"
+    dest: "/etc/apt/keyrings/google-chrome.gpg"
+    mode: "0644"
+
+- name: "Get OS Arch"
+  ansible.builtin.command: dpkg --print-architecture
+  register: google_chrome_arch
+  changed_when: false
+
+- name: "Add APT Source List"
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/google-chrome.list
+    content: >-
+      deb [arch={{ google_chrome_arch.stdout }} signed-by=/etc/apt/keyrings/google-chrome.gpg]
+      http://dl.google.com/linux/chrome/deb/ stable main
+    mode: "0644"
+
+- name: Install google-chrome
+  become: true
+  ansible.builtin.apt:
+    state: present
+    update_cache: true
+    name: google-chrome-stable
