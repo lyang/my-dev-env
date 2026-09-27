@@ -1,0 +1,5 @@
+- name: "Install obsidian"
+  community.general.homebrew_cask:
+    state: latest
+    name: obsidian
+  when: ansible_facts['os_family']|lower == "darwin"
