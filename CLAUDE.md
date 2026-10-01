@@ -71,7 +71,8 @@ roles/<role>/
   replace an existing dir/file.
 - Role dependencies go in `meta/main.yaml`; `shell-env` is the common
   dependency for anything that needs to export environment variables, since
-  it creates `~/.generated/shared-env.sh`, sourced by both bash and zsh.
+  it creates `.generated/shared-env.sh` (in the repo root, via
+  `playbook_dir`), sourced by both bash and zsh.
 - Role directory names intentionally mirror upstream package/tool names
   (`gh-cli`, `go-task`, `libglib2.0-bin`) even though this violates
   ansible-lint's `role-name` rule; that rule is disabled in `.ansible-lint`
