@@ -53,8 +53,8 @@ roles/
 
 `setup.sh` auto-generates `playbook.yaml` from the `roles/` directory, installs
 Homebrew and Ansible if needed, then runs the playbook. Roles share environment
-through `shell-env`, which creates `~/.generated/shared-env.sh` sourced by both
-bash and zsh.
+through `shell-env`, which creates `.generated/shared-env.sh` (in the repo
+root) sourced by both bash and zsh.
 
 [Renovate](https://docs.renovatebot.com/) keeps language versions, cargo crate
 versions, and git commit pins up to date via custom regex managers in
